@@ -1,6 +1,8 @@
 const express = require('express')
 const app = express()
 
+const connect = require('./config/auth').connect
+const User = require('./model/User')
 const signUpUsingPhone = require('./Sign_Up/signUpUsingPhone')
 const signUpUsingFacebook = require('./Sign_Up/signUpUsingFacebook')
 const loginPhone = require('./Login/loginUsingPhone')
@@ -18,6 +20,12 @@ app.listen(port, () => console.log("Server Running on *:8081"))
 
 app.get('/', (req, res) => {
     res.send("This server is working")
+})
+
+app.delete('/removeAll', async (req, res) => {
+    await connect()
+    await User.deleteMany()
+    res.status(200).send("Users Deleted Succuessfully")
 })
 
 app.get('/whereami', async (req, res) => { 
