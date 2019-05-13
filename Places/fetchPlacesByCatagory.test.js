@@ -22,12 +22,9 @@ it('Checks for if the foursquare API works', async () => {
                 const items = info.data.response.groups[0].items
                 for (var i = 0; i < items.length; ++i) {
                     places.push(items[i])
-                    temp =  items[i]
-                    console.log(temp.venue.location)        
+                    temp =  items[i]    
                 }
-                //console.log(places)
-
-                expect(1).toBe(1)
+                expect(items).not.toBeNull()
             })
 
 });

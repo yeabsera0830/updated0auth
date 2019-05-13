@@ -6,7 +6,7 @@ const endPoint = 'https://api.foursquare.com/v2/venues/explore?'
 const parameters = {
     client_id: 'VBJIHMIS22N50XBQL1TXJEA4D5DEBNNAD0Q2MXKSETGFDLM2',
     client_secret: 'PUL5IKQY4DABKD3JGLKU5MDUP1RWHLUDD4H3BLN3Z2LA5XRK',
-    ll: '8.9935923, 38.7841601',
+    ll: null,
     v: versionController(),
     radius: 2000,
     query: null
@@ -26,7 +26,16 @@ function checkCatagory(catagory) {
     }
 }
 
-async function fetchPlacesByCatagory(catagory) {
+async function fetchPlacesByCatagory(coordinates, catagory) {
+    if (coordinates.latitude == null || coordinates.longitude == null) {
+        return {
+            status: 400,
+            message: "Unable to fetch location"
+        }
+    }
+
+    parameters.ll = '' + coordinates.latitude + ', ' + coordinates.longitude
+
     if (checkCatagory(catagory)) {
         console.log("Invalid Catagory")
         return {
