@@ -24,7 +24,7 @@ async function loginPhone(phoneNumber, password) {
             .catch(err => {
                 return {
                     status: 400,
-                    message: 'Could Not Find User'
+                    message: 'Incorrect Username or Password'
                 }
             })
 }

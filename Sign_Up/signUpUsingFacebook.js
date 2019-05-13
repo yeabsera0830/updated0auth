@@ -66,7 +66,7 @@ async function signUpUsingFacebook(token) {
             console.log("Invalid Token. It may be expired")
             return {
                 status: 400,
-                message: "Could Not Add User"
+                message: "Unable to Sign Up"
             }
         })
 }
