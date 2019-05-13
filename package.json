@@ -1,0 +1,29 @@
+{
+  "name": "modules",
+  "version": "1.0.0",
+  "description": "",
+  "main": "facebook-signup.js",
+  "engines": {
+    "node": "v10.15.3"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "test": "jest"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "jest": "^24.7.1",
+    "mocha": "^6.1.4"
+  },
+  "dependencies": {
+    "axios": "^0.18.0",
+    "bcryptjs": "^2.4.3",
+    "express": "^4.16.4",
+    "mongoose": "^5.5.5",
+    "nodemon": "^1.19.0",
+    "promise": "^8.0.3"
+  }
+}
