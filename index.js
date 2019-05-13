@@ -28,20 +28,22 @@ app.delete('/removeAll', async (req, res) => {
     res.status(200).send("Users Deleted Succuessfully")
 })
 
-app.get('/whereami', async (req, res) => { 
+app.post('/whereami', async (req, res) => { 
     const latitude = req.body.latitude
     const longitude = req.body.longitude
-    const response = await getNearestPlace(latitude, longitude)
+    const zeilaToken = req.body.zeilaToken
+    const response = await getNearestPlace(zeilaToken, latitude, longitude)
     res.status(response.status).send(response)
 })
 
-app.get('/fetchPlaces', async (req, res) => {
+app.post('/fetchPlaces', async (req, res) => {
     const coordinates = {
         latitude: req.body.latitude,
         longitude: req.body.longitude
     }
     const catagory = req.body.catagory
-    const response = await fetchPlaces(coordinates, catagory)
+    const zeilaToken = req.body.zeilaToken
+    const response = await fetchPlaces(zeilaToken, coordinates, catagory)
     res.status(response.status).send(response)
 })
 

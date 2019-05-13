@@ -1,3 +1,4 @@
+const checkZeilaToken = require('./checkUser')
 const Places = [
     {
         id: 1,
@@ -48,7 +49,14 @@ function getDistance(x, x1, y, y1) {
     return Math.sqrt(horizontal + vertical)
 }
 
-function getNearestPlace(latitude, longitude) {
+async function getNearestPlace(zeilaToken, latitude, longitude) {
+    const check = await checkZeilaToken(zeilaToken)
+    if (check) {
+        return {
+            status: 400,
+            message: "Invalid Request"
+        }
+    }
     let smallest = getDistance(latitude, Places[0].latitude, longitude, Places[0].longitude)
     let index = 0
     for (var i = 0; i < Places.length; ++i) {

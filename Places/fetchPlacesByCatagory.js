@@ -1,6 +1,7 @@
 const axios = require('axios')
 const URLSearchParams = require('url').URLSearchParams
 const versionController = require('./versionController')
+const checkZeilaToken = require('./checkUser')
 
 const endPoint = 'https://api.foursquare.com/v2/venues/explore?'
 const parameters = {
@@ -26,7 +27,13 @@ function checkCatagory(catagory) {
     }
 }
 
-async function fetchPlacesByCatagory(coordinates, catagory) {
+async function fetchPlacesByCatagory(zeilaToken, coordinates, catagory) {
+    if (checkZeilaToken(zeilaToken)) {
+        return {
+            status: 400,
+            message: "Invalid Request"
+        }
+    }
     if (coordinates.latitude == null || coordinates.longitude == null) {
         return {
             status: 400,
