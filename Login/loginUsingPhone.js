@@ -17,14 +17,14 @@ async function loginPhone(phoneNumber, password) {
                     console.log("User Password Is Incorrect")
                     return {
                         status: 400,
-                        message: "Incorrect Username or Password"
+                        message: "Incorrect Password"
                     }
                 }
             })
             .catch(err => {
                 return {
                     status: 400,
-                    message: 'Incorrect Username or Password'
+                    message: 'Could Not Find User'
                 }
             })
 }

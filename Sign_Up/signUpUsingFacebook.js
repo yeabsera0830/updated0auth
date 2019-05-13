@@ -35,16 +35,18 @@ async function signUpUsingFacebook(token) {
             message: checkedMessage
         }
     }
+    await connect()
+    console.log(token)
     const url = `https://graph.facebook.com/v3.3/me?fields=email,name&access_token=${token}`
     return await axios.get(url)
         .then(async info => {
-            await connect()
             var newUser = new User()
             newUser.zeilaID = rand(4)
             newUser.name = info.data.name
             newUser.facebookID = info.data.id
             newUser.zeilaToken = rand(9)
             newUser.email = info.data.email
+            console.log("Reached Here")
             return await newUser.save()
                     .then(user => {
                         console.log("User added successfully")
@@ -63,10 +65,10 @@ async function signUpUsingFacebook(token) {
                     })
         })
         .catch(err => {
-            console.log("Invalid Token. It may be expired")
+            console.log(err)
             return {
                 status: 400,
-                message: "Unable to Sign Up"
+                message: "Could Not Add User Error"
             }
         })
 }
