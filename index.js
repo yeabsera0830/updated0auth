@@ -6,6 +6,9 @@ const signUpUsingFacebook = require('./Sign_Up/signUpUsingFacebook')
 const loginPhone = require('./Login/loginUsingPhone')
 const loginFacebook = require('./Login/loginUsingFacebook')
 
+const getLocation = require('./Places/getLocation')
+const fetchPlaces = require('./Places/fetchPlacesByCatagory')
+
 app.use(express.json())
 
 const port = process.env.PORT || 8081
@@ -15,6 +18,21 @@ app.listen(port, () => console.log("Server Running on *:8081"))
 
 app.get('/', (req, res) => {
     res.send("This server is working")
+})
+
+app.get('/whereami', async (req, res) => { 
+    const coordinates = {
+        latitude: req.body.latitude,
+        longitude: req.body.longitude
+    }
+    const response = await getLocation(coordinates)
+    res.status(response.status).send(response)
+})
+
+app.get('/fetchPlaces', async (req, res) => {
+    const catagory = req.body.catagory
+    const response = await fetchPlaces(catagory)
+    res.status(response.status).send(response)
 })
 
 app.post('/signup/phone', async (req, res) => {
