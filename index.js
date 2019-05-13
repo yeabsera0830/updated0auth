@@ -8,7 +8,7 @@ const signUpUsingFacebook = require('./Sign_Up/signUpUsingFacebook')
 const loginPhone = require('./Login/loginUsingPhone')
 const loginFacebook = require('./Login/loginUsingFacebook')
 
-const getLocation = require('./Places/getLocation')
+const getNearestPlace = require('./Places/fakedGetLocation')
 const fetchPlaces = require('./Places/fetchPlacesByCatagory')
 
 app.use(express.json())
@@ -29,17 +29,19 @@ app.delete('/removeAll', async (req, res) => {
 })
 
 app.get('/whereami', async (req, res) => { 
-    const coordinates = {
-        latitude: req.body.latitude,
-        longitude: req.body.longitude
-    }
-    const response = await getLocation(coordinates)
+    const latitude = req.body.latitude
+    const longitude = req.body.longitude
+    const response = await getNearestPlace(latitude, longitude)
     res.status(response.status).send(response)
 })
 
 app.get('/fetchPlaces', async (req, res) => {
+    const coordinates = {
+        latitude: req.body.latitude,
+        longitude: req.body.longitude
+    }
     const catagory = req.body.catagory
-    const response = await fetchPlaces(catagory)
+    const response = await fetchPlaces(coordinates, catagory)
     res.status(response.status).send(response)
 })
 
