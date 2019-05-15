@@ -1,5 +1,4 @@
 var User = require('../model/User')
-var bcrypt = require('bcryptjs')
 var connect = require('../config/auth').connect
 
 connect()

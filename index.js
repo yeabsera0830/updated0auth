@@ -8,7 +8,8 @@ const signUpUsingFacebook = require('./Sign_Up/signUpUsingFacebook')
 const loginPhone = require('./Login/loginUsingPhone')
 const loginFacebook = require('./Login/loginUsingFacebook')
 
-const getNearestPlace = require('./Places/fakedGetLocation')
+const getNearestPlace = require('./Places/fakedGetLocation').getNearestPlace
+const getCoordinates = require('./Places/fakedGetLocation').getCoordinates
 const fetchPlaces = require('./Places/fetchPlacesByCatagory')
 
 app.use(express.json())
@@ -29,10 +30,18 @@ app.delete('/removeAll', async (req, res) => {
 })
 
 app.post('/getReadableAddress', async (req, res) => { 
+    const accessToken = req.body.accessToken
     const latitude = req.body.latitude
     const longitude = req.body.longitude
-    const accessToken = req.body.accessToken
     const response = await getNearestPlace(accessToken, latitude, longitude)
+    res.status(response.status).send(response)
+})
+
+app.post('/getCoordinatesFromAddress', async (req, res) => { 
+    const accessToken = req.body.accessToken
+    const major = req.body.major
+    const minor = req.body.minor
+    const response = await getCoordinates(accessToken, major, minor)
     res.status(response.status).send(response)
 })
 

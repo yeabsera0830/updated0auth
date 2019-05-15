@@ -79,4 +79,26 @@ async function getNearestPlace(accessToken, latitude, longitude) {
     }
 }
 
-module.exports = getNearestPlace
+async function getCoordinates(accessToken, major, minor) {
+    const check = await checkZeilaToken(accessToken)
+    if (check) {
+        return {
+            status: 400,
+            message: "Invalid Request"
+        }
+    }
+    const coords = Places.find(place => (place.minor === minor) && (place.major === major))
+    if (!coords) {
+        return {
+            status: 400,
+            message: "Place not found"
+        }
+    }
+    return {
+        status: 200,
+        latitude: coords.latitude,
+        longitude: coords.longitude
+    }
+}
+
+module.exports = { getNearestPlace, getCoordinates }
