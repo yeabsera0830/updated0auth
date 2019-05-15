@@ -63,8 +63,34 @@ async function getNearestPlace(accessToken, latitude, longitude) {
             message: "Invalid Request"
         }
     }
+
+    if (typeof latitude == "string" || typeof longitude == "string" || typeof latitude == "number" || typeof longitude == "number") {
+        return {
+            status: 400,
+            message: "Use a correct format"
+        }
+    }
+
+    latitude = parseFloat(latitude)
+    longitude = parseFloat(longitude)
+    console.log(latitude)
+    if (latitude > 10 || latitude < 3) {
+        return {
+            status: 400,
+            message: "Invalid Coordinates"
+        }
+    }
+
+    if (longitude > 44 || longitude < 33 || longitude == NaN) {
+        return {
+            status: 400,
+            message: "Invalid Coordinates"
+        }
+    }
+
     let smallest = getDistance(latitude, Places[0].latitude, longitude, Places[0].longitude)
     let index = 0
+    let distance = 0
     for (var i = 0; i < Places.length; ++i) {
         distance = getDistance(latitude, Places[i].latitude, longitude, Places[i].longitude)
         if (smallest > distance) {
@@ -72,6 +98,8 @@ async function getNearestPlace(accessToken, latitude, longitude) {
             index = i
         }
     }
+
+
     return {
         status: 200,
         major: Places[index].major,
