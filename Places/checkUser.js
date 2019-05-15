@@ -4,8 +4,8 @@ var connect = require('../config/auth').connect
 
 connect()
 
-async function checkZeilaToken(zeilaToken) {
-    return await User.findOne( { zeilaToken: zeilaToken } )
+async function checkZeilaToken(accessToken) {
+    return await User.findOne( { zeilaToken: accessToken } )
             .then(data => false)
             .catch(err => true)
 }

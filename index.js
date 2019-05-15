@@ -28,11 +28,11 @@ app.delete('/removeAll', async (req, res) => {
     res.status(200).send("Users Deleted Succuessfully")
 })
 
-app.post('/whereami', async (req, res) => { 
+app.post('/getReadableAddress', async (req, res) => { 
     const latitude = req.body.latitude
     const longitude = req.body.longitude
-    const zeilaToken = req.body.zeilaToken
-    const response = await getNearestPlace(zeilaToken, latitude, longitude)
+    const accessToken = req.body.accessToken
+    const response = await getNearestPlace(accessToken, latitude, longitude)
     res.status(response.status).send(response)
 })
 

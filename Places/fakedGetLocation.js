@@ -2,42 +2,48 @@ const checkZeilaToken = require('./checkUser')
 const Places = [
     {
         id: 1,
-        name: "Bole",
+        major: "Addis Ababa",
+        minor: "Bole",
         latitude: 8.986046,
         longitude: 38.796338
     },
     
     {
         id: 2,
-        name: "Piassa",
+        major: "Addis Ababa",
+        minor: "Piassa",
         latitude: 9.036729,
         longitude: 38.755658
     },
 
     {
         id: 3,
-        name: "Jemo",
+        major: "Addis Ababa",
+        minor: "Jemo",
         latitude: 8.958600,
         longitude: 38.713438
     },
 
     {
         id: 4,
-        name: "Megenagna",
+        major: "Addis Ababa",
+        minor: "Megenagna",
         latitude: 9.020692,
         longitude: 9.020692
     },
 
     {
         id: 5,
-        name: "Mexico",
+        major: "Addis Ababa",
+        minor: "Mexico",
         latitude: 9.010441,
         longitude: 9.010441
     },
 
     {
         id: 6,
-        name: "Goro",
+        major: "Addis Ababa",
+        minor: "Goro",
         latitude: 8.996110,
         longitude: 38.830947
     }
@@ -49,8 +55,8 @@ function getDistance(x, x1, y, y1) {
     return Math.sqrt(horizontal + vertical)
 }
 
-async function getNearestPlace(zeilaToken, latitude, longitude) {
-    const check = await checkZeilaToken(zeilaToken)
+async function getNearestPlace(accessToken, latitude, longitude) {
+    const check = await checkZeilaToken(accessToken)
     if (check) {
         return {
             status: 400,
@@ -68,7 +74,8 @@ async function getNearestPlace(zeilaToken, latitude, longitude) {
     }
     return {
         status: 200,
-        place: Places[index].name
+        major: Places[index].major,
+        minor: Places[index].minor
     }
 }
 
