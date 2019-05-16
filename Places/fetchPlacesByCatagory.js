@@ -41,13 +41,13 @@ async function fetchPlacesByCatagory(accessToken, coordinates, catagory) {
     if (check) {
         return {
             status: 400,
-            message: "Invalid Request"
+            message: "Unable to fetch places"
         }
     }
     if (coordinates.latitude == null || coordinates.longitude == null || typeof coordinates.latitude == "string" || typeof coordinates.longitude == "string") {
         return {
             status: 400,
-            message: "Unable to fetch location"
+            message: "Unable to fetch places"
         }
     }
 
@@ -64,8 +64,16 @@ async function fetchPlacesByCatagory(accessToken, coordinates, catagory) {
         "Pharmacies": null
     }
     const catagories = [
-        'Restaurants', 'Events', 'Garages', 'Hospitals', 'Bars', 'Parks', 'Gyms', 'Pharmacy'
+        'Restaurants', 'Events', 'Garages', 'Hospitals', 'Bars', 'Parks', 'Gyms', 'Pharmacies'
     ]
+    for (let i = 0; i < catagories.length; ++i) {
+        places[catagories[i]] = await getAmount(catagories[i])
+    }
+
+    return {
+        status: 200,
+        places: places
+    }
 }
 
-module.exports = { fetchPlacesByCatagory, getAmount }
+module.exports = fetchPlacesByCatagory

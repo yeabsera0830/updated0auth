@@ -16,7 +16,7 @@ async function getNearestPlace(accessToken, latitude, longitude) {
         }
     }
 
-    if (typeof latitude == "string" || typeof longitude == "string") {
+    if (typeof latitude == "string" || typeof longitude == "string" || latitude == null || longitude == null) {
         return {
             status: 400,
             message: "Unable to find location"
