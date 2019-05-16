@@ -14,9 +14,9 @@ const fetchPlaces = require('./Places/fetchPlacesByCatagory')
 
 app.use(express.json())
 
-const port = process.env.PORT || 8081
+const port = process.env.PORT || 8082
 
-app.listen(port, () => console.log("Server Running on *:8081"))
+app.listen(port, () => console.log("Server Running on *:" + port))
 
 
 app.get('/', (req, res) => {
@@ -45,7 +45,7 @@ app.post('/getCoordinatesFromAddress', async (req, res) => {
     res.status(response.status).send(response)
 })
 
-app.post('/fetchPlaces', async (req, res) => {
+app.post('/getNearByPlaces', async (req, res) => {
     const coordinates = {
         latitude: req.body.latitude,
         longitude: req.body.longitude

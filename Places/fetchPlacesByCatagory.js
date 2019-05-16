@@ -13,10 +13,6 @@ const parameters = {
     query: null
 }
 
-const catagories = [
-    'restaurant', 'event', 'garage', 'hospital', 'bar', 'park', 'gym', 'pharmacy'
-]
-
 function checkCatagory(catagory) {
     const index = catagories.indexOf(catagory)
     if (index === -1) {
@@ -27,14 +23,28 @@ function checkCatagory(catagory) {
     }
 }
 
+async function getAmount(placeType) {
+    parameters.query = placeType
+    return await axios.get(endPoint + new URLSearchParams(parameters))
+            .then(info => {
+                const groups = info.data.response.groups
+                const places = groups[0].items
+                return places.length
+            })
+            .catch(err => {
+                return "Invalid Query"
+            })
+}
+
 async function fetchPlacesByCatagory(accessToken, coordinates, catagory) {
-    if (checkZeilaToken(accessToken)) {
+    const check = await checkZeilaToken(accessToken)
+    if (check) {
         return {
             status: 400,
             message: "Invalid Request"
         }
     }
-    if (coordinates.latitude == null || coordinates.longitude == null || typeof coordinates.latitude != "number" || typeof coordinates.longitude != "number") {
+    if (coordinates.latitude == null || coordinates.longitude == null || typeof coordinates.latitude == "string" || typeof coordinates.longitude == "string") {
         return {
             status: 400,
             message: "Unable to fetch location"
@@ -42,33 +52,20 @@ async function fetchPlacesByCatagory(accessToken, coordinates, catagory) {
     }
 
     parameters.ll = '' + coordinates.latitude + ', ' + coordinates.longitude
-
-    if (checkCatagory(catagory)) {
-        return {
-            status: 400,
-            message: "Invalid Catagory, choose catagory from " + catagories
-        }
-    }
-    parameters.query = catagory
     var venues = []
-    return await axios.get(endPoint + new URLSearchParams(parameters))
-            .then(info => {
-                const groups = info.data.response.groups
-                const places = groups[0].items
-                for(var i = 0; i < places.length; i++) {
-                    venues.push(places[i].venue)
-                }
-                return {
-                    status: 200,
-                    count: venues.length
-                }
-            })
-            .catch(err => {
-                return {
-                    status: 400,
-                    message: "Error Has Occured"
-                }
-            })
+    var places = {
+        "Restaurants": null,
+        "Events": null,
+        "Garages": null,
+        "Hospitals": null,
+        "Bars": null,
+        "Parks": null,
+        "Gyms": null,
+        "Pharmacies": null
+    }
+    const catagories = [
+        'Restaurants', 'Events', 'Garages', 'Hospitals', 'Bars', 'Parks', 'Gyms', 'Pharmacy'
+    ]
 }
 
-module.exports = fetchPlacesByCatagory
+module.exports = { fetchPlacesByCatagory, getAmount }
