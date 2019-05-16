@@ -46,8 +46,8 @@ app.post('/getCoordinatesFromAddress', async (req, res) => {
 })
 
 app.post('/getNearbyPlaces', async (req, res) => {
-    const coordinates = req.body.location
     const accessToken = req.body.accessToken
+    const coordinates = req.body.location
     const response = await fetchPlaces(accessToken, coordinates)
     res.status(response.status).send(response)
 })
