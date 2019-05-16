@@ -51,8 +51,8 @@ app.post('/fetchPlaces', async (req, res) => {
         longitude: req.body.longitude
     }
     const catagory = req.body.catagory
-    const zeilaToken = req.body.zeilaToken
-    const response = await fetchPlaces(zeilaToken, coordinates, catagory)
+    const accessToken = req.body.accessToken
+    const response = await fetchPlaces(accessToken, coordinates, catagory)
     res.status(response.status).send(response)
 })
 

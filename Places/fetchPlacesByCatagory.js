@@ -27,14 +27,14 @@ function checkCatagory(catagory) {
     }
 }
 
-async function fetchPlacesByCatagory(zeilaToken, coordinates, catagory) {
-    if (checkZeilaToken(zeilaToken)) {
+async function fetchPlacesByCatagory(accessToken, coordinates, catagory) {
+    if (checkZeilaToken(accessToken)) {
         return {
             status: 400,
             message: "Invalid Request"
         }
     }
-    if (coordinates.latitude == null || coordinates.longitude == null) {
+    if (coordinates.latitude == null || coordinates.longitude == null || typeof coordinates.latitude != "number" || typeof coordinates.longitude != "number") {
         return {
             status: 400,
             message: "Unable to fetch location"
@@ -44,7 +44,6 @@ async function fetchPlacesByCatagory(zeilaToken, coordinates, catagory) {
     parameters.ll = '' + coordinates.latitude + ', ' + coordinates.longitude
 
     if (checkCatagory(catagory)) {
-        console.log("Invalid Catagory")
         return {
             status: 400,
             message: "Invalid Catagory, choose catagory from " + catagories
