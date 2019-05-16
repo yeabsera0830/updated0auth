@@ -1,53 +1,5 @@
 const checkZeilaToken = require('./checkUser')
-const Places = [
-    {
-        id: 1,
-        major: "Addis Ababa",
-        minor: "Bole",
-        latitude: 8.986046,
-        longitude: 38.796338
-    },
-    
-    {
-        id: 2,
-        major: "Addis Ababa",
-        minor: "Piassa",
-        latitude: 9.036729,
-        longitude: 38.755658
-    },
-
-    {
-        id: 3,
-        major: "Addis Ababa",
-        minor: "Jemo",
-        latitude: 8.958600,
-        longitude: 38.713438
-    },
-
-    {
-        id: 4,
-        major: "Addis Ababa",
-        minor: "Megenagna",
-        latitude: 9.020692,
-        longitude: 9.020692
-    },
-
-    {
-        id: 5,
-        major: "Addis Ababa",
-        minor: "Mexico",
-        latitude: 9.010441,
-        longitude: 9.010441
-    },
-
-    {
-        id: 6,
-        major: "Addis Ababa",
-        minor: "Goro",
-        latitude: 8.996110,
-        longitude: 38.830947
-    }
-]
+const Places = require('../__mocks__/Places')
 
 function getDistance(x, x1, y, y1) {
     let horizontal = Math.pow((x - x1), 2)
@@ -64,7 +16,7 @@ async function getNearestPlace(accessToken, latitude, longitude) {
         }
     }
 
-    if (typeof latitude == "string" || typeof longitude == "string" || typeof latitude == "number" || typeof longitude == "number") {
+    if (typeof latitude == "string" || typeof longitude == "string") {
         return {
             status: 400,
             message: "Use a correct format"
@@ -73,8 +25,7 @@ async function getNearestPlace(accessToken, latitude, longitude) {
 
     latitude = parseFloat(latitude)
     longitude = parseFloat(longitude)
-    console.log(latitude)
-    if (latitude > 10 || latitude < 3) {
+    if (latitude > 11 || latitude < 3) {
         return {
             status: 400,
             message: "Invalid Coordinates"
