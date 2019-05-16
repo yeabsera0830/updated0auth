@@ -36,7 +36,7 @@ async function getAmount(placeType) {
             })
 }
 
-async function fetchPlacesByCatagory(accessToken, coordinates, catagory) {
+async function fetchPlacesByCatagory(accessToken, coordinates) {
     const check = await checkZeilaToken(accessToken)
     if (check) {
         return {
