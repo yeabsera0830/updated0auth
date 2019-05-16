@@ -67,4 +67,4 @@ async function getCoordinates(accessToken, major, minor) {
     }
 }
 
-module.exports = { getNearestPlace, getCoordinates }
+module.exports = { getNearestPlace, getCoordinates, getDistance }

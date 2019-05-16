@@ -44,7 +44,7 @@ async function fetchPlacesByCatagory(accessToken, coordinates) {
             message: "Unable to fetch places"
         }
     }
-    if (coordinates.latitude == null || coordinates.longitude == null || typeof coordinates.latitude == "string" || typeof coordinates.longitude == "string") {
+    if (coordinates == null || coordinates.latitude == null || coordinates.longitude == null || typeof coordinates.latitude == "string" || typeof coordinates.longitude == "string") {
         return {
             status: 400,
             message: "Unable to fetch places"
