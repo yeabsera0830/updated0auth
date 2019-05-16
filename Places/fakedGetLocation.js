@@ -25,19 +25,6 @@ async function getNearestPlace(accessToken, latitude, longitude) {
 
     latitude = parseFloat(latitude)
     longitude = parseFloat(longitude)
-    if (latitude > 11 || latitude < 3) {
-        return {
-            status: 400,
-            message: "Invalid Coordinates"
-        }
-    }
-
-    if (longitude > 44 || longitude < 33 || longitude == NaN) {
-        return {
-            status: 400,
-            message: "Invalid Coordinates"
-        }
-    }
 
     let smallest = getDistance(latitude, Places[0].latitude, longitude, Places[0].longitude)
     let index = 0
