@@ -1,4 +1,5 @@
 const Place = require('../model/Place')
+const connect = require('../config/auth').connect
 const axios = require('axios')
 const URLSearchParams = require('url').URLSearchParams
 const versionController = require('./versionController')
@@ -12,11 +13,24 @@ const parameters = {
     client_secret: 'PUL5IKQY4DABKD3JGLKU5MDUP1RWHLUDD4H3BLN3Z2LA5XRK',
     ll: null,
     v: versionController(),
-    radius: 2000,
-    query: null
+    radius: null,
+    query: null,
+    intent: "browse"
 }
 
-async function getNearestLocation(latitude, longitude) {
+connect()
+
+var place = {
+    placeID: null,
+    placeName: null,
+    placeType: null,
+    placeLocation: {
+        latitude: null,
+        longitude: null
+    }
+}
+
+function getNearestLocation(latitude, longitude) {
     let smallest = getDistance(latitude, Places[0].latitude, longitude, Places[0].longitude)
     let index = 0
     let distance = 0
@@ -27,41 +41,46 @@ async function getNearestLocation(latitude, longitude) {
             index = i
         }
     }
-    console.log(Places[index])
-    return {
-        minor: Places[index].minor,
-        major: Places[index].major
-    }
 
+    return Places[index]
 }
 
-async function addPlace(latitude, longitude, placeType) {
+
+async function addPlace(latitude, longitude, placeType, area) {
     parameters.ll = "" + latitude + ", " + longitude
     parameters.query = placeType
-    var place = {
-        placeID: null,
-        placeName: null,
-        placeLocation: {
-            latitude: null,
-            longitude: null
-        },
-        placeMinor: null,
-        placeMajor: null
-    }
-    venues = []
-    //console.log(getNearestLocation(latitude, longitude))
-    await axios.get(endPoint + new URLSearchParams(parameters))
-            .then(info => {
+    parameters.radius = Math.round(Math.sqrt(area / Math.PI) * 1000)
+    console.log("Radius: " + parameters.radius)
+    return await axios.get(endPoint + new URLSearchParams(parameters))
+            .then(async info => {
                 const groups = info.data.response.groups
-                var venue = groups[0].items[0].venue
-                place.placeID = venue.id
-                place.placeName = venue.name
-                place.placeLocation.latitude = venue.location.lat
-                place.placeLocation.longitude = venue.location.lng
-                var foundPlace = getNearestLocation(place.placeLocation.latitude, place.placeLocation.longitude)
-                place.placeMinor = foundPlace.minor
-                place.placeMajor = foundPlace.major
-                console.log(place)
+                var placesFound = groups[0].items
+                var checkIfExists = null
+                var newPlace = null
+                for (let i = 0; i < placesFound.length; ++i) {
+                    checkIfExists = null
+                    newPlace = new Place()
+                    newPlace.placeID = await Place.countDocuments() + 1
+                    newPlace.fourSquareID = placesFound[i].venue.id
+                    newPlace.placeName = placesFound[i].venue.name
+                    newPlace.placeType = placeType
+                    newPlace.placeOverview = null
+                    newPlace.placeRating = null
+                    newPlace.placeNumberOfRatings = null
+                    newPlace.placeLocation.latitude = placesFound[i].venue.location.lat,
+                    newPlace.placeLocation.longitude = placesFound[i].venue.location.lng
+                    checkIfExists = await Place.findOne( { fourSquareID: newPlace.fourSquareID } )
+                    if (checkIfExists == null) {
+                        const confirmSave = await newPlace.save()
+                        if (confirmSave != null) {
+                            console.log(confirmSave.placeName + " Added")
+                        } else {
+                            console.log("Error Occured")
+                        }
+                    } else {
+                        console.log(checkIfExists.placeName + " Already Exists")
+                    }
+                }
             })
             .catch(err => {
                 console.log("Invalid Query")

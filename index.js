@@ -3,6 +3,7 @@ const app = express()
 
 const connect = require('./config/auth').connect
 const User = require('./model/User')
+const Place = require('./model/Place')
 const signUpUsingPhone = require('./Sign_Up/signUpUsingPhone')
 const signUpUsingFacebook = require('./Sign_Up/signUpUsingFacebook')
 const loginPhone = require('./Login/loginUsingPhone')
@@ -10,7 +11,7 @@ const loginFacebook = require('./Login/loginUsingFacebook')
 
 const getNearestPlace = require('./Places/fakedGetLocation').getNearestPlace
 const getCoordinates = require('./Places/fakedGetLocation').getCoordinates
-const fetchPlaces = require('./Places/fetchPlacesByCatagory')
+const fetchPlaces = require('./Places/getPlaces')
 
 app.use(express.json())
 
@@ -27,6 +28,12 @@ app.delete('/removeAll', async (req, res) => {
     await connect()
     await User.deleteMany()
     res.status(200).send("Users Deleted Succuessfully")
+})
+
+app.delete('/removeAllPlaces', async (req, res) => {
+    await connect()
+    await Place.deleteMany()
+    res.status(200).send("Places Deleted Successfully")
 })
 
 app.post('/getReadableAddress', async (req, res) => { 
@@ -48,7 +55,7 @@ app.post('/getCoordinatesFromAddress', async (req, res) => {
 app.post('/getNearbyPlaces', async (req, res) => {
     const accessToken = req.body.accessToken
     const coordinates = req.body.location
-    const response = await fetchPlaces(accessToken, coordinates)
+    const response = await fetchPlaces(accessToken, coordinates.latitude, coordinates.longitude)
     res.status(response.status).send(response)
 })
 
