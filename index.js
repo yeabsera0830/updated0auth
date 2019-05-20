@@ -9,10 +9,11 @@ const signUpUsingFacebook = require('./Sign_Up/signUpUsingFacebook')
 const loginPhone = require('./Login/loginUsingPhone')
 const loginFacebook = require('./Login/loginUsingFacebook')
 
-const getNearestPlace = require('./Places/fakedGetLocation').getNearestPlace
-const getCoordinates = require('./Places/fakedGetLocation').getCoordinates
-const fetchPlaces = require('./Places/getPlaces')
+const getReadableAddress = require('./Places/getReadableAddress')
+const getCoordinatesFromAddress = require('./Places/getCoordinatesFromAddress')
+const getNearbyPlaces = require('./Places/getNearbyPlaces')
 const getSuggestions = require('./Places/getSuggestions')
+const getNewPlaces = require('./Places/getNewPlaces')
 
 app.use(express.json())
 
@@ -41,7 +42,7 @@ app.post('/getReadableAddress', async (req, res) => {
     const accessToken = req.body.accessToken
     const latitude = req.body.location.latitude
     const longitude = req.body.location.longitude
-    const response = await getNearestPlace(accessToken, latitude, longitude)
+    const response = await getReadableAddress(accessToken, latitude, longitude)
     res.status(response.status).send(response)
 })
 
@@ -49,7 +50,7 @@ app.post('/getCoordinatesFromAddress', async (req, res) => {
     const accessToken = req.body.accessToken
     const major = req.body.major
     const minor = req.body.minor
-    const response = await getCoordinates(accessToken, major, minor)
+    const response = await getCoordinatesFromAddress(accessToken, major, minor)
     res.status(response.status).send(response)
 })
 
@@ -57,14 +58,22 @@ app.post('/getNearbyPlaces', async (req, res) => {
     const accessToken = req.body.accessToken
     const latitude = req.body.location.latitude
     const longitude = req.body.location.longitude
-    const response = await fetchPlaces(accessToken, latitude, longitude)
+    const response = await getNearbyPlaces(accessToken, latitude, longitude)
     res.status(response.status).send(response)
 })
 
 app.post('/getSuggestionsFromPartialAddress', (req, res) => {
-    const requestString = req.body.requestString
-    const response = getSuggestions(requestString)
+    const partialAddress = req.body.partialAddress
+    const response = getSuggestions(partialAddress)
     res.status(response.status).send(response.data)
+})
+
+app.post('/getNewPlaces', async (req, res) => {
+    const accessToken = req.body.accessToken
+    const latitude = req.body.location.latitude
+    const longitude = req.body.location.longitude
+    const response = await getNewPlaces(accessToken, latitude, longitude)
+    res.status(response.status).send(response)
 })
 
 app.post('/signup/phone', async (req, res) => {

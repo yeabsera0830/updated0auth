@@ -1,6 +1,13 @@
 const Places = require('../__mocks__/Places')
 
 function getSuggestion(fetchedString) {
+    if (fetchedString == null || typeof fetchedString != "string") {
+        return {
+            status: 400,
+            message: "Please send a string"
+        }
+    }
+
     var placesReturned = []
     var matched = null
     var regex = null

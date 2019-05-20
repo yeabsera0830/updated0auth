@@ -17,14 +17,14 @@ async function loginPhone(phoneNumber, password) {
                     console.log("User Password Is Incorrect")
                     return {
                         status: 400,
-                        message: "Incorrect Password"
+                        message: "Incorrect Username or Password"
                     }
                 }
             })
             .catch(err => {
                 return {
                     status: 400,
-                    message: 'Could Not Find User'
+                    message: 'You do not have a Zeila account, please sign up'
                 }
             })
 }
