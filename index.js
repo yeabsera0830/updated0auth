@@ -12,6 +12,7 @@ const loginFacebook = require('./Login/loginUsingFacebook')
 const getNearestPlace = require('./Places/fakedGetLocation').getNearestPlace
 const getCoordinates = require('./Places/fakedGetLocation').getCoordinates
 const fetchPlaces = require('./Places/getPlaces')
+const getSuggestions = require('./Places/getSuggestions')
 
 app.use(express.json())
 
@@ -58,6 +59,12 @@ app.post('/getNearbyPlaces', async (req, res) => {
     const longitude = req.body.location.longitude
     const response = await fetchPlaces(accessToken, latitude, longitude)
     res.status(response.status).send(response)
+})
+
+app.post('/getSuggestionsFromPartialAddress', (req, res) => {
+    const requestString = req.body.requestString
+    const response = getSuggestions(requestString)
+    res.status(response.status).send(response.data)
 })
 
 app.post('/signup/phone', async (req, res) => {
