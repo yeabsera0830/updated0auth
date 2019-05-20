@@ -42,7 +42,7 @@ async function getNewPlaces(accessToken, latitude, longitude) {
         }
     }
 
-    const newRange = 80
+    const newRange = await Place.countDocuments() - 20
     var places = []
     var place = {}
     await Place.find({ placeID: { $gt: newRange } })
