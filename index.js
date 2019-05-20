@@ -38,8 +38,8 @@ app.delete('/removeAllPlaces', async (req, res) => {
 
 app.post('/getReadableAddress', async (req, res) => { 
     const accessToken = req.body.accessToken
-    const latitude = req.body.latitude
-    const longitude = req.body.longitude
+    const latitude = req.body.location.latitude
+    const longitude = req.body.location.longitude
     const response = await getNearestPlace(accessToken, latitude, longitude)
     res.status(response.status).send(response)
 })
@@ -54,8 +54,9 @@ app.post('/getCoordinatesFromAddress', async (req, res) => {
 
 app.post('/getNearbyPlaces', async (req, res) => {
     const accessToken = req.body.accessToken
-    const coordinates = req.body.location
-    const response = await fetchPlaces(accessToken, coordinates.latitude, coordinates.longitude)
+    const latitude = req.body.location.latitude
+    const longitude = req.body.location.longitude
+    const response = await fetchPlaces(accessToken, latitude, longitude)
     res.status(response.status).send(response)
 })
 

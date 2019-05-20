@@ -31,6 +31,13 @@ async function fetchPlacesByCatagory(accessToken, latitude, longitude) {
         }
     }
 
+    if (typeof latitude == 'string' || typeof longitude == 'string' || latitude == null || longitude == null ) {
+        return {
+            status: 400,
+            message: "Unable to get places"
+        }
+    }
+
     var places = {
         "Restaurants": null,
         "Events": null,
