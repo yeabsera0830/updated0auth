@@ -63,8 +63,8 @@ app.post('/getNearbyPlaces', async (req, res) => {
 })
 
 app.post('/getSuggestionsFromPartialAddress', (req, res) => {
-    const partialAddress = req.body.partialAddress
-    const response = getSuggestions(partialAddress)
+    const requestString = req.body.requestString
+    const response = getSuggestions(requestString)
     res.status(response.status).send(response.data)
 })
 
