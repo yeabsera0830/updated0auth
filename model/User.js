@@ -1,14 +1,14 @@
 const mongoose = require('mongoose')
 
 const userSchema = new mongoose.Schema({
-    zeilaID: {type: String, unique: true},
-    name: {type: String, default: null, unique: false},
-    facebookID: {type: String, default: null, unique: true},
-    zeilaToken: {type: String, unique: true},
-    email: {type: String, unique: false, default: null},
-    phoneNumber: {type: String, unique: false, default: null},
-    password: {type: String, default: null, unique: false},
-    profilePicture: {type: String, default: null, unique: false},
+    zeilaID: {type: String, unique: false},
+    name: {type: String, unique: false},
+    facebookID: {type: String, unique: false},
+    zeilaToken: {type: String, unique: false},
+    email: {type: String, unique: false},
+    phoneNumber: {type: String, unique: false},
+    password: {type: String, unique: false},
+    profilePicture: {type: String, unique: false},
     reviews: [
         {type: String, unique: false}
     ],
@@ -17,5 +17,5 @@ const userSchema = new mongoose.Schema({
     ]
 })
 
-var User = mongoose.model('collection3', userSchema)
+var User = mongoose.model('collection4', userSchema)
 module.exports = User
