@@ -68,7 +68,7 @@ async function getNewPlaces(accessToken, latitude, longitude) {
         places: venues
     }
 }
-
+/*
 async function test() {
     const accessToken = 'zxyyfl56eecti76tpz38oqlkc62ea6rpqi28f8h0pwtbsh0vc2ymq1j8tfb6t32tt857wk3xe10hjw52w02ccfr5qegsf5hue'
     const latitude = 8.990454
@@ -78,5 +78,5 @@ async function test() {
 }
 
 test()
-
+*/
 module.exports = getNewPlaces
