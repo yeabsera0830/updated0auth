@@ -14,6 +14,7 @@ const getCoordinatesFromAddress = require('./Places/getCoordinatesFromAddress')
 const getNearbyPlaces = require('./Places/getNearbyPlaces')
 const getSuggestions = require('./Places/getSuggestions')
 const getNewPlaces = require('./Places/getNewPlaces')
+const getPlaceScreen = require('./Places/getPlaceScreen')
 
 app.use(express.json())
 
@@ -36,6 +37,34 @@ app.delete('/removeAllPlaces', async (req, res) => {
     await connect()
     await Place.deleteMany()
     res.status(200).send("Places Deleted Successfully")
+})
+
+
+app.post('/signup/phone', async (req, res) => {
+    const phoneNumber = req.body.phoneNumber
+    const password = req.body.password
+    const response = await signUpUsingPhone(phoneNumber, password)
+    res.status(response.status).send(response)
+})
+
+app.post('/signup/facebook', async (req, res) => {
+    const facebookToken = req.body.facebookToken
+    const response = await signUpUsingFacebook(facebookToken)
+    res.status(response.status).send(response)
+})
+
+app.post('/login/phone', async (req, res) => {
+    const phoneNumber = req.body.phoneNumber
+    const password = req.body.password
+    const response = await loginPhone(phoneNumber, password)
+    res.status(response.status).send(response)
+
+})
+
+app.post('/login/facebook', async (req, res) => {
+    const facebookToken = req.body.facebookToken
+    const response = await loginFacebook(facebookToken)
+    res.status(response.status).send(response)
 })
 
 app.post('/getReadableAddress', async (req, res) => { 
@@ -78,29 +107,9 @@ app.post('/getNewPlaces', async (req, res) => {
     res.status(response.status).send(response)
 })
 
-app.post('/signup/phone', async (req, res) => {
-    const phoneNumber = req.body.phoneNumber
-    const password = req.body.password
-    const response = await signUpUsingPhone(phoneNumber, password)
-    res.status(response.status).send(response)
-})
-
-app.post('/signup/facebook', async (req, res) => {
-    const facebookToken = req.body.facebookToken
-    const response = await signUpUsingFacebook(facebookToken)
-    res.status(response.status).send(response)
-})
-
-app.post('/login/phone', async (req, res) => {
-    const phoneNumber = req.body.phoneNumber
-    const password = req.body.password
-    const response = await loginPhone(phoneNumber, password)
-    res.status(response.status).send(response)
-
-})
-
-app.post('/login/facebook', async (req, res) => {
-    const facebookToken = req.body.facebookToken
-    const response = await loginFacebook(facebookToken)
+app.post('/getPlaceScreen', async (req, res) => {
+    const accessToken = req.body.accessToken
+    const placeID = req.body.placeID
+    const response = await getPlaceScreen(accessToken, placeID)
     res.status(response.status).send(response)
 })

@@ -7,11 +7,6 @@ function calculateDistance(x1, y1, x2, y2) {
     return Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2)) * 111000
 }
 
-async function getPlace(placeID) {
-    const place = await Place.findOne({ placeID: placeID })
-    return place
-}
-
 function swap(i, j, venues) {
     var temp = venues[i]
     venues[i] = venues[j]
@@ -78,11 +73,13 @@ async function getNewPlaces(accessToken, latitude, longitude, start, finish) {
     await Place.find({ placeID: { $gt: startIndex, $lt: finishIndex } })
             .then(placesFound => {
                 for (let i = 0; i < placesFound.length; ++i) {
+                    place.id = placesFound[i].placeID
                     place.name = placesFound[i].placeName
                     place.overview = placesFound[i].placeType
                     place.image = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSYoGFY_My051Il-pmmtKimZOGfSOW6vuUC7N9f7ECijfNZaqCLQw"
                     place.proximity = Math.round(calculateDistance(latitude, longitude, placesFound[i].placeLocation.latitude, placesFound[i].placeLocation.longitude))
-                    place.rating = -1
+                    place.rating = 0
+                    place.location = placesFound[i].placeLocation
                     if (placesFound[i].placeNumberOfRating == null) {
                         place.numberOfRatings = 0
                     } else {

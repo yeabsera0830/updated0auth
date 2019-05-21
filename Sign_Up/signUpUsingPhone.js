@@ -26,6 +26,20 @@ async function signUpUsingPhoneNumber(phoneNumber, password) {
         }
     }
     
+    if (phoneNumber == null) {
+        return {
+            status: 400,
+            message: "Please enter the phone number"
+        }
+    }
+
+    if (password == null) {
+        return {
+            status: 400,
+            message: "Please enter the password"
+        }
+    }
+
     var newUser = new User()
     newUser.zeilaID = rand(4)
     newUser.zeilaToken = rand(9)
