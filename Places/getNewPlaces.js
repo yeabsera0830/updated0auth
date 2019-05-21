@@ -33,7 +33,7 @@ function sortPlaces(venues) {
     return venues
 }
 
-async function getNewPlaces(accessToken, latitude, longitude) {
+async function getNewPlaces(accessToken, latitude, longitude, start, finish) {
     const check = await checkZeilaToken(accessToken)
     if (check) {
         return {
@@ -42,10 +42,33 @@ async function getNewPlaces(accessToken, latitude, longitude) {
         }
     }
 
-    const newRange = await Place.countDocuments() - 20
+    if (typeof latitude == 'string' || typeof longitude == 'string' || latitude == null || longitude == null ) {
+        return {
+            status: 400,
+            message: "Please Use the correct format for your coordinates"
+        }
+    }
+
+    if (start == null || finish == null || start < 0) {
+        return {
+            status: 400,
+            message: "Please give me starting and finishing points"
+        }
+    }
+
+    if (start >= finish) {
+        return {
+            status: 400,
+            message: "The start index can not be less than or equal to the finish index"
+        }
+    }
+
+    const range = await Place.countDocuments()
+    const startIndex = range - finish - 1
+    const finishIndex = range - start + 1
     var places = []
     var place = {}
-    await Place.find({ placeID: { $gt: newRange } })
+    await Place.find({ placeID: { $gt: startIndex, $lt: finishIndex } })
             .then(placesFound => {
                 for (let i = 0; i < placesFound.length; ++i) {
                     place.name = placesFound[i].placeName
@@ -69,15 +92,15 @@ async function getNewPlaces(accessToken, latitude, longitude) {
         places: venues
     }
 }
-/*
+
 async function test() {
     const accessToken = 'zxyyfl56eecti76tpz38oqlkc62ea6rpqi28f8h0pwtbsh0vc2ymq1j8tfb6t32tt857wk3xe10hjw52w02ccfr5qegsf5hue'
     const latitude = 8.990454
     const longitude = 38.813162
-    const response = await getNewPlaces(accessToken, latitude, longitude)
+    const response = await getNewPlaces(accessToken, latitude, longitude, 0, 20)
     console.log(response)
 }
 
 test()
-*/
+
 module.exports = getNewPlaces

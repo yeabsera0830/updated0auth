@@ -72,7 +72,9 @@ app.post('/getNewPlaces', async (req, res) => {
     const accessToken = req.body.accessToken
     const latitude = req.body.location.latitude
     const longitude = req.body.location.longitude
-    const response = await getNewPlaces(accessToken, latitude, longitude)
+    const startIndex = req.body.startIndex
+    const finishIndex = req.body.finishIndex
+    const response = await getNewPlaces(accessToken, latitude, longitude, startIndex, finishIndex)
     res.status(response.status).send(response)
 })
 
