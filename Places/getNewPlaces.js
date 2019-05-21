@@ -49,7 +49,14 @@ async function getNewPlaces(accessToken, latitude, longitude, start, finish) {
         }
     }
 
-    if (start == null || finish == null || start < 0) {
+    if (typeof start != "number" || typeof finish != "number") {
+        return {
+            status: 400,
+            message: "Please give me starting and finishing points"
+        }
+    }
+
+    if (start == null || finish == null || start < 0 || finish < 1) {
         return {
             status: 400,
             message: "Please give me starting and finishing points"
@@ -101,6 +108,6 @@ async function test() {
     console.log(response)
 }
 
-test()
+//test()
 
 module.exports = getNewPlaces
