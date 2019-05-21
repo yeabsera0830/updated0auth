@@ -1,7 +1,7 @@
 const Places = require('../__mocks__/Places')
 
 function getSuggestion(fetchedString) {
-    if (fetchedString == null || typeof fetchedString != "string") {
+    if (fetchedString == null) {
         return {
             status: 400,
             message: "Please send a string"
@@ -16,9 +16,9 @@ function getSuggestion(fetchedString) {
     var fetchedArray = null
     var checkMajor = false
     var checkMinor = false
-    var sameStringCheck = []
-    var majorOrMinor = null
-    var placeToBePushed = null
+    var anotherPatten = null
+    var anotherMatch = null
+    var anotherRegex = null
     for (let i = 0; i < Places.length; ++i) {
         checkMajor = false
         checkMinor = false
@@ -77,15 +77,19 @@ function getSuggestion(fetchedString) {
         }
         else if (fetchedString.length > 4) {
             pattern = "" + fetchedString
+            anotherPatten = "[A-Za-z]+\s " + fetchedString 
         } else if (fetchedString.length < 4) {
             pattern = "^" + fetchedString
+            anotherPatten = "[A-Za-z]+\s " + fetchedString
         }
         regex = new RegExp(pattern, "i")
+        anotherRegex = new RegExp(anotherPatten, "i")
         matched = Places[i].minor.search(regex)        
-        pattern = "^" + fetchedString
-        matched = Places[i].minor.search(regex)
-        if (matched >= 0) {
+        anotherMatch = Places[i].minor.search(anotherRegex)
+        if (matched >= 0 || anotherMatch >= 0) {
             placesReturned.push(Places[i].minor)
+            console.log("matched: " + matched)
+            console.log("anotherMatch: " + anotherMatch)
         }
     }
 
@@ -98,7 +102,7 @@ function getSuggestion(fetchedString) {
 
 
 function test() {
-    const response = getSuggestion("bole, add")
+    const response = getSuggestion("k")
     console.log(response)
 }
 
