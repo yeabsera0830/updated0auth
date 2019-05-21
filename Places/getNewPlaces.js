@@ -50,12 +50,13 @@ async function getNewPlaces(accessToken, latitude, longitude) {
                 for (let i = 0; i < placesFound.length; ++i) {
                     place.name = placesFound[i].placeName
                     place.overview = placesFound[i].placeType
-                    place.image = "https://unsplash.com/picture_url.jpg"
+                    place.image = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSYoGFY_My051Il-pmmtKimZOGfSOW6vuUC7N9f7ECijfNZaqCLQw"
                     place.proximity = Math.round(calculateDistance(latitude, longitude, placesFound[i].placeLocation.latitude, placesFound[i].placeLocation.longitude))
-                    if (placesFound[i].placeRating === null) {
-                        place.rating = "none"
+                    place.rating = -1
+                    if (placesFound[i].placeNumberOfRating == null) {
+                        place.numberOfRatings = 0
                     } else {
-                        place.rating = placesFound[i].placeRating
+                        place.numberOfRatings = placesFound[i].placeNumberOfRating
                     }
                     place.bookmarked = false
                     places.push(place)

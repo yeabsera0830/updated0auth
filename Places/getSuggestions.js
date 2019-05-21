@@ -23,7 +23,7 @@ function getSuggestion(fetchedString) {
 
     return {
         status: 200,
-        data: placesReturned
+        suggestions: placesReturned
     }
 
 }
