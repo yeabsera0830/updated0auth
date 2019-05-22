@@ -67,7 +67,7 @@ async function getNewPlaces(accessToken, latitude, longitude, start, finish) {
 
     const range = await Place.countDocuments()
     const startIndex = range - finish - 1
-    const finishIndex = range - start + 1
+    const finishIndex = range - start
     var places = []
     var place = {}
     await Place.find({ placeID: { $gt: startIndex, $lt: finishIndex } })
