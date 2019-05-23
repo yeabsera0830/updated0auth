@@ -61,6 +61,7 @@ async function getPlaces(latitude, longitude, catagory) {
         palce.image = allPlaces[i].placeProfilePicture
         place.overview = allPlaces[i].placeType
         place.proximity = Math.round(distance)
+        place.numberOfRatings = allPlaces[i].placeNumberOfRating
         place.ratings = allPlaces[i].placeRating
         places.push(place)
     }
