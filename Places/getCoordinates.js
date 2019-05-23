@@ -51,6 +51,40 @@ function getCoordinatesFromAddress(fetchedString) {
     }
 }
 
+function exactCompare(fetchedString) {
+    fetchedString = fetchedString.trim()
+    fetchedString = fetchedString.toLowerCase()
+    var match = null
+    var coordinates = {}
+    var commaPartials = fetchedString.split(",")
+    if (commaPartials.length === 1) {
+        match = arrayObject.find(place => place.minor.toLocaleLowerCase() === fetchedString)
+        if (match != null) {
+            coordinates.latitude = match.latitude
+            coordinates.longitude = match.longitude
+            return {
+                status: 200,
+                coordinates: coordinates
+            }
+        }
+    }
+
+    if (commaPartials.length > 1) {
+        for (let i = 0; i < commaPartials.length; ++i) {
+            commaPartials[i] = commaPartials[i].trim()
+            match = arrayObject.find(place => place.minor.toLocaleLowerCase() === commaPartials[i])
+            if (match != null) {
+                coordinates.latitude = match.latitude
+                coordinates.longitude = match.longitude
+                return {
+                    status: 200,
+                    coordinates: coordinates
+                }
+            }
+        }
+    }
+}
+
 async function getCoordinates(accessToken, fetchedString) {
     const check = await checkZeilaToken(accessToken)
     if (check) {
@@ -59,7 +93,7 @@ async function getCoordinates(accessToken, fetchedString) {
             message: "Could not find place with these places"
         }
     }
-    return getCoordinatesFromAddress(fetchedString)
+    return exactCompare(fetchedString)
 }
 
-module.exports = { getCoordinates, getCoordinatesFromAddress}
+module.exports = { getCoordinates, getCoordinatesFromAddress, exactCompare}

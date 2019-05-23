@@ -1,4 +1,5 @@
 const getCoordinatesFromAddress = require('../Places/getCoordinates').getCoordinatesFromAddress
+const exactCompare = require('../Places/getCoordinates').exactCompare
 it('"Test for coordinates for length 1', () => {
     const response = getCoordinatesFromAddress("Bole")
     expect(response.coordinates.latitude).not.toBeNull()
@@ -50,3 +51,21 @@ it('Fail test for coordinates', () => {
     const response = getCoordinatesFromAddress("")
     expect(response.status).toBe(400)
 })
+
+it('Checks for exact compare', () => {
+    const response = exactCompare("  Bole  ")
+    console.log(response.coordinates.latitude)
+    expect(response.coordinates.latitude).not.toBeNull()
+});
+
+it('Checks for exact compare', () => {
+    const response = exactCompare("  Bole, Addis Ababa  ")
+    console.log(response.coordinates.latitude)
+    expect(response.coordinates.latitude).not.toBeNull()
+});
+
+it('Checks for exact compare', () => {
+    const response = exactCompare("  Addis Ababa, addis ketema  ")
+    console.log(response.coordinates.latitude)
+    expect(response.coordinates.latitude).not.toBeNull()
+});
