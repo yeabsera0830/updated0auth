@@ -90,16 +90,16 @@ async function getPlacesByCatagory(accessToken, latitude, longitude, catagory) {
     if (catagory[index-1] == 's') {
         catagory = catagory.slice(0, index-1)
     }
-
-    const catagories = [
-        'restaurant', 'event', 'garage', 'hospital', 'bar', 'park', 'gym', 'pharmacie'
-    ]
-
-    const checkCatagory = catagories.find(item => item.toLocaleLowerCase() === catagory)
-
+    
     if (catagory === 'pharmacie') {
         catagory = 'pharmacy'
     }
+
+    const catagories = [
+        'restaurant', 'event', 'garage', 'hospital', 'bar', 'park', 'gym', 'pharmacy'
+    ]
+
+    const checkCatagory = catagories.find(item => item.toLocaleLowerCase() === catagory)
 
     console.log(catagory)
     if (checkCatagory == undefined || checkCatagory == null) {
