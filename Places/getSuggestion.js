@@ -205,7 +205,7 @@ function getSuggestions(fetchedString) {
 
     return {
         status: 200,
-        suggesstions: places
+        suggestions: places
     }
 }
 

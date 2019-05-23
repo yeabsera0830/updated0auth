@@ -41,11 +41,14 @@ async function getNearbyPlaces(accessToken, latitude, longitude) {
     const catagories = [
         'restaurant', 'events', 'garage', 'hospital', 'bar', 'park', 'gym', 'pharmacy'
     ]
+    const labels = [
+        'Restaurants', 'Events', 'Garages', 'Hospitals', 'Bars', 'Parks', 'Gyms', 'Pharmacies'
+    ]
     var amount = 0
     for (let i = 0; i < catagories.length; ++i) {
         amount = await getAmount(latitude, longitude, catagories[i])
         if (amount > 0) {
-            places[catagories[i]] = amount
+            places[labels[i]] = amount
         }
         amount = 0
     }
