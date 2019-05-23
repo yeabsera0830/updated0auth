@@ -12,7 +12,7 @@ const placeSchema = new mongoose.Schema({
     },
     placeRating: {type: Number, unique: false},
     placeNumberOfRating: {type: Number, unique: false},
-    placePicture: {type: String, unique: false}
+    placeProfilePicture: {type: String, unique: false}
 })
 
 var Place = mongoose.model('places1', placeSchema)

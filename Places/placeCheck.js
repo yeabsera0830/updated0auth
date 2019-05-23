@@ -1,5 +1,5 @@
 const arrayObject = require('../__mocks__/Places')
-const checkZeilaToken = require('./checkUser')
+
 var partials = null
 var minorPattern = null
 var majorPattern = null
@@ -24,36 +24,30 @@ function checkPlace(arr, place) {
     }
 }
 
-async function getCoordinatesFromAddress(fetchedString) {
-    /*const check = await checkZeilaToken(accessToken)
-    if (check) {
-        return {
-            status: 400,
-            message: "Could not find place with these places"
-        }
-    }
-    */
-    if (fetchedString === " " || fetchedString === "") {
+function getSuggestions(fetchedString) {
+    if (fetchedString == null) {
         return {
             status: 400,
             message: "Please Enter Something"
         }
     }
 
+    fetchedString = fetchedString.trim()
     partials = fetchedString.split(',')
     partials = trimArray(partials)
     var places = []
     var placeString = null
-
     if (partials.length > 1) {
         for (let i = 0; i < partials.length; ++i) {
             if (partials[i] === "") {
                 continue
             }
-
             minorPattern = new RegExp("^" + partials[i], "gi")
+    
+            // Finding the minor
             for (let j = 0; j < arrayObject.length; ++j) {
                 whiteSpacePartials = arrayObject[j].minor.split(" ")
+                console.log(50 + " " + whiteSpacePartials)
                 if (whiteSpacePartials.length > 1) {
                     for (let k = 0; k < whiteSpacePartials.length; k++) {
                         if (whiteSpacePartials[k] == "") {
@@ -61,14 +55,12 @@ async function getCoordinatesFromAddress(fetchedString) {
                         }
                         matchMinor = whiteSpacePartials[k].match(minorPattern)
                         if (matchMinor != null) {
-                            placeString = {
-                                major: arrayObject[j].major,
+                            placeObject = {
                                 minor: arrayObject[j].minor,
-                                latidude: arrayObject[j].latitude,
-                                longitude: arrayObject[j].longitude
+                                major: arrayObject[j].major
                             }
-                            if (checkPlace(places, placeString)) {
-                                places.push(placeString)
+                            if (checkPlace(places, placeObject)) {
+                                places.push(placeObject)
                                 checkMinor = true
                             }
                         }
@@ -76,14 +68,12 @@ async function getCoordinatesFromAddress(fetchedString) {
                 } else {
                     matchMinor = arrayObject[j].minor.match(minorPattern)
                     if (matchMinor != null) {
-                        placeString = {
-                            major: arrayObject[j].major,
+                        placeObject = {
                             minor: arrayObject[j].minor,
-                            latidude: arrayObject[j].latitude,
-                            longitude: arrayObject[j].longitude
+                            major: arrayObject[j].major
                         }
-                        if (checkPlace(places, placeString)) {
-                            places.push(placeString)
+                        if (checkPlace(places, placeObject)) {
+                            places.push(placeObject)
                             checkMinor = true
                         }
                     }
@@ -118,7 +108,7 @@ async function getCoordinatesFromAddress(fetchedString) {
         }
     
         
-    } else {
+    }  else if (partials.length == 1) {
         fetchedString = fetchedString.trim()
         if (fetchedString != "") {
             minorPattern = new RegExp("^" + fetchedString, "gi")
@@ -132,14 +122,12 @@ async function getCoordinatesFromAddress(fetchedString) {
                         }
                         matchMinor = whiteSpacePartials[j].match(minorPattern)
                         if (matchMinor != null) {
-                            placeString = {
-                                major: arrayObject[i].major,
-                                minor: arrayObject[i].minor,
-                                latidude: arrayObject[i].latitude,
-                                longitude: arrayObject[i].longitude
+                            placeObject = {
+                                minor: arrayObject[j].minor,
+                                major: arrayObject[j].major
                             }
-                            if (checkPlace(places, placeString)) {
-                                places.push(placeString)
+                            if (checkPlace(places, placeObject)) {
+                                places.push(placeObject)
                                 checkMinor = true
                             }
                         }
@@ -148,12 +136,7 @@ async function getCoordinatesFromAddress(fetchedString) {
                     matchMinor = arrayObject[i].minor.match(minorPattern)
                     if (matchMinor != null) {
                         checkMinor = true
-                        placeString = {
-                            major: arrayObject[i].major,
-                            minor: arrayObject[i].minor,
-                            latidude: arrayObject[i].latitude,
-                            longitude: arrayObject[i].longitude
-                        }
+                        placeString = arrayObject[i].minor + ", " + arrayObject[i].major
                         if (checkPlace(places, placeString)) {
                             places.push(placeString)
                             checkMinor = true
@@ -173,21 +156,40 @@ async function getCoordinatesFromAddress(fetchedString) {
             }
         }
     }
-
-    if (places.length === 1) {
-        return {
-            status: 200,
-            location: {
-                latidude: places[0].latidude,
-                longitude: places[0].longitude
+    finalCheck = fetchedString.split(" ")
+    if (finalCheck.length > 1) {
+        for (let i = 0; i < finalCheck.length; ++i) {
+            minorPattern = new RegExp("^" + finalCheck[i])
+            for (let j = 0; j < arrayObject.length; ++j) {
+                whiteSpacePartials = arrayObject[j].minor.split(" ")
+                if (whiteSpacePartials.length > 1) {
+                    for (let k = 0; k < whiteSpacePartials.length; ++k) {
+                        matchMinor = whiteSpacePartials[k].match(minorPattern)
+                        if (matchMinor != null) {
+                            placeString = arrayObject[j].minor + ", " + arrayObject[j].major
+                            if (checkPlace(places, placeString)) {
+                                places.push(placeString)
+                                checkMinor = true
+                            }
+                        }
+                    }
+                }
             }
         }
-    } else {
-        return {
-            status: 400,
-            location: "Could Not Find Place"
-        }
+    }
+
+    return {
+        status: 200,
+        suggesstions: places
     }
 }
 
-module.exports = getCoordinatesFromAddress
+function test() {
+    const name = "l"
+    const response = getSuggestions(name)
+    console.log(response)
+}
+
+test()
+
+module.exports = getSuggestions

@@ -10,9 +10,9 @@ const loginPhone = require('./Login/loginUsingPhone')
 const loginFacebook = require('./Login/loginUsingFacebook')
 
 const getReadableAddress = require('./Places/getReadableAddress')
-const getCoordinatesFromAddress = require('./Places/getCoordinatesFromAddress')
+const getCoordinatesFromAddress = require('./Places/getCoordinates').getCoordinates
 const getNearbyPlaces = require('./Places/getNearbyPlaces')
-const getSuggestions = require('./Places/getSuggestions')
+const getSuggestions = require('./Places/getSuggestion')
 const getNewPlaces = require('./Places/getNewPlaces')
 const getPlaceScreen = require('./Places/getPlaceScreen')
 const getPlacesByCatagory = require('./Places/getPlaceByCatagory')
@@ -80,14 +80,6 @@ app.post('/getCoordinatesFromAddress', async (req, res) => {
     const accessToken = req.body.accessToken
     const partialAddress = req.body.partialAddress
     const response = await getCoordinatesFromAddress(accessToken, partialAddress)
-    res.status(response.status).send(response)
-})
-
-app.post('/1getCoordinatesFromAddress', async (req, res) => { 
-    const accessToken = req.body.accessToken
-    const major = req.body.major
-    const minor = req.body.minor
-    const response = await getCoordinatesFromAddress(accessToken, major, minor)
     res.status(response.status).send(response)
 })
 
