@@ -58,10 +58,10 @@ async function getPlaces(latitude, longitude, catagory) {
         }
         place.id = allPlaces[i].placeID
         place.name = allPlaces[i].placeName
+        palce.image = allPlaces[i].placeProfilePicture
         place.overview = allPlaces[i].placeType
         place.proximity = Math.round(distance)
         place.ratings = allPlaces[i].placeRating
-        place.numberOfRatings = allPlaces[i].placeNumberOfRating
         places.push(place)
     }
     
