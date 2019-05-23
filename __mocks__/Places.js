@@ -88,8 +88,8 @@ const Places = [
         id: 4,
         major: "Addis Ababa",
         minor: "Bole",
-        latitude: 8.986215,
-        longitude: 38.810758,
+        latitude: 8.987386,
+        longitude: 38.790746,
         area: 122.08
     },
 

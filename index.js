@@ -107,6 +107,7 @@ app.post('/getNewPlaces', async (req, res) => {
     res.status(response.status).send(response)
 })
 
+/*
 app.post('/getPlaceScreen', async (req, res) => {
     const accessToken = req.body.accessToken
     const placeID = req.body.placeID
@@ -121,4 +122,4 @@ app.post('/getPlacesByCatagory', async (req, res) => {
     const catagory = req.body.catagory
     const response = await getPlacesByCatagory(accessToken, latitude, longitude, catagory)
     res.status(response.status).send(response)
-})
+})*/
