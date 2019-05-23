@@ -84,13 +84,14 @@ async function getPlacesByCatagory(accessToken, latitude, longitude, catagory) {
             message: "Unable to get places"
         }
     }
-
+    const sentBack = catagory
     catagory = catagory.toLowerCase()
+
     const index = catagory.length
     if (catagory[index-1] == 's') {
         catagory = catagory.slice(0, index-1)
     }
-    
+
     if (catagory === 'pharmacie') {
         catagory = 'pharmacy'
     }
@@ -114,7 +115,7 @@ async function getPlacesByCatagory(accessToken, latitude, longitude, catagory) {
     if (places.length < 1) {
         return {
             status: 400,
-            message: "Could Not Find Any Places Around You"
+            message: "Could Not Find Any" + sentBack + "" Around You"
         }
     }
     return {
