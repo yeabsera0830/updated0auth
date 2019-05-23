@@ -12,7 +12,6 @@ function getCoordinatesFromAddress(fetchedString) {
 
     var match = null
     var coordinates = {}
-    var coordinatesArray = []
     var commaPartials = fetchedString.split(",")
     if (commaPartials.length === 1) {
         pattern = new RegExp(fetchedString)
@@ -21,10 +20,9 @@ function getCoordinatesFromAddress(fetchedString) {
             if (match != null) {
                 coordinates.latitude = arrayObject[i].latitude
                 coordinates.longitude = arrayObject[i].longitude
-                coordinatesArray.push(coordinates)
                 return {
                     status: 200,
-                    coordinates: coordinatesArray
+                    coordinates: coordinates
                 }
             }
         }
@@ -37,10 +35,9 @@ function getCoordinatesFromAddress(fetchedString) {
                 if (match != null) {
                     coordinates.latitude = arrayObject[j].latitude
                     coordinates.longitude = arrayObject[j].longitude
-                    coordinatesArray.push(coordinates)
                     return {
                         status: 200,
-                        coordinates: coordinatesArray
+                        coordinates: coordinates
                     }
                 }
             }
