@@ -9,13 +9,13 @@ const signUpUsingFacebook = require('./Sign_Up/signUpUsingFacebook')
 const loginPhone = require('./Login/loginUsingPhone')
 const loginFacebook = require('./Login/loginUsingFacebook')
 
-const getReadableAddress = require('./Places/getReadableAddress')
+const getReadableAddress = require('./Places/getReadableAddress').getReadableAddress
 const getCoordinatesFromAddress = require('./Places/getCoordinates').getCoordinates
 const getNearbyPlaces = require('./Places/getNearbyPlaces')
 const getSuggestions = require('./Places/getSuggestion')
 const getNewPlaces = require('./Places/getNewPlaces')
-//const getPlaceScreen = require('./Places/getPlaceScreen')
-//const getPlacesByCatagory = require('./Places/getPlaceByCatagory')
+const getPlacesByCatagory = require('./Places/getPlaceByCatagory').getPlacesByCatagory
+const getPlaceByID = require('./Places/getPlaceByID')
 
 app.use(express.json())
 
@@ -107,11 +107,10 @@ app.post('/getNewPlaces', async (req, res) => {
     res.status(response.status).send(response)
 })
 
-/*
-app.post('/getPlaceScreen', async (req, res) => {
+app.post('/getPlaceByID', async (req, res) => {
     const accessToken = req.body.accessToken
     const placeID = req.body.placeID
-    const response = await getPlaceScreen(accessToken, placeID)
+    const response = await getPlaceByID(accessToken, placeID)
     res.status(response.status).send(response)
 })
 
@@ -122,4 +121,4 @@ app.post('/getPlacesByCatagory', async (req, res) => {
     const catagory = req.body.catagory
     const response = await getPlacesByCatagory(accessToken, latitude, longitude, catagory)
     res.status(response.status).send(response)
-})*/
+})

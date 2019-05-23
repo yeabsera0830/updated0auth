@@ -49,43 +49,24 @@ async function getPlaces(latitude, longitude, catagory) {
     var distance = null
     var places = []
     var place = null
-    const temp = await Place.find({ placeType: "bar" })
-    console.log(temp)
     const allPlaces = await Place.find({ placeType: catagory })
-    console.log(allPlaces)
     for (let i = 0; i < allPlaces.length; ++i) {
         place = {}
         distance = calculateDistance(latitude, longitude, allPlaces[i].placeLocation.latitude, allPlaces[i].placeLocation.longitude)
         if (distance > radius) {
             continue
         }
+        place.id = allPlaces[i].placeID
         place.name = allPlaces[i].placeName
         place.overview = allPlaces[i].placeType
-        place.proximity = distance
-        place.ratings = placeRating
-        place.numberOfRatings = placeNumberOfRating
+        place.proximity = Math.round(distance)
+        place.ratings = allPlaces[i].placeRating
+        place.numberOfRatings = allPlaces[i].placeNumberOfRating
         places.push(place)
     }
     
     return sortPlaces(places)
 }
-
-async function test() {
-    //await Place.updateMany( { placeRating: null }, { placeRating: 0, placeNumberOfRating: 0 } )
-    //await Place.updateMany( { placeType: "Events" }, { placeType: "event" } )
-    await Place.updateMany( { placeRating: 0 }, { "placeProfilePicture": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSYoGFY_My051Il-pmmtKimZOGfSOW6vuUC7N9f7ECijfNZaqCLQw" } )
-    const c = await Place.find({})
-    console.log(c)
-    //const res = await Place.findOneAndUpdate( { placeID: 1 }, { placeOverview: "Elegant" } )
-    //const now = await Place.findOne({ placeID: 1 })
-    const accessToken = "a1pglv9yqnv2eztpa1yahi4i2ckw4swgmgkfpggl1uboj1bg79sj4rtxllb1a6e6je2l7jpaplynif0sq7145xsigg9gjb98"
-
-    //const now = await getPlaces(9.008869, 38.762485, "bars")
-    //console.log(now)
-}
-
-test()
-
 
 
 async function getPlacesByCatagory(accessToken, latitude, longitude, catagory) {
@@ -96,7 +77,6 @@ async function getPlacesByCatagory(accessToken, latitude, longitude, catagory) {
             message: "Unable to get places"
         }
     }
-    
     if (typeof latitude == 'string' || typeof longitude == 'string' || latitude == null || longitude == null ) {
         return {
             status: 400,
@@ -104,18 +84,23 @@ async function getPlacesByCatagory(accessToken, latitude, longitude, catagory) {
         }
     }
 
-    catagory = catagory.toLocaleLowerCase()
+    catagory = catagory.toLowerCase()
     const index = catagory.length
-    if (catagory[index-1] != "s") {
-        catagory += "s"
+    if (catagory[index-1] == 's') {
+        catagory = catagory.slice(0, index-1)
     }
 
     const catagories = [
-        'Restaurants', 'Events', 'Garages', 'Hospitals', 'Bars', 'Parks', 'Gyms', 'Pharmacies'
+        'restaurant', 'event', 'garage', 'hospital', 'bar', 'park', 'gym', 'pharmacie'
     ]
 
-    const checkCatagory = catagories.find(item => item.toLocaleLowerCase() === "ss")
-    console.log(checkCatagory)
+    const checkCatagory = catagories.find(item => item.toLocaleLowerCase() === catagory)
+
+    if (catagory === 'pharmacie') {
+        catagory = 'pharmacy'
+    }
+
+    console.log(catagory)
     if (checkCatagory == undefined || checkCatagory == null) {
         return {
             status: 400,
@@ -138,4 +123,4 @@ async function getPlacesByCatagory(accessToken, latitude, longitude, catagory) {
 
 }
 
-module.exports = getPlacesByCatagory
+module.exports = { getPlacesByCatagory, getPlaces }
