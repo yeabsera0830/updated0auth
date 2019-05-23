@@ -69,7 +69,7 @@ function exactCompare(fetchedString) {
         }
     }
 
-    if (commaPartials.length > 1) {
+    else if (commaPartials.length > 1) {
         for (let i = 0; i < commaPartials.length; ++i) {
             commaPartials[i] = commaPartials[i].trim()
             match = arrayObject.find(place => place.minor.toLocaleLowerCase() === commaPartials[i])
@@ -83,6 +83,12 @@ function exactCompare(fetchedString) {
             }
         }
     }
+
+    return {
+        status: 400,
+        message: "Unable to get the place"
+    }
+
 }
 
 async function getCoordinates(accessToken, fetchedString) {

@@ -69,3 +69,14 @@ it('Checks for exact compare', () => {
     console.log(response.coordinates.latitude)
     expect(response.coordinates.latitude).not.toBeNull()
 });
+
+
+it('Checks for exact compare', () => {
+    const response = exactCompare("  Addis Ababa addis ketema  ")
+    expect(response.status).toBe(400)
+});
+
+it('Checks for exact compare', () => {
+    const response = exactCompare("  addis ketema addis ababa  ")
+    expect(response.status).toBe(400)
+});
