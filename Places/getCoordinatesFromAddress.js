@@ -191,11 +191,3 @@ async function getCoordinatesFromAddress(accessToken, fetchedString) {
 }
 
 module.exports = getCoordinatesFromAddress
-
-async function test() {
-    const token = "a1pglv9yqnv2eztpa1yahi4i2ckw4swgmgkfpggl1uboj1bg79sj4rtxllb1a6e6je2l7jpaplynif0sq7145xsigg9gjb98"
-    const response = await getCoordinatesFromAddress(token, "bole, addis")
-    console.log(response)
-}
-
-//test()

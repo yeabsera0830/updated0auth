@@ -15,6 +15,7 @@ const getNearbyPlaces = require('./Places/getNearbyPlaces')
 const getSuggestions = require('./Places/getSuggestions')
 const getNewPlaces = require('./Places/getNewPlaces')
 const getPlaceScreen = require('./Places/getPlaceScreen')
+const getPlacesByCatagory = require('./Places/getPlaceByCatagory')
 
 app.use(express.json())
 
@@ -118,5 +119,14 @@ app.post('/getPlaceScreen', async (req, res) => {
     const accessToken = req.body.accessToken
     const placeID = req.body.placeID
     const response = await getPlaceScreen(accessToken, placeID)
+    res.status(response.status).send(response)
+})
+
+app.post('/getPlacesByCatagory', async (req, res) => {
+    const accessToken = req.body.accessToken
+    const latitude = req.body.location.latitude
+    const longitude = req.body.location.longitude
+    const catagory = req.body.catagory
+    const response = await getPlacesByCatagory(accessToken, latitude, longitude, catagory)
     res.status(response.status).send(response)
 })
