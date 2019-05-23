@@ -39,7 +39,7 @@ async function getNearbyPlaces(accessToken, latitude, longitude) {
 
     var places = {}
     const catagories = [
-        'Restaurants', 'Events', 'Garages', 'Hospitals', 'Bars', 'Parks', 'Gyms', 'Pharmacies'
+        'restaurant', 'events', 'garage', 'hospital', 'bar', 'park', 'gym', 'pharmacy'
     ]
     var amount = 0
     for (let i = 0; i < catagories.length; ++i) {

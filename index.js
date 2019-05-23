@@ -14,8 +14,8 @@ const getCoordinatesFromAddress = require('./Places/getCoordinates').getCoordina
 const getNearbyPlaces = require('./Places/getNearbyPlaces')
 const getSuggestions = require('./Places/getSuggestion')
 const getNewPlaces = require('./Places/getNewPlaces')
-const getPlaceScreen = require('./Places/getPlaceScreen')
-const getPlacesByCatagory = require('./Places/getPlaceByCatagory')
+//const getPlaceScreen = require('./Places/getPlaceScreen')
+//const getPlacesByCatagory = require('./Places/getPlaceByCatagory')
 
 app.use(express.json())
 
