@@ -1,4 +1,3 @@
-//const getPlaceByCatagory = require('../Places/getPlaceByCatagory').getPlaces
 const getPlaceByCatagory = require('../Places/getPlaceByCatagory').getPlacesByCatagory
 jest.setTimeout(30000)
 
