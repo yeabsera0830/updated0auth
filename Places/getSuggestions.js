@@ -155,12 +155,4 @@ function getSuggestions(fetchedString) {
     }
 }
 
-function test() {
-    const name = "Addis "
-    const response = getSuggestions(name)
-    console.log(response)
-}
-
-test()
-
 module.exports = getSuggestions

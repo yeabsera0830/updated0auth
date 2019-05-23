@@ -1,12 +1,12 @@
 const getCoordinatesFromAddress = require('../Places/getCoordinates').getCoordinatesFromAddress
 it('"Test for coordinates for length 1', () => {
     const response = getCoordinatesFromAddress("Bole")
-    expect(response.coordinates.length).toBe(1)
+    expect(response.coordinates.latitude).not.toBeNull()
 })
 
 it('"Test for coordinates for length 1', () => {
     const response = getCoordinatesFromAddress("B")
-    expect(response.coordinates.length).toBe(1)
+    expect(response.coordinates.latitude).not.toBeNull()
 })
 
 it('"Fail test" for coordinates for length 1', () => {
@@ -16,24 +16,29 @@ it('"Fail test" for coordinates for length 1', () => {
 
 it('"Pass test" for coordinates for length more than 1', () => {
     const response = getCoordinatesFromAddress("Bole, Addis Ababa")
-    expect(response.coordinates.length).toBe(1)
+    expect(response.coordinates.latitude).not.toBeNull()
 })
 
 
 it('"Pass test" for coordinates for length more than 1', () => {
     const response = getCoordinatesFromAddress("Bo, Addis Ababa")
-    expect(response.coordinates.length).toBe(1)
+    expect(response.coordinates.latitude).not.toBeNull()
 })
 
 it('"Pass test" for coordinates for length more than 1', () => {
     const response = getCoordinatesFromAddress("Addis Ababa, B")
-    expect(response.coordinates.length).toBe(1)
+    expect(response.coordinates.latitude).not.toBeNull()
 })
 
 
 it('"Pass test" for coordinates for length more than 1', () => {
     const response = getCoordinatesFromAddress("Addis Ababa, Bole")
-    expect(response.coordinates.length).toBe(1)
+    expect(response.coordinates.latitude).not.toBeNull()
+})
+
+it('"Pass test" for coordinates for length more than 1', () => {
+    const response = getCoordinatesFromAddress("kolfe, addis")
+    expect(response.coordinates.latitude).not.toBeNull()
 })
 
 it('"Fail test" for coordinates for length more than 1', () => {

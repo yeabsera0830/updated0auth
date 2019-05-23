@@ -14,7 +14,7 @@ function getCoordinatesFromAddress(fetchedString) {
     var coordinates = {}
     var commaPartials = fetchedString.split(",")
     if (commaPartials.length === 1) {
-        pattern = new RegExp(fetchedString)
+        pattern = new RegExp(fetchedString, "gi")
         for (let i = 0; i < arrayObject.length; ++i) {
             match = arrayObject[i].minor.match(pattern)
             if (match != null) {
@@ -29,7 +29,7 @@ function getCoordinatesFromAddress(fetchedString) {
     } else if (commaPartials.length > 1) {
         for (let i = 0; i < commaPartials.length; ++i) {
             commaPartials[i] = commaPartials[i].trim()
-            pattern = new RegExp(commaPartials[i])
+            pattern = new RegExp(commaPartials[i], "gi")
             for (let j = 0; j < arrayObject.length; ++j) {
                 match = arrayObject[j].minor.match(pattern)
                 if (match != null) {
