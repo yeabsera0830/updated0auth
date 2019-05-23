@@ -1,7 +1,7 @@
 const axios = require('axios')
 const key = require('../config/testAuth')
 
-jest.setTimeout(10000)
+jest.setTimeout(30000)
 
 it('"Passing" test for getNewPlaces', async () => {
     const response = await axios.post('http://localhost:8082/getNewPlaces', {

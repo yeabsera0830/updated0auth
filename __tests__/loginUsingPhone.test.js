@@ -1,5 +1,7 @@
 const axios = require('axios')
 
+jest.setTimeout(30000)
+
 it('"Passing" test for login with phone', async () => {
     const response = await axios.post('http://localhost:8082/login/phone', {
         "phoneNumber": "0920202020",

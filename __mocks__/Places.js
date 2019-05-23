@@ -132,7 +132,7 @@ const Places = [
     {
         id: 9,
         major: "Addis Ababa",
-        minor: "Nifassilk Lafto",
+        minor: "Nefassilk Lafto",
         latitude: 8.954979,
         longitude: 38.725906,
         area: 68.30

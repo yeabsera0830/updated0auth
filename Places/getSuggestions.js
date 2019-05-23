@@ -1,111 +1,161 @@
-const Places = require('../__mocks__/Places')
+const arrayObject = require('../__mocks__/Places')
 
-function getSuggestion(fetchedString) {
-    if (fetchedString == null) {
-        return {
-            status: 400,
-            message: "Please send a string"
-        }
+var partials = null
+var minorPattern = null
+var majorPattern = null
+var matchMajor = null
+var matchMinor = null
+var whiteSpacePartials = null
+
+function trimArray(arr) {
+    for (let i = 0; i < arr.length; ++i) {
+        arr[i] = arr[i].trim()
     }
+    return arr
+}
 
-    var placesReturned = []
-    var matched = null
-    var regex = null
-    var pattern = null
-    var checkComma = null
-    var fetchedArray = null
-    var checkMajor = false
-    var checkMinor = false
-    var anotherPatten = null
-    var anotherMatch = null
-    var anotherRegex = null
-    for (let i = 0; i < Places.length; ++i) {
-        checkMajor = false
-        checkMinor = false
-        checkComma = fetchedString.search(',')
-        if (checkComma > 0) {
-            fetchedArray = fetchedString.split(',')
-            if (fetchedArray.length != 2) {
-                return {
-                    status: 400,
-                    message: "Enter the city and the sub city"
+
+function checkPlace(arr, place) {
+    const index = arr.indexOf(place)
+    if (index < 0) {
+        return true
+    } else {
+        return false
+    }
+}
+
+function getSuggestions(fetchedString) {
+    partials = fetchedString.split(',')
+    partials = trimArray(partials)
+    var places = []
+    var placeString = null
+
+    if (partials.length > 1) {
+        for (let i = 0; i < partials.length; ++i) {
+            if (partials[i] === "") {
+                continue
+            }
+            minorPattern = new RegExp("^" + partials[i], "gi")
+    
+            // Finding the minor
+            for (let j = 0; j < arrayObject.length; ++j) {
+                whiteSpacePartials = arrayObject[j].minor.split(" ")
+                if (whiteSpacePartials.length > 1) {
+                    for (let k = 0; k < whiteSpacePartials.length; k++) {
+                        if (whiteSpacePartials[k] == "") {
+                            continue
+                        }
+                        matchMinor = whiteSpacePartials[k].match(minorPattern)
+                        if (matchMinor != null) {
+                            placeString = arrayObject[j].minor + ", " + arrayObject[j].major
+                            if (checkPlace(places, placeString)) {
+                                places.push(placeString)
+                                checkMinor = true
+                            }
+                        }
+                    }
+                } else {
+                    matchMinor = arrayObject[j].minor.match(minorPattern)
+                    if (matchMinor != null) {
+                        placeString = arrayObject[j].minor + ", " + arrayObject[j].major
+                        if (checkPlace(places, placeString)) {
+                            places.push(placeString)
+                            checkMinor = true
+                        }
+                    }
                 }
+            }
+            if (matchMinor != null) {
+                continue
             }
             
-            if (fetchedArray[0] == " " || fetchedArray[1] == " " || fetchedArray[0] == "" || fetchedArray[1] == "") {
-                return {
-                    status: 400,
-                    message: "Enter the city and the sub city"
+            majorPattern = new RegExp("^" + partials[i], "gi")
+            for (let j = 0; j < arrayObject.length; ++j) {
+                whiteSpacePartials = arrayObject[j].major.split(" ")
+                if (whiteSpacePartials.length > 1) {
+                    for (let k = 0; k < whiteSpacePartials.length; ++k) {
+                        if (whiteSpacePartials[k] == "") {
+                            continue
+                        }
+                        matchMajor = whiteSpacePartials[k].match(majorPattern)
+                        if (matchMajor != null) {
+                            //places.push("" + arrayObject[j].minor + ", " + arrayObject[j].major)
+                            checkMajor = true
+                            break
+                        }
+                    }
+                } else {
+                    matchMajor = arrayObject[j].major.match(majorPattern)
+                    if (matchMajor != null) {
+                        //places.push("" + arrayObject[j].minor + ", " + arrayObject[j].major)
+                        checkMajor = true
+                        break
+                    }
                 }
-            }
-
-            pattern = fetchedArray[0]
-            if (fetchedArray[0].length < 2) {
-                pattern = "^" + fetchedArray
-                regex = new RegExp(pattern, "ig")
-                matched = Places[i].minor.search(regex)
-            }
-            regex = new RegExp(pattern, "i")
-            matched = Places[i].major.search(regex)
-            if (matched >= 0) {
-                checkMajor = true
-            }
-            if (!checkMajor) {
-                matched = Places[i].minor.search(regex)
-                if (matched >= 0 && placesReturned.indexOf(Places[i].minor) === -1 && pattern != " ") {
-                    checkMinor = true
-                }
-            }
-            
-            pattern = fetchedArray[1]
-
-            pattern = fetchedArray[1]
-            if (fetchedArray[1].length < 2) {
-                pattern = "^" + fetchedArray
-            }
-            regex = new RegExp(pattern, "i")
-            if (!checkMajor) {
-                matched = Places[i].major.search(regex)
-                if (matched < 0) {
-                    checkMajor = true
-                }
-            }
-
-            if (checkMajor && checkMinor) {
-                placesReturned.push(Places[i].minor)
             }
         }
-        else if (fetchedString.length > 4) {
-            pattern = "" + fetchedString
-            anotherPatten = "[A-Za-z]+\s " + fetchedString 
-        } else if (fetchedString.length < 4) {
-            pattern = "^" + fetchedString
-            anotherPatten = "[A-Za-z]+\s " + fetchedString
-        }
-        regex = new RegExp(pattern, "i")
-        anotherRegex = new RegExp(anotherPatten, "i")
-        matched = Places[i].minor.search(regex)        
-        anotherMatch = Places[i].minor.search(anotherRegex)
-        if (matched >= 0 || anotherMatch >= 0) {
-            placesReturned.push(Places[i].minor)
-            console.log("matched: " + matched)
-            console.log("anotherMatch: " + anotherMatch)
+    
+        
+    } else {
+        fetchedString = fetchedString.trim()
+        if (fetchedString != "") {
+            minorPattern = new RegExp("^" + fetchedString, "gi")
+            majorPattern = new RegExp("^" + fetchedString, "gi")
+            for (let i = 0; i < arrayObject.length; ++i) {
+                whiteSpacePartials = arrayObject[i].minor.split(" ")
+                if (whiteSpacePartials.length > 1) {
+                    for (let j = 0; j < whiteSpacePartials.length; j++) {
+                        if (whiteSpacePartials[j] == "") {
+                            continue
+                        }
+                        matchMinor = whiteSpacePartials[j].match(minorPattern)
+                        if (matchMinor != null) {
+                            placeString = arrayObject[i].minor + ", " + arrayObject[i].major
+                            if (checkPlace(places, placeString)) {
+                                places.push(placeString)
+                                checkMinor = true
+                            }
+                        }
+                    }
+                } else {
+                    matchMinor = arrayObject[i].minor.match(minorPattern)
+                    if (matchMinor != null) {
+                        checkMinor = true
+                        placeString = arrayObject[i].minor + ", " + arrayObject[i].major
+                        if (checkPlace(places, placeString)) {
+                            places.push(placeString)
+                            checkMinor = true
+                        }
+                    }
+        
+                    matchMajor = arrayObject[i].major.match(majorPattern)
+                    if (matchMajor != null) {
+                        checkMajor = true
+                    }
+                }
+            }
+        } else {
+            return {
+                status: 400,
+                message: "Please Enter Something"
+            }
         }
     }
 
     return {
         status: 200,
-        suggestions: placesReturned
+        suggesstions: places
     }
 
+    
 }
 
-
 function test() {
-    const response = getSuggestion("k")
+    var testString = "bole"
+    const response = getSuggestions(testString)   
     console.log(response)
 }
 
-//test()
+module.exports = getSuggestions
 
-module.exports = getSuggestion
+//test()

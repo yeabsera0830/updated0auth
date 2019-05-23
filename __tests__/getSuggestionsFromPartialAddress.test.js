@@ -12,7 +12,7 @@ it('"Passing" test for getSuggestionsFromPartialAddress', async () => {
 
 it('"Failing" test for getSuggestionsFromPartialAddress', async () => {
     const response = await axios.post('http://localhost:8082/getSuggestionsFromPartialAddress', {
-        "partialAddress": "bole, "
+        "partialAddress": ""
     }).then(res => res.data).catch(err => err.response.data)
     expect(response.status).toBe(400)
 })
