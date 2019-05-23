@@ -25,6 +25,13 @@ function checkPlace(arr, place) {
 }
 
 function getSuggestions(fetchedString) {
+    if (fetchedString == null) {
+        return {
+            status: 400,
+            message: "Please Enter Something"
+        }
+    }
+
     partials = fetchedString.split(',')
     partials = trimArray(partials)
     var places = []
@@ -146,16 +153,6 @@ function getSuggestions(fetchedString) {
         status: 200,
         suggesstions: places
     }
-
-    
-}
-
-function test() {
-    var testString = "bole"
-    const response = getSuggestions(testString)   
-    console.log(response)
 }
 
 module.exports = getSuggestions
-
-//test()

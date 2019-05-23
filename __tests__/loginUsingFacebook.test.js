@@ -20,5 +20,4 @@ it('"Failing" test for login with facebook', async () => {
         "facebookToken": "fake token"
     }).then(res => res.data).catch(err => err.response.data)
     expect(response.status).toBe(400)
-    
 });

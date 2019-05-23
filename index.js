@@ -77,6 +77,13 @@ app.post('/getReadableAddress', async (req, res) => {
 
 app.post('/getCoordinatesFromAddress', async (req, res) => { 
     const accessToken = req.body.accessToken
+    const partialAddress = req.body.partialAddress
+    const response = await getCoordinatesFromAddress(accessToken, partialAddress)
+    res.status(response.status).send(response)
+})
+
+app.post('/1getCoordinatesFromAddress', async (req, res) => { 
+    const accessToken = req.body.accessToken
     const major = req.body.major
     const minor = req.body.minor
     const response = await getCoordinatesFromAddress(accessToken, major, minor)

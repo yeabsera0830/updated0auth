@@ -5,7 +5,7 @@ jest.setTimeout(10000)
 
 it('"Passing" test for getSuggestionsFromPartialAddress', async () => {
     const response = await axios.post('http://localhost:8082/getSuggestionsFromPartialAddress', {
-        "partialAddress": "bole, addis"
+        "partialAddress": "bole, addis ababa"
     }).then(res => res.data).catch(err => err.response.data)
     expect(response.status).toBe(200)
 })
