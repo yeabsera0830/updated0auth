@@ -184,8 +184,8 @@ async function getCoordinatesFromAddress(accessToken, fetchedString) {
         }
     } else {
         return {
-            status: 200,
-            location: places
+            status: 400,
+            location: "Could Not Find Place"
         }
     }
 }
