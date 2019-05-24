@@ -71,6 +71,13 @@ function getSuggestions(fetchedString) {
                     }
                 }
             }
+
+            if (places.length > 1) {
+                return {
+                    status: 200,
+                    suggestions: places
+                }
+            }
             if (matchMinor != null) {
                 continue
             }
@@ -144,13 +151,6 @@ function getSuggestions(fetchedString) {
                     }
                 }
             }
-        }
-    }
-
-    if (places.length > 1) {
-        return {
-            status: 200,
-            suggestions: places
         }
     }
 
