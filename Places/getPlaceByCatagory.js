@@ -115,7 +115,7 @@ async function getPlacesByCatagory(accessToken, latitude, longitude, catagory) {
     if (places.length < 1) {
         return {
             status: 400,
-            message: "Could Not Find Any" + sentBack + " Around You"
+            message: "Could Not Find Any " + sentBack + " Around You"
         }
     }
     return {
