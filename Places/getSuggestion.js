@@ -36,7 +36,7 @@ function getSuggestions(fetchedString) {
                 continue
             }
             minorPattern = new RegExp("^" + partials[i], "gi")
-    
+
             // Finding the minor
             for (let j = 0; j < arrayObject.length; ++j) {
                 whiteSpacePartials = arrayObject[j].minor.split(" ")
@@ -72,13 +72,6 @@ function getSuggestions(fetchedString) {
                 }
             }
 
-            if (places.length > 1) {
-                return {
-                    status: 200,
-                    suggestions: places
-                }
-            }
-                        
             if (matchMinor != null) {
                 continue
             }
@@ -110,6 +103,27 @@ function getSuggestions(fetchedString) {
         
     } else {
         fetchedString = fetchedString.trim()
+        minorPattern = new RegExp("^" + fetchedString, "gi")
+
+        for (let i = 0; i < arrayObject.length; ++i) {
+        	match = arrayObject[i].minor.match(minorPattern)
+        	if (match != null) {
+		    	placeObject = {
+		                        major: arrayObject[i].major,
+		                        minor: arrayObject[i].minor
+		                    }
+		            if (checkPlace(places, placeObject)) {
+		                places.push(placeObject)
+		                checkMinor = true
+		            }
+		    
+		    	return {
+		    		status: 200,
+		    		suggestions: places
+		    	}
+        	}
+        }
+        
         if (fetchedString != "") {
             minorPattern = new RegExp("^" + fetchedString, "gi")
             majorPattern = new RegExp("^" + fetchedString, "gi")
