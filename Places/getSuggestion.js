@@ -78,7 +78,7 @@ function getSuggestions(fetchedString) {
                     suggestions: places
                 }
             }
-            
+                        
             if (matchMinor != null) {
                 continue
             }
