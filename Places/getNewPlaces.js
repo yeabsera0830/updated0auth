@@ -40,28 +40,28 @@ async function getNewPlaces(accessToken, latitude, longitude, start, finish) {
     if (typeof latitude == 'string' || typeof longitude == 'string' || latitude == null || longitude == null ) {
         return {
             status: 400,
-            message: "Please Use the correct format for your coordinates"
+            message: "Unable to get places"
         }
     }
 
     if (typeof start != "number" || typeof finish != "number") {
         return {
             status: 400,
-            message: "Please give me starting and finishing points"
+            message: "Unable to get places"
         }
     }
 
     if (start == null || finish == null || start < 0 || finish < 1) {
         return {
             status: 400,
-            message: "Please give me starting and finishing points"
+            message: "Unable to get places"
         }
     }
 
     if (start >= finish) {
         return {
             status: 400,
-            message: "The start index can not be less than or equal to the finish index"
+            message: "Unable to get places"
         }
     }
 

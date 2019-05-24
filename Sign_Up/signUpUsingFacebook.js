@@ -18,7 +18,7 @@ async function checkIfUserExists(token) {
                     return await User.findOne({ facebookID: facebookID })
                                 .then(user => {
                                     if (user) {
-                                        return "User Already Exists"
+                                        return "You already have a Zeila account. You should login instead"
                                     } else {
                                         return false
                                     }
@@ -68,7 +68,7 @@ async function signUpUsingFacebook(token) {
             console.log(err)
             return {
                 status: 400,
-                message: "Could Not Add User Error"
+                message: "Unable to signup with facebook"
             }
         })
 }

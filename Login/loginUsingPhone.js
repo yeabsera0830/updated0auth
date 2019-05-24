@@ -8,13 +8,11 @@ async function loginPhone(phoneNumber, password) {
     return await User.findOne({ phoneNumber: phoneNumber })
             .then(async user => {
                 if (bcrypt.compareSync(password, user.password)) {
-                    console.log("User Has Logged In")
                     return {
                         status: 200,
                         token: user.zeilaToken
                     }
                 } else {
-                    console.log("User Password Is Incorrect")
                     return {
                         status: 400,
                         message: "Incorrect Username or Password"
@@ -24,7 +22,7 @@ async function loginPhone(phoneNumber, password) {
             .catch(err => {
                 return {
                     status: 400,
-                    message: 'You do not have a Zeila account, please sign up'
+                    message: ' Incorrect phone number or password'
                 }
             })
 }

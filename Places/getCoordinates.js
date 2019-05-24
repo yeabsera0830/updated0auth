@@ -6,7 +6,7 @@ function getCoordinatesFromAddress(fetchedString) {
     if (fetchedString == "") {
         return {
             status: 400,
-            message: "Please Send A Place"
+            message: "No location found with this address"
         }
     }
 
@@ -47,7 +47,7 @@ function getCoordinatesFromAddress(fetchedString) {
 
     return {
         status: 400,
-        message: "Could not find place with these places"
+        message: "No location found with this address"
     }
 }
 
@@ -86,7 +86,7 @@ function exactCompare(fetchedString) {
 
     return {
         status: 400,
-        message: "Unable to get the place"
+        message: "No location found with this address"
     }
 
 }
@@ -96,7 +96,7 @@ async function getCoordinates(accessToken, fetchedString) {
     if (check) {
         return {
             status: 400,
-            message: "Could not find place with these places"
+            message: "No location found with this address"
         }
     }
     return exactCompare(fetchedString)

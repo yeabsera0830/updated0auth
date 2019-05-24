@@ -22,7 +22,7 @@ async function signUpUsingPhoneNumber(phoneNumber, password) {
     if (checkedMessage) {
         return {
             status: 400,
-            message: "User Already Exists"
+            message: "You already have a Zeila account. You should login instead"
         }
     }
     

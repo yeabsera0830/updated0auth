@@ -11,7 +11,7 @@ function getAddress(latitude, longitude) {
     if (typeof latitude == "string" || typeof longitude == "string" || latitude == null || longitude == null) {
         return {
             status: 400,
-            message: "Unable to find location"
+            message: "Unable to find your location"
         }
     }
 
@@ -44,14 +44,14 @@ async function getReadableAddress(accessToken, latitude, longitude) {
     if (check) {
         return {
             status: 400,
-            message: "Unable to find location"
+            message: "Unable to find your location"
         }
     }
 
     if (typeof latitude == "string" || typeof longitude == "string" || latitude == null || longitude == null) {
         return {
             status: 400,
-            message: "Unable to find location"
+            message: "Unable to find your location"
         }
     }
 

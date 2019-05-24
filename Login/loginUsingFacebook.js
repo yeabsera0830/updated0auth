@@ -18,7 +18,7 @@ async function loginUsingFacebook(token) {
                         .catch(err => {
                             return {
                                 status:400,
-                                message: 'Could Not Find User'
+                                message: 'You don\'t have a Zeila account. You should signup instead'
                             }
                         })
                 })

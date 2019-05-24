@@ -16,8 +16,8 @@ function trimArray(arr) {
 
 
 function checkPlace(arr, place) {
-    const index = arr.indexOf(place)
-    if (index < 0) {
+    const found = arr.find(item => item.minor === place.minor)
+    if (found === undefined) {
         return true
     } else {
         return false
@@ -25,13 +25,6 @@ function checkPlace(arr, place) {
 }
 
 function getSuggestions(fetchedString) {
-    if (fetchedString == null) {
-        return {
-            status: 400,
-            message: "Please Enter Something"
-        }
-    }
-
     partials = fetchedString.split(',')
     partials = trimArray(partials)
     var places = []
@@ -151,11 +144,6 @@ function getSuggestions(fetchedString) {
                     }
                 }
             }
-        } else {
-            return {
-                status: 400,
-                message: "Please Enter Something"
-            }
         }
     }
 
@@ -172,10 +160,6 @@ function getSuggestions(fetchedString) {
                 }
                 if (checkPlace(places, placeObject)) {
                     places.push(placeObject)
-                    return {
-                        status: 200,
-                        suggesstions: places
-                    }
                 }
             }
         }
@@ -192,16 +176,12 @@ function getSuggestions(fetchedString) {
                     }
                     if (checkPlace(places, placeObject)) {
                         places.push(placeObject)
-                        return {
-                            status: 200,
-                            suggesstions: places
-                        }
                     }
                 }
             }
         }
     }
-    
+
 
     return {
         status: 200,
@@ -209,12 +189,5 @@ function getSuggestions(fetchedString) {
     }
 }
 
-function test() {
-    const name = "add"
-    const response = getSuggestions(name)
-    console.log(response)
-}
-
-//test()
 
 module.exports = getSuggestions
