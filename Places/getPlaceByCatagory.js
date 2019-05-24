@@ -70,6 +70,20 @@ async function getPlaces(latitude, longitude, catagory) {
 }
 
 
+function sortPlaces(venues) {
+    var min = null
+    for (let i = 0; i < venues.length; ++i) {
+        min = i
+        for (let j = i+1; j < venues.length; ++j) {
+            if (venues[min].proximity > venues[j].proximity) {
+                min = j
+            }
+        }
+        venues = swap(min, i, venues)
+    }
+    return venues
+}
+
 async function getPlacesByCatagory(accessToken, latitude, longitude, catagory) {
     const check = await checkZeilaToken(accessToken)
     if (check) {
@@ -120,7 +134,7 @@ async function getPlacesByCatagory(accessToken, latitude, longitude, catagory) {
     }
     return {
         status: 200,
-        places: places
+        places: sortPlaces(places)
     }
 
 }
