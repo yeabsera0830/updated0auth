@@ -147,6 +147,13 @@ function getSuggestions(fetchedString) {
         }
     }
 
+    if (places.length > 1) {
+        return {
+            status: 200,
+            suggestions: places
+        }
+    }
+
     var finalCheck = fetchedString.split(" ")
     if (places.length < 1 && finalCheck.length > 1) {
         minorPatter = new RegExp("^" + finalCheck, "ig")
