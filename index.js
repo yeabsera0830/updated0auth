@@ -107,7 +107,7 @@ app.post('/getNewPlaces', async (req, res) => {
     res.status(response.status).send(response)
 })
 
-app.post('/getPlaceByID', async (req, res) => {
+app.post('/getBusinessProfile', async (req, res) => {
     const accessToken = req.body.accessToken
     const placeID = req.body.placeID
     const response = await getPlaceByID(accessToken, placeID)

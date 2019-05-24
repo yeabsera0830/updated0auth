@@ -30,8 +30,12 @@ function sortPlaces(venues) {
 }
 
 async function getNewPlaces(latitude, longitude, start, finish) {
-    var fetchedPlaces
-    const sortedPlaces = 
+    const range = await Place.countDocuments()
+    const startIndex = range - finish - 1
+    const finishIndex = range - start
+    var fetchedPlaces = await Place.find({ placeID: { $gt: start, $lt: start } })
+
+    return fetchedPlaces
 }
 
 module.exports = getNewPlaces

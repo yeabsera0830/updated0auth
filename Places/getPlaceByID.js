@@ -26,15 +26,22 @@ async function getPlaceByID(accessToken, placeID) {
         const location = await getLocation(place.placeLocation.latitude, place.placeLocation.longitude)
         placeReturned.name = place.placeName
         placeReturned.overview = place.placeType
-        placeReturned.minor = location.address.minor
-        placeReturned.major = location.address.major
+        placeReturned.location = {
+            latitude: place.placeLocation.latitude,
+            longitude: place.placeLocation.longitude
+        }
+        placeReturned.address = {
+            minor: location.address.minor,
+            major: location.address.major
+        }
         placeReturned.image = place.placeProfilePicture
         placeReturned.rating = place.placeRating
         placeReturned.numberOfRatings = place.placeNumberOfRating
         placeReturned.numberOfReviews = 0
+        placeReturned.bookmarked = false
         return {
             status: 200,
-            place: placeReturned
+            profile: placeReturned
         }
     } else {
         return {
