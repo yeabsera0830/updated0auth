@@ -70,6 +70,13 @@ async function getPlaces(latitude, longitude, catagory) {
 }
 
 
+function swap(i, j, venues) {
+    var temp = venues[i]
+    venues[i] = venues[j]
+    venues[j] = temp
+    return venues
+}
+
 function sortPlaces(venues) {
     var min = null
     for (let i = 0; i < venues.length; ++i) {
