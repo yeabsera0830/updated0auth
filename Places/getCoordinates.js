@@ -92,7 +92,7 @@ function exactCompare(fetchedString) {
 }
 
 async function getCoordinates(accessToken, fetchedString) {
-    const check = await checkZeilaToken(accessToken)
+    const check = await checkZeilaToken(accessToken).then(token => token).catch(err => { return err; console.log(err); })
     if (check) {
         return {
             status: 400,

@@ -13,7 +13,7 @@ const getReadableAddress = require('./Places/getReadableAddress').getReadableAdd
 const getCoordinatesFromAddress = require('./Places/getCoordinates').getCoordinates
 const getNearbyPlaces = require('./Places/getNearbyPlaces')
 const getSuggestions = require('./Places/getSuggestion')
-const getNewPlaces = require('./Places/getNewPlaces')
+const getNewPlaces = require('./Places/getNewPlaces').getNewPlaces
 const getPlacesByCatagory = require('./Places/getPlaceByCatagory').getPlacesByCatagory
 const getPlaceByID = require('./Places/getPlaceByID')
 

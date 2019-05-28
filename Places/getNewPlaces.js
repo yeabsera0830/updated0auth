@@ -2,9 +2,10 @@ const Place = require('../model/Place')
 const checkZeilaToken = require('./checkUser')
 const connect = require('../config/auth').connect
 connect()
+//const Businesses = require('../__mocks__/Businesses')
 
 function calculateDistance(x1, y1, x2, y2) {
-    return Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2)) * 111000
+    return Math.round(Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2)) * 111000)
 }
 
 function swap(i, j, venues) {
@@ -14,7 +15,7 @@ function swap(i, j, venues) {
     return venues
 }
 
-function sortPlaces(venues) {
+function sortBusinesses(venues) {
     var min = null
     for (let i = 0; i < venues.length; ++i) {
         min = i
@@ -26,6 +27,32 @@ function sortPlaces(venues) {
         venues = swap(min, i, venues)
     }
     return venues
+}
+
+async function fetchNewPlaces(latitude, longitude, start, finish) {
+    const fetchedBusinesses = await Place.find({}).then(Businesses => {
+        var businessesToBeSorted = []
+        var business = {}
+        var reversedBusinesses =  Businesses.reverse()
+        reversedBusinesses.forEach(place => {
+            business.id = place.placeID
+            business.name = place.placeName
+            business.overview = place.placeType
+            business.image = place.placeProfilePicture
+            business.proximity = calculateDistance(latitude, longitude, place.placeLocation.latitude, place.placeLocation.longitude)
+            business.rating = place.placeRating
+            business.location = place.placeLocation
+            business.numberOfRatings = place.placeNumberOfRating
+            business.bookmarked = false
+            businessesToBeSorted.push(business)
+            business = {}
+        })
+        var sortedBusinesses = sortBusinesses(businessesToBeSorted)
+        var businessesReturned = sortedBusinesses.slice(start-1, finish)
+        return businessesReturned
+    }).catch(err => err)
+    
+    return fetchedBusinesses
 }
 
 async function getNewPlaces(accessToken, latitude, longitude, start, finish) {
@@ -65,32 +92,7 @@ async function getNewPlaces(accessToken, latitude, longitude, start, finish) {
         }
     }
 
-    const range = await Place.countDocuments()
-    const startIndex = range - finish - 1
-    const finishIndex = range - start
-    var places = []
-    var place = {}
-    await Place.find({ placeID: { $gt: startIndex, $lt: finishIndex } })
-            .then(placesFound => {
-                for (let i = 0; i < placesFound.length; ++i) {
-                    place.id = placesFound[i].placeID
-                    place.name = placesFound[i].placeName
-                    place.overview = placesFound[i].placeType
-                    place.image = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSYoGFY_My051Il-pmmtKimZOGfSOW6vuUC7N9f7ECijfNZaqCLQw"
-                    place.proximity = Math.round(calculateDistance(latitude, longitude, placesFound[i].placeLocation.latitude, placesFound[i].placeLocation.longitude))
-                    place.rating = 0
-                    place.location = placesFound[i].placeLocation
-                    if (placesFound[i].placeNumberOfRating == null) {
-                        place.numberOfRatings = 0
-                    } else {
-                        place.numberOfRatings = placesFound[i].placeNumberOfRating
-                    }
-                    place.bookmarked = false
-                    places.push(place)
-                    place = {}
-                }
-            })
-    var venues = sortPlaces(places)
+    var venues = await fetchNewPlaces(latitude, longitude, start, finish)
     return {
         status: 200,
         places: venues
@@ -107,4 +109,4 @@ async function test() {
 
 //test()
 
-module.exports = getNewPlaces
+module.exports = { getNewPlaces, fetchNewPlaces }
