@@ -48,7 +48,7 @@ async function fetchNewPlaces(latitude, longitude, start, finish) {
             business = {}
         })
         var sortedBusinesses = sortBusinesses(businessesToBeSorted)
-        var businessesReturned = sortedBusinesses.slice(start, finish-1)
+        var businessesReturned = sortedBusinesses.slice(start, finish)
         return businessesReturned
     }).catch(err => err)
     
