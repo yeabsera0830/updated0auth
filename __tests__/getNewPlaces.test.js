@@ -1,9 +1,13 @@
-const getNewPlaces = require('../Places/getNewPlaces').fetchNewPlaces
-const Businesses = require('../__mocks__/Businesses')
+const getNewPlaces = require('../Places/getNewPlaces')
 
 jest.setTimeout(30000)
 
-it('should ', async () => {
-    const response = await getNewPlaces(8.8, 38.8, 1, 3)
-    expect(response.length).toBe(3)
-});
+it('"Passing" test for /places/new ', async () => {
+    const response = await getNewPlaces(8.8, 38.8, 0, 3)
+    expect(response.status).toBe(200)
+})
+
+it('"Failing" test for /places/new ', async () => {
+    const response = await getNewPlaces(8.8, 38.8, 3)
+    expect(response.status).toBe(400)
+})

@@ -16,8 +16,8 @@ function trimArray(arr) {
 
 
 function checkPlace(arr, place) {
-    const index = arr.indexOf(place)
-    if (index < 0) {
+    const found = arr.find(item => item.minor === place.minor)
+    if (found === undefined) {
         return true
     } else {
         return false
@@ -25,17 +25,10 @@ function checkPlace(arr, place) {
 }
 
 function getSuggestions(fetchedString) {
-    if (fetchedString == null) {
-        return {
-            status: 400,
-            message: "Please Enter Something"
-        }
-    }
-
     partials = fetchedString.split(',')
     partials = trimArray(partials)
     var places = []
-    var placeString = null
+    var placeObject = {}
 
     if (partials.length > 1) {
         for (let i = 0; i < partials.length; ++i) {
@@ -43,7 +36,7 @@ function getSuggestions(fetchedString) {
                 continue
             }
             minorPattern = new RegExp("^" + partials[i], "gi")
-    
+
             // Finding the minor
             for (let j = 0; j < arrayObject.length; ++j) {
                 whiteSpacePartials = arrayObject[j].minor.split(" ")
@@ -54,9 +47,12 @@ function getSuggestions(fetchedString) {
                         }
                         matchMinor = whiteSpacePartials[k].match(minorPattern)
                         if (matchMinor != null) {
-                            placeString = arrayObject[j].minor + ", " + arrayObject[j].major
-                            if (checkPlace(places, placeString)) {
-                                places.push(placeString)
+                            placeObject = {
+                                major: arrayObject[j].major,
+                                minor: arrayObject[j].minor
+                            }
+                            if (checkPlace(places, placeObject)) {
+                                places.push(placeObject)
                                 checkMinor = true
                             }
                         }
@@ -64,14 +60,18 @@ function getSuggestions(fetchedString) {
                 } else {
                     matchMinor = arrayObject[j].minor.match(minorPattern)
                     if (matchMinor != null) {
-                        placeString = arrayObject[j].minor + ", " + arrayObject[j].major
-                        if (checkPlace(places, placeString)) {
-                            places.push(placeString)
+                        placeObject = {
+                            major: arrayObject[j].major,
+                            minor: arrayObject[j].minor
+                        }
+                        if (checkPlace(places, placeObject)) {
+                            places.push(placeObject)
                             checkMinor = true
                         }
                     }
                 }
             }
+
             if (matchMinor != null) {
                 continue
             }
@@ -86,7 +86,6 @@ function getSuggestions(fetchedString) {
                         }
                         matchMajor = whiteSpacePartials[k].match(majorPattern)
                         if (matchMajor != null) {
-                            //places.push("" + arrayObject[j].minor + ", " + arrayObject[j].major)
                             checkMajor = true
                             break
                         }
@@ -94,7 +93,6 @@ function getSuggestions(fetchedString) {
                 } else {
                     matchMajor = arrayObject[j].major.match(majorPattern)
                     if (matchMajor != null) {
-                        //places.push("" + arrayObject[j].minor + ", " + arrayObject[j].major)
                         checkMajor = true
                         break
                     }
@@ -105,6 +103,27 @@ function getSuggestions(fetchedString) {
         
     } else {
         fetchedString = fetchedString.trim()
+        minorPattern = new RegExp("^" + fetchedString, "gi")
+
+        for (let i = 0; i < arrayObject.length; ++i) {
+        	match = arrayObject[i].minor.match(minorPattern)
+        	if (match != null) {
+		    	placeObject = {
+		                        major: arrayObject[i].major,
+		                        minor: arrayObject[i].minor
+		                    }
+		            if (checkPlace(places, placeObject)) {
+		                places.push(placeObject)
+		                checkMinor = true
+		            }
+		    
+		    	return {
+		    		status: 200,
+		    		suggestions: places
+		    	}
+        	}
+        }
+        
         if (fetchedString != "") {
             minorPattern = new RegExp("^" + fetchedString, "gi")
             majorPattern = new RegExp("^" + fetchedString, "gi")
@@ -117,9 +136,12 @@ function getSuggestions(fetchedString) {
                         }
                         matchMinor = whiteSpacePartials[j].match(minorPattern)
                         if (matchMinor != null) {
-                            placeString = arrayObject[i].minor + ", " + arrayObject[i].major
-                            if (checkPlace(places, placeString)) {
-                                places.push(placeString)
+                            placeObject = {
+                                major: arrayObject[i].major,
+                                minor: arrayObject[i].minor
+                            }
+                            if (checkPlace(places, placeObject)) {
+                                places.push(placeObject)
                                 checkMinor = true
                             }
                         }
@@ -128,9 +150,12 @@ function getSuggestions(fetchedString) {
                     matchMinor = arrayObject[i].minor.match(minorPattern)
                     if (matchMinor != null) {
                         checkMinor = true
-                        placeString = arrayObject[i].minor + ", " + arrayObject[i].major
-                        if (checkPlace(places, placeString)) {
-                            places.push(placeString)
+                        placeObject = {
+                            major: arrayObject[i].major,
+                            minor: arrayObject[i].minor
+                        }
+                        if (checkPlace(places, placeObject)) {
+                            places.push(placeObject)
                             checkMinor = true
                         }
                     }
@@ -141,18 +166,50 @@ function getSuggestions(fetchedString) {
                     }
                 }
             }
-        } else {
-            return {
-                status: 400,
-                message: "Please Enter Something"
+        }
+    }
+
+    var finalCheck = fetchedString.split(" ")
+    if (places.length < 1 && finalCheck.length > 1) {
+        minorPatter = new RegExp("^" + finalCheck, "ig")
+        for (let i = 0; i < arrayObject.length; ++i) {
+            matchMinor = null
+            matchMinor = arrayObject[i].minor.match(minorPattern)
+            if (matchMinor != null) {
+                placeObject = {
+                    major: arrayObject[i].major,
+                    minor: arrayObject[i].minor
+                }
+                if (checkPlace(places, placeObject)) {
+                    places.push(placeObject)
+                }
+            }
+        }
+
+        for (let i = 0; i < finalCheck.length; ++i) {
+            minorPattern = new RegExp("^" + finalCheck[i], "i")
+            for (let j = 0; j < arrayObject.length; ++j) {
+                matchMinor = null
+                matchMinor = arrayObject[j].minor.match(minorPattern)
+                if (matchMinor != null) {
+                    placeObject = {
+                        major: arrayObject[j].major,
+                        minor: arrayObject[j].minor
+                    }
+                    if (checkPlace(places, placeObject)) {
+                        places.push(placeObject)
+                    }
+                }
             }
         }
     }
+
 
     return {
         status: 200,
         suggestions: places
     }
 }
+
 
 module.exports = getSuggestions

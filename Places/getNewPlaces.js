@@ -1,8 +1,5 @@
 const Place = require('../model/Place')
-const checkZeilaToken = require('./checkUser')
 const connect = require('../config/auth').connect
-connect()
-//const Businesses = require('../__mocks__/Businesses')
 
 function calculateDistance(x1, y1, x2, y2) {
     return Math.round(Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2)) * 111000)
@@ -30,40 +27,37 @@ function sortBusinesses(venues) {
 }
 
 async function fetchNewPlaces(latitude, longitude, start, finish) {
-    const fetchedBusinesses = await Place.find({}).then(Businesses => {
-        var businessesToBeSorted = []
-        var business = {}
-        var reversedBusinesses =  Businesses.reverse()
-        reversedBusinesses.forEach(place => {
-            business.id = place.placeID
-            business.name = place.placeName
-            business.overview = place.placeType
-            business.image = place.placeProfilePicture
-            business.proximity = calculateDistance(latitude, longitude, place.placeLocation.latitude, place.placeLocation.longitude)
-            business.rating = place.placeRating
-            business.location = place.placeLocation
-            business.numberOfRatings = place.placeNumberOfRating
-            business.bookmarked = false
-            businessesToBeSorted.push(business)
-            business = {}
-        })
-        var sortedBusinesses = sortBusinesses(businessesToBeSorted)
-        var businessesReturned = sortedBusinesses.slice(start, finish)
-        return businessesReturned
-    }).catch(err => err)
-    
-    return fetchedBusinesses
+    await connect()
+    const Businesses = await Place.find({})
+    var date = null
+    var diff = 0
+    const currDate = new Date()
+    var placeAdded = {}
+    var fetched = []
+    Businesses.forEach(place => {
+        placeAdded = {}
+        date = new Date(place.placeAddedOn)
+        diff = currDate.getMonth() - date.getMonth()
+        if (diff <= 3) {
+            placeAdded.id = place.placeID
+            placeAdded.name = place.placeName
+            placeAdded.overview = place.placeOverview
+            placeAdded.profilePicture = place.placeProfilePicture
+            placeAdded.proximity = calculateDistance(latitude, longitude, place.placeLocation.latitude, place.placeLocation.longitude)
+            placeAdded.rating = place.placeRating
+            placeAdded.location = place.placeLocation
+            placeAdded.numberOfRatings = place.placeNumberOfRatings
+            fetched.push(placeAdded)
+        }
+    })
+    var sorted = sortBusinesses(fetched.reverse())
+    var businessesReturned = sorted.slice(start, finish)
+    return businessesReturned
 }
 
-async function getNewPlaces(accessToken, latitude, longitude, start, finish) {
-    const check = await checkZeilaToken(accessToken)
-    if (check) {
-        return {
-            status: 400,
-            message: "Unable to get places"
-        }
-    }
 
+async function getNewPlaces(latitude, longitude, start, finish) {
+    await connect()
     if (typeof latitude == 'string' || typeof longitude == 'string' || latitude == null || longitude == null ) {
         return {
             status: 400,
@@ -99,14 +93,4 @@ async function getNewPlaces(accessToken, latitude, longitude, start, finish) {
     }
 }
 
-async function test() {
-    const accessToken = 'zxyyfl56eecti76tpz38oqlkc62ea6rpqi28f8h0pwtbsh0vc2ymq1j8tfb6t32tt857wk3xe10hjw52w02ccfr5qegsf5hue'
-    const latitude = 8.990454
-    const longitude = 38.813162
-    const response = await getNewPlaces(accessToken, latitude, longitude, 0, 20)
-    console.log(response)
-}
-
-//test()
-
-module.exports = { getNewPlaces, fetchNewPlaces }
+module.exports = getNewPlaces

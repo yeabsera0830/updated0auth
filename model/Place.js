@@ -2,18 +2,41 @@ const mongoose = require('mongoose')
 
 const placeSchema = new mongoose.Schema({
     placeID: {type: Number, unique: true},
-    fourSquareID: {type: String, unique: true},
-    placeName: {type: String},
+    placeName: {type: String, unique: false},
+    placePrice: {type: Number, unique: false},
+    placeCatagory: {type: Number, unique: false},
+    placeOpenDays: [
+        {type: Number, unique: false}
+    ],
+    placeOpenHours: [
+        {
+            day: {type: Number, unique: false},
+            openingTime: {type: String, unique: false},
+            closedTime: {type: String, unique: false}
+        }
+    ],
+    placeViews: [
+        {type: String}
+    ],
     placeType: {type: String, unique: false},
     placeOverview: {type: String, unique: false},
     placeLocation: {
-        latitude: {type: Number, unique: true},
-        longitude: {type: Number, unique: true}
+        latitude: {type: Number, unique: false},
+        longitude: {type: Number, unique: false}
     },
     placeRating: {type: Number, unique: false},
-    placeNumberOfRating: {type: Number, unique: false},
-    placeProfilePicture: {type: String, unique: false}
+    placeNumberOfRatings: {type: Number, unique: false},
+    placeProfilePicture: {type: String, unique: false},
+    placeReviews: [
+        {type: Number, unique: false}
+    ],
+    placePhotos: [
+        {type: String, unique: false}
+    ],
+    placeOwner: {type: Number, unique: false},
+    placeAddedOn: {type: String, unique: false},
+    placeAddedBy: {type: Number, unique: false}
 })
 
-var Place = mongoose.model('places1', placeSchema)
+var Place = mongoose.model('places3', placeSchema)
 module.exports = Place

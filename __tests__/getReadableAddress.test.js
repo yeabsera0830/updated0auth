@@ -1,25 +1,17 @@
-const axios = require('axios')
-const key = require('../config/testAuth')
+const getReadableAddress = require('../Places/getReadableAddress')
+jest.setTimeout(10000);
 
-it('"Passing" test for getReadableAddress', async () => {
-    const response = await axios.post('http://localhost:8082/getReadableAddress', {
-        "accessToken": key,
-	    "location": {
-		    "latitude": 9.008869,
-		    "longitude": 38.762485
-	    }
-    }).then(res => res.data).catch(err => err.response.data)
-    if (response.status === 200) {
-        expect(response.minor).not.toBeNull()
-    }
-});
+it('"Passing" test for /address/readable', () => {
+    const response = getReadableAddress(8.990436, 38.781865)
+    expect(response.address.minor).not.toBeNull()
+})
 
-it('"Failing" test for getReadableAddress', async () => {
-    const response = await axios.post('http://localhost:8082/getReadableAddress', {
-        "accessToken": key,
-	    "location": {
-		    "longitude": 38.762485
-	    }
-    }).then(res => res.data).catch(err => err.response.data)
+it('"Passing" test for /address/readable', () => {
+    const response = getReadableAddress(0, 0)
+    expect(response.address.minor).not.toBeNull()
+})
+
+it('"Failing" test for /address/readable', () => {
+    const response = getReadableAddress(8.990436)
     expect(response.status).toBe(400)
-});
+})

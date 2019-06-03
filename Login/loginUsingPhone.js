@@ -10,7 +10,7 @@ async function loginPhone(phoneNumber, password) {
                 if (bcrypt.compareSync(password, user.password)) {
                     return {
                         status: 200,
-                        token: user.zeilaToken
+                        accessToken: user.zeilaToken
                     }
                 } else {
                     return {

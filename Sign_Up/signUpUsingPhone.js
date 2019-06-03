@@ -41,17 +41,16 @@ async function signUpUsingPhoneNumber(phoneNumber, password) {
     }
 
     var newUser = new User()
-    newUser.zeilaID = rand(4)
+    newUser.id = await User.countDocuments() + 1
     newUser.zeilaToken = rand(9)
     newUser.phoneNumber = phoneNumber
     newUser.password = bcrypt.hashSync(password)
-    console.log(newUser)
     return await newUser.save()
             .then(user => {
                 console.log("User added successfully")
                 return {
                     status: 200,
-                    token: user.zeilaToken
+                    accessToken: user.zeilaToken
                 }
             })
             .catch(err => {

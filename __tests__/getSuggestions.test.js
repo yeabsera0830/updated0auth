@@ -1,4 +1,4 @@
-const getSuggestions = require('../Places/getSuggestion')
+const getSuggestions = require('../Places/getSuggestions')
 
 it('should ', () => {
     const response = getSuggestions("Bole")
@@ -35,6 +35,5 @@ it('should ', () => {
 
 it('should ', () => {
     const response = getSuggestions("k")
-    console.log(response)
     expect(response.suggestions.length).not.toBe(0)
 });

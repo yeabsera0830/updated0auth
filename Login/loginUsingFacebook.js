@@ -12,7 +12,7 @@ async function loginUsingFacebook(token) {
                         .then(user => {
                             return {
                                 status: 200,
-                                token: user.zeilaToken
+                                accessToken: user.zeilaToken
                             }
                         })
                         .catch(err => {

@@ -1,25 +1,13 @@
-const axios = require('axios')
-const key = require('../config/testAuth')
+const getNearbyPlaces = require('../Places/getNearbyPlaces')
 
 jest.setTimeout(30000)
 
-it('"Passing" test for getNearbyPlaces', async () => {
-    const response = await axios.post('http://localhost:8082/getNearByPlaces', {
-        "accessToken": key,
-	    "location": {
-		    "latitude": 9.008869,
-		    "longitude": 38.762485
-	    }
-    }).then(res => res.data).catch(err => err.response.data)
-    expect(response.status).toBe(200)
+it('"Passing" test for /places/nearby', async () => {
+    const response = await getNearbyPlaces(8.990569, 38.801838)
+    expect(response.places).not.toBeNull()
 })
 
-it('"Failing" test for getNearbyPlaces', async () => {
-    const response = await axios.post('http://localhost:8082/getNearByPlaces', {
-        "accessToken": key,
-	    "location": {
-		    "longitude": 38.762485
-	    }
-    }).then(res => res.data).catch(err => err.response.data)
+it('"Failing" test for /places/nearby', async () => {
+    const response = await getNearbyPlaces(8.990569)
     expect(response.status).toBe(400)
 })

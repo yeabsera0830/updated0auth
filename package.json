@@ -22,6 +22,7 @@
     "axios": "^0.18.0",
     "bcryptjs": "^2.4.3",
     "express": "^4.16.4",
+    "fb-test-users": "^0.2.1",
     "mongoose": "^5.5.5",
     "nodemon": "^1.19.0",
     "promise": "^8.0.3"

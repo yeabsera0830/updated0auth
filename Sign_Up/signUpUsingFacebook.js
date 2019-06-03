@@ -40,19 +40,40 @@ async function signUpUsingFacebook(token) {
     const url = `https://graph.facebook.com/v3.3/me?fields=email,name&access_token=${token}`
     return await axios.get(url)
         .then(async info => {
+            var name = info.data.name
+            var partials = name.split(" ")
             var newUser = new User()
-            newUser.zeilaID = rand(4)
-            newUser.name = info.data.name
+            if (partials.length == 1) {
+                newUser.firstName = partials[0]
+                newUser.middleName = ""
+                newUser.lastName = ""
+            }
+            else if (partials.length == 2) {
+                newUser.firstName = partials[0]
+                newUser.middleName = ""
+                newUser.lastName = partials[1]
+            } else if (partials == 3) {
+                newUser.firstName = partials[0]
+                newUser.middleName = partials[1]
+                newUser.lastName = partials[2]
+            } else {
+                newUser.firstName = partials[0]
+                newUser.middleName = partials[1]
+                newUser.lastName = ""
+                for (let k = 2; k < partials.length; ++k) {
+                    newUser.lastName += " " + partials[k]
+                }
+            }
+            newUser.id = await User.countDocuments() + 1
             newUser.facebookID = info.data.id
             newUser.zeilaToken = rand(9)
             newUser.email = info.data.email
-            console.log("Reached Here")
             return await newUser.save()
                     .then(user => {
                         console.log("User added successfully")
                         return {
                             status: 200,
-                            token: user.zeilaToken
+                            accessToken: user.zeilaToken
                         }
                     })
                     .catch(err => {
