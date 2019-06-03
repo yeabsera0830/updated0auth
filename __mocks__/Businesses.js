@@ -26,10 +26,11 @@ const catagoryValue = {
 
 var temp = {}
 for (let i = 0; i < 6; ++i) {
-    temp = {}
-    temp.day = defaultOpenDays[i]
-    temp.openingTime = "02:30"
-    temp.closingTime = "12:00"
+    temp = {
+        day: defaultOpenDays[i],
+        openingTime: "02:30",
+        closingTime: "12:00"
+    }
     defaultOpenHours.push(temp)
 }
 
@@ -139,5 +140,5 @@ for (let i = 0; i < Businesses.length; ++i) {
     businesses.push(tempBusiness)
 }
 
-console.log(businesses)
+console.log(businesses[54].placeOpenHours)
 module.exports = businesses

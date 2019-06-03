@@ -12,7 +12,7 @@ const placeSchema = new mongoose.Schema({
         {
             day: {type: Number, unique: false},
             openingTime: {type: String, unique: false},
-            closedTime: {type: String, unique: false}
+            closingTime: {type: String, unique: false}
         }
     ],
     placeViews: [
