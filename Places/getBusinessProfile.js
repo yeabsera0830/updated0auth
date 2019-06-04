@@ -10,11 +10,29 @@ async function getBusinessProfile(placeID) {
             message: "Please Insert an ID"
         }
     }
-    const place = await Place.findOne({ placeID: placeID })
+    place = await Place.findOne({ placeID: placeID })
+    var placeReturned = {}
+    placeReturned.placeID = place.placeID
+    placeReturned.placeName = place.placeName
+    placeReturned.placePrice = place.placePrice
+    placeReturned.placeCatagory = place.placeCatagory
+    placeReturned.placeOpenDays = place.placeOpenDays
+    placeReturned.placeOpenHours = place.placeOpenHours
+    placeReturned.placeType = place.placeType
+    placeReturned.placeOverview = place.placeOverview
+    placeReturned.placeLocation = place.placeLocation
+    placeReturned.placeRating = place.placeRating
+    placeReturned.placeNumberOfRatings = place.placeNumberOfRatings
+    placeReturned.placeProfilePicture = place.placeProfilePicture
+    placeReturned.placeReviews = place.placeReviews
+    placeReturned.placePhotos = place.placePhotos
+    placeReturned.placeOwner = place.placeOwner
+    placeReturned.placeAddedOn = place.placeAddedOn
+    placeReturned.placeAddedBy = place.placeAddedBy
     if (place != null) {
         return {
             status: 200,
-            profile: place
+            profile: placeReturned
         }
     } else {
         return {

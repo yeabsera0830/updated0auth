@@ -59,6 +59,23 @@ const datePicker = () => {
     return startDate
 }
 
+function viewDatePicker(addedDate) {
+    const count = rand(13, 1)
+    var viewDates = []
+    var date = null
+    for (let i = 0; i < count; ++i) {
+        date = new Date(addedDate)
+        date.setMonth(rand(1, 12))
+        date.setDate(rand(1, 30))
+        date.setHours(rand(0, 23))
+        date.setMinutes(rand(0, 59))
+        date.setSeconds(rand(0, 59))
+        viewDates.push(date)
+    }
+
+    return viewDates
+}
+
 
 var businesses = []
 var j = null
@@ -92,19 +109,12 @@ for (let i = 0; i < Businesses.length; ++i) {
     tempBusiness.placePrice = rand(9, 1)
     tempBusiness.placeCatagory = catagoryValue[Businesses[i].placeType]
     tempBusiness.placeOpenDays = defaultOpenDays
-    tempBusiness.placeOpenHours = defaultOpenHours
+    tempBusiness.placeOpenHours = {
+        openingTime: "2: 30",
+        closingTime: "12: 00"
+    }
     k = rand(Users.length, 1);
     j = 0
-    while (true) {
-        number = rand(Users.length, 1)
-        if (j === k) {
-            break
-        }
-        else if (tempBusiness.placeViews.indexOf(number) < 0) {
-            tempBusiness.placeViews.push(number)
-            ++j
-        } else continue
-    }
     tempBusiness.placeType = Businesses[i].placeType
     if (limits[catagories.indexOf(tempBusiness.placeType)] > 10) {
         continue
@@ -129,6 +139,7 @@ for (let i = 0; i < Businesses.length; ++i) {
     }
     tempBusiness.placeOwner = rand(Users.length, 1)
     tempBusiness.placeAddedOn = "" + datePicker()
+    tempBusiness.placeViews = viewDatePicker(tempBusiness.placeAddedOn)
     while(true) {
         addedBy = rand(Users.length, 1)
         if (addedBy != tempBusiness.placeOwner) {
@@ -140,5 +151,6 @@ for (let i = 0; i < Businesses.length; ++i) {
     businesses.push(tempBusiness)
 }
 
-console.log(businesses[54].placeOpenHours)
+//console.log(businesses[4])
+
 module.exports = businesses

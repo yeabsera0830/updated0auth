@@ -86,10 +86,34 @@ async function getNewPlaces(latitude, longitude, start, finish) {
         }
     }
 
-    var venues = await fetchNewPlaces(latitude, longitude, start, finish)
-    return {
-        status: 200,
-        places: venues
+    const placesCount = await Place.countDocuments()
+    if (finish >= placesCount) {
+        return {
+            status: 400,
+            message: "Request limit is up to " + placesCount + " places"
+        }
+    }
+
+    var defaultMonth = 3
+    var places = null
+    var currDate = new Date()
+    while(true) {
+        places = await fetchNewPlaces(latitude, longitude, start, finish, defaultMonth)
+        if (places.length >= (finish - start)) {
+            return {
+                status: 200,
+                places: places
+            }
+        }
+
+        if (defaultMonth >= currDate.getMonth() && currDate.getFullYear() <= 2019) {
+            return {
+                status: 400,
+                message: "Please try to widen your search index"
+            }
+        }
+
+        defaultMonth++
     }
 }
 

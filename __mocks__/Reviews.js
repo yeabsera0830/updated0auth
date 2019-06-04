@@ -79,6 +79,4 @@ function getArrayOfReviewsForUser (userID) {
     return userReviews
 }
 
-console.log(Reviews)
-
 module.exports = { Reviews, getArrayOfReviewsForPlace, getArrayOfReviewsForUser }

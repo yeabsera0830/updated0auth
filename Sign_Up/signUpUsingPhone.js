@@ -41,8 +41,18 @@ async function signUpUsingPhoneNumber(phoneNumber, password) {
     }
 
     var newUser = new User()
-    newUser.id = await User.countDocuments() + 1
+    newUser.id = await User.countDocuments() + 1 + ""
+    newUser.firstName = null
+    newUser.middleName = null
+    newUser.lastName = null
+    newUser.profilePicture = null
+    newUser.bookmarks = []
+    newUser.friends = []
+    newUser.reviews = []
+    newUser.catagoryOrder = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+    newUser.facebookID = null
     newUser.zeilaToken = rand(9)
+    newUser.email = null
     newUser.phoneNumber = phoneNumber
     newUser.password = bcrypt.hashSync(password)
     return await newUser.save()

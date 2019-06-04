@@ -68,6 +68,13 @@ async function signUpUsingFacebook(token) {
             newUser.facebookID = info.data.id
             newUser.zeilaToken = rand(9)
             newUser.email = info.data.email
+            newUser.profilePicture = null
+            newUser.bookmarks = []
+            newUser.friends = []
+            newUser.reviews = []
+            newUser.catagoryOrder = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+            newUser.phoneNumber = null
+            newUser.password = null
             return await newUser.save()
                     .then(user => {
                         console.log("User added successfully")

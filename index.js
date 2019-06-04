@@ -7,6 +7,7 @@ const User = require('./model/User')
 const Place = require('./model/Place')
 const Review = require('./model/Review')
 const checkAppSecret = require('./permissions/checkAppSecret')
+const checkAccessToken = require('./permissions/checkAccessToken')
 
 app.use(express.json())
 
@@ -70,14 +71,23 @@ app.post('/login/facebook', async (req, res) => {
 
 const getReadableAddress = require('./Places/getReadableAddress')
 app.post('/address/readable', async (req, res) => {
-    const check = checkAppSecret(req.body.appSecret)
-    if (check) {
+    const checkSecret = checkAppSecret(req.body.appSecret)
+    if (checkSecret) {
         res.status(400).send({
             status: 400,
             message: 'Invalid Request'
         })
         return
     }
+    const check = await checkAccessToken(req.body.accessToken)
+    if (check == null) {
+        res.status(400).send({
+            status: 400,
+            message: "Unable to find your location"
+        })
+        return
+    }
+
     const latitude = req.body.location.latitude
     const longitude = req.body.location.longitude
     const response = await getReadableAddress(latitude, longitude)
@@ -86,11 +96,19 @@ app.post('/address/readable', async (req, res) => {
 
 const getCoordinatesFromAddress = require('./Places/getCoordinates')
 app.post('/address/coordinates', async (req, res) => { 
-    const check = checkAppSecret(req.body.appSecret)
-    if (check) {
+    const checkSecret = checkAppSecret(req.body.appSecret)
+    if (checkSecret) {
         res.status(400).send({
             status: 400,
             message: 'Invalid Request'
+        })
+        return
+    }
+    const check = await checkAccessToken(req.body.accessToken)
+    if (check == null) {
+        res.status(400).send({
+            status: 400,
+            message: "No location found with this address"
         })
         return
     }
@@ -101,8 +119,8 @@ app.post('/address/coordinates', async (req, res) => {
 
 const getSuggestions = require('./Places/getSuggestions')
 app.post('/address/suggestions', (req, res) => {
-    const check = checkAppSecret(req.body.appSecret)
-    if (check) {
+    const checkSecret = checkAppSecret(req.body.appSecret)
+    if (checkSecret) {
         res.status(400).send({
             status: 400,
             message: 'Invalid Request'
@@ -116,11 +134,19 @@ app.post('/address/suggestions', (req, res) => {
 
 const getNearbyPlaces = require('./Places/getNearbyPlaces')
 app.post('/places/nearby', async (req, res) => {
-    const check = checkAppSecret(req.body.appSecret)
-    if (check) {
+    const checkSecret = checkAppSecret(req.body.appSecret)
+    if (checkSecret) {
         res.status(400).send({
             status: 400,
             message: 'Invalid Request'
+        })
+        return
+    }
+    const check = await checkAccessToken(req.body.accessToken)
+    if (check == null) {
+        res.status(400).send({
+            status: 400,
+            message: "Unable to get places"
         })
         return
     }
@@ -132,11 +158,19 @@ app.post('/places/nearby', async (req, res) => {
 
 const getNewPlaces = require('./Places/getNewPlaces')
 app.post('/places/new', async (req, res) => {
-    const check = checkAppSecret(req.body.appSecret)
-    if (check) {
+    const checkSecret = checkAppSecret(req.body.appSecret)
+    if (checkSecret) {
         res.status(400).send({
             status: 400,
             message: 'Invalid Request'
+        })
+        return
+    }
+    const check = await checkAccessToken(req.body.accessToken)
+    if (check == null) {
+        res.status(400).send({
+            status: 400,
+            message: "Unable to get places"
         })
         return
     }
@@ -150,11 +184,19 @@ app.post('/places/new', async (req, res) => {
 
 const getTrendingPlaces = require('./Places/getTrendingPlaces')
 app.post('/places/trending', async (req, res) => {
-    const check = checkAppSecret(req.body.appSecret)
-    if (check) {
+    const checkSecret = checkAppSecret(req.body.appSecret)
+    if (checkSecret) {
         res.status(400).send({
             status: 400,
             message: 'Invalid Request'
+        })
+        return
+    }
+    const check = await checkAccessToken(req.body.accessToken)
+    if (check == null) {
+        res.status(400).send({
+            status: 400,
+            message: "Unable to get places"
         })
         return
     }
@@ -166,11 +208,19 @@ app.post('/places/trending', async (req, res) => {
 
 const getBusinessProfile = require('./Places/getBusinessProfile')
 app.post('/search/place', async (req, res) => {
-    const check = checkAppSecret(req.body.appSecret)
-    if (check) {
+    const checkSecret = checkAppSecret(req.body.appSecret)
+    if (checkSecret) {
         res.status(400).send({
             status: 400,
             message: 'Invalid Request'
+        })
+        return
+    }
+    const check = await checkAccessToken(req.body.accessToken)
+    if (check == null) {
+        res.status(400).send({
+            status: 400,
+            message: "Unable to get place"
         })
         return
     }
@@ -181,30 +231,46 @@ app.post('/search/place', async (req, res) => {
 
 const getCatagoryOrder = require('./Places/getCategoryOrder')
 app.post('/categories/order', async (req, res) => {
-    const check = checkAppSecret(req.body.appSecret)
-    if (check) {
+    const checkSecret = checkAppSecret(req.body.appSecret)
+    if (checkSecret) {
         res.status(400).send({
             status: 400,
             message: 'Invalid Request'
         })
         return
     }
-    const userID = req.body.id
+    const check = await checkAccessToken(req.body.accessToken)
+    if (check == null) {
+        res.status(400).send({
+            status: 400,
+            message: "Unable to get place"
+        })
+        return
+    }
+    const userID = check.id
     const response = await getCatagoryOrder(userID)
     res.status(response.status).send(response)
 })
 
 const saveCategoryOrder = require('./Places/saveCategoryOrder')
 app.post('/categories/saveOrder', async (req, res) => {
-    const check = checkAppSecret(req.body.appSecret)
-    if (check) {
+    const checkSecret = checkAppSecret(req.body.appSecret)
+    if (checkSecret) {
         res.status(400).send({
             status: 400,
             message: 'Invalid Request'
         })
         return
     }
-    const userID = req.body.id
+    const check = await checkAccessToken(req.body.accessToken)
+    if (check == null) {
+        res.status(400).send({
+            status: 400,
+            message: "Unable to get place"
+        })
+        return
+    }
+    const userID = check.id
     const categories = req.body.categories
     const response = await saveCategoryOrder(userID, categories)
     res.status(response.status).send(response)
