@@ -2,15 +2,13 @@ const Place = require('../model/Place')
 const connect = require('../config/auth').connect
 
 async function getBusinessProfile(placeID) {
-    await connect()
-    await connect()
-    placeID = parseInt(placeID)
-    if (placeID === null || typeof placeID != 'number') {
+    if (placeID == null) {
         return {
             status: 400,
             message: "Please Insert an ID"
         }
     }
+    placeID = parseInt(placeID)
     place = await Place.findOne({ placeID: placeID })
     var placeReturned = {}
     placeReturned.placeID = place.placeID
@@ -22,7 +20,7 @@ async function getBusinessProfile(placeID) {
     placeReturned.placeType = place.placeType
     placeReturned.placeOverview = place.placeOverview
     placeReturned.placeLocation = place.placeLocation
-    placeReturned.placeRating = place.placeRating
+    placeReturned.placeRatings = place.placeRatings
     placeReturned.placeNumberOfRatings = place.placeNumberOfRatings
     placeReturned.placeProfilePicture = place.placeProfilePicture
     placeReturned.placeReviews = place.placeReviews

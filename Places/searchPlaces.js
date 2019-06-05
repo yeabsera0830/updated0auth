@@ -32,7 +32,6 @@ function calculateDistance(x1, y1, x2, y2) {
  */
 
 function checkErrors(latitude, longitude, filter) {
-    console.log(latitude)
     if (latitude == null || typeof latitude != 'number') return false
     if (longitude == null || typeof longitude != 'number') return false
 
@@ -60,7 +59,6 @@ function checkErrors(latitude, longitude, filter) {
 }
 
 async function searchPlaces (latitude, longitude, filter) {
-    console.log(latitude)
     if (!checkErrors(latitude, longitude, filter)) {
         return {
             status: 400,
