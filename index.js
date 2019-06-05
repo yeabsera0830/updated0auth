@@ -119,7 +119,13 @@ app.post('/address/readable', async (req, res) => {
         })
         return
     }
-
+    if (req.body.location == null || req.body.location == undefined) {
+        res.status(400).send({
+            status: 400,
+            message: "Could not find location"
+        })
+        return
+    }
     const latitude = req.body.location.latitude
     const longitude = req.body.location.longitude
     const response = await getReadableAddress(latitude, longitude)
@@ -261,7 +267,7 @@ app.post('/search/place', async (req, res) => {
     res.status(response.status).send(response)
 })
 
-const getCatagoryOrder = require('./Places/getCategoryOrder')
+const getCatagoryOrder = require('./Profile/getCategoryOrder')
 app.post('/categories/order', async (req, res) => {
     const checkSecret = checkAppSecret(req.body.appSecret)
     if (checkSecret) {
@@ -284,7 +290,7 @@ app.post('/categories/order', async (req, res) => {
     res.status(response.status).send(response)
 })
 
-const saveCategoryOrder = require('./Places/saveCategoryOrder')
+const saveCategoryOrder = require('./Profile/saveCategoryOrder')
 app.post('/categories/saveOrder', async (req, res) => {
     const checkSecret = checkAppSecret(req.body.appSecret)
     if (checkSecret) {
@@ -326,9 +332,134 @@ app.post('/search/places', async (req, res) => {
         })
         return
     }
+    if (req.body.location == null || req.body.location == undefined) {
+        res.status(400).send({
+            status: 400,
+            message: "Could not find location"
+        })
+        return
+    }
     const latitude = req.body.location.latitude
     const longitude = req.body.location.longitude
     const filter = req.body.filter
     const response = await searchPlaces(latitude, longitude, filter)
+    res.status(response.status).send(response)
+})
+
+const searchSuggestions = require('./Places/searchSuggestions')
+app.post('/search/suggestions', async (req, res) => {
+    const checkSecret = checkAppSecret(req.body.appSecret)
+    if (checkSecret) {
+        res.status(400).send({
+            status: 400,
+            message: 'Invalid Request'
+        })
+        return
+    }
+    const check = await checkAccessToken(req.body.accessToken)
+    if (check == null) {
+        res.status(400).send({
+            status: 400,
+            message: "Unable to get place"
+        })
+        return
+    }
+    const partialName = req.body.partialName
+    const response = await searchSuggestions(partialName)
+    res.status(response.status).send(response)
+})
+
+const addBookmark = require('./Places/addBookmark')
+app.post('/bookmarks/add', async (req, res) => {
+    const checkSecret = checkAppSecret(req.body.appSecret)
+    if (checkSecret) {
+        res.status(400).send({
+            status: 400,
+            message: 'Invalid Request'
+        })
+        return
+    }
+    const check = await checkAccessToken(req.body.accessToken)
+    if (check == null) {
+        res.status(400).send({
+            status: 400,
+            message: "Unable to get place"
+        })
+        return
+    }
+    const placeID = req.body.id
+    const response = await addBookmark(check.id, placeID)
+    res.status(response.status).send(response)
+})
+
+const removeBookmark = require('./Places/removeBookmark')
+app.post('/bookmarks/remove', async (req, res) => {
+    const checkSecret = checkAppSecret(req.body.appSecret)
+    if (checkSecret) {
+        res.status(400).send({
+            status: 400,
+            message: 'Invalid Request'
+        })
+        return
+    }
+    const check = await checkAccessToken(req.body.accessToken)
+    if (check == null) {
+        res.status(400).send({
+            status: 400,
+            message: "Unable to get place"
+        })
+        return
+    }
+    const placeID = req.body.id
+    const response = await removeBookmark(check.id, placeID)
+    res.status(response.status).send(response)
+})
+
+const rate = require('./Places/rate')
+app.post('/rate', async (req, res) => {
+    const checkSecret = checkAppSecret(req.body.appSecret)
+    if (checkSecret) {
+        res.status(400).send({
+            status: 400,
+            message: 'Invalid Request'
+        })
+        return
+    }
+    const check = await checkAccessToken(req.body.accessToken)
+    if (check == null) {
+        res.status(400).send({
+            status: 400,
+            message: "Unable to get place"
+        })
+        return
+    }
+    const placeID = req.body.id
+    const userID = check.id
+    const rating = req.body.rating
+    const response = await rate(placeID, userID, rating)
+    res.status(response.status).send(response)
+})
+
+const like = require('./Reviews/like')
+app.post('/like', async (req, res) => {
+    const checkSecret = checkAppSecret(req.body.appSecret)
+    if (checkSecret) {
+        res.status(400).send({
+            status: 400,
+            message: 'Invalid Request'
+        })
+        return
+    }
+    const check = await checkAccessToken(req.body.accessToken)
+    if (check == null) {
+        res.status(400).send({
+            status: 400,
+            message: "Unable to get place"
+        })
+        return
+    }
+    const reviewID = req.body.id
+    const userID = check.id
+    const response = await like(reviewID, parseInt(userID))
     res.status(response.status).send(response)
 })

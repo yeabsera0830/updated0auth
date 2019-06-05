@@ -110,7 +110,7 @@ for (let i = 0; i < names.length; ++i) {
     j = 0;
     k = rand(13, 1)
     while (true) {
-        number = rand(Businesses.length, 1)
+        number = rand(89, 1)
         if (j === k) {
             break
         }

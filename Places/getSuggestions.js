@@ -25,6 +25,12 @@ function checkPlace(arr, place) {
 }
 
 function getSuggestions(fetchedString) {
+    if (fetchedString.trim() == "") {
+        return {
+            status: 200,
+            suggestions: []
+        }
+    }
     partials = fetchedString.split(',')
     partials = trimArray(partials)
     var places = []

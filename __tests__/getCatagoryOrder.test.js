@@ -1,4 +1,4 @@
-const getCatagoryOrder = require('../Places/getCategoryOrder')
+const getCatagoryOrder = require('../Profile/getCategoryOrder')
 jest.setTimeout(20000)
 
 it('"Passing" test for /categories/order', async () => {

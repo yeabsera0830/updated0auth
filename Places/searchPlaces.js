@@ -31,7 +31,11 @@ function calculateDistance(x1, y1, x2, y2) {
         SUNDAY: 6
  */
 
-function checkFilters(filter) {
+function checkErrors(latitude, longitude, filter) {
+    console.log(latitude)
+    if (latitude == null || typeof latitude != 'number') return false
+    if (longitude == null || typeof longitude != 'number') return false
+
     if (filter['1'] != undefined) {
         if (filter['1'] > 13 || filter['1'] < 0 || typeof filter['1'] != 'number') return false
     }
@@ -56,7 +60,8 @@ function checkFilters(filter) {
 }
 
 async function searchPlaces (latitude, longitude, filter) {
-    if (!checkFilters(filter)) {
+    console.log(latitude)
+    if (!checkErrors(latitude, longitude, filter)) {
         return {
             status: 400,
             message: "Please use the appropriate filters standards"

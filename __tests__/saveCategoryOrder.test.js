@@ -1,4 +1,4 @@
-const saveCategoryOrder = require('../Places/saveCategoryOrder')
+const saveCategoryOrder = require('../Profile/saveCategoryOrder')
 jest.setTimeout(10000)
 
 it('"Passing" test for /categories/saveOrder', async () => {
