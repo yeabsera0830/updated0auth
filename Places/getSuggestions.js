@@ -116,11 +116,6 @@ function getSuggestions(fetchedString) {
 		                places.push(placeObject)
 		                checkMinor = true
 		            }
-		    
-		    	return {
-		    		status: 200,
-		    		suggestions: places
-		    	}
         	}
         }
         
