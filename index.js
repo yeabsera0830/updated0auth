@@ -256,7 +256,7 @@ app.post('/search/place', async (req, res) => {
         })
         return
     }
-    const placeID = check.id
+    const placeID = req.body.id
     const response = await getBusinessProfile(placeID)
     res.status(response.status).send(response)
 })
