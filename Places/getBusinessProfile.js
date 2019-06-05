@@ -4,6 +4,7 @@ const connect = require('../config/auth').connect
 async function getBusinessProfile(placeID) {
     await connect()
     await connect()
+    placeID = parseInt(placeID)
     if (placeID === null || typeof placeID != 'number') {
         return {
             status: 400,
@@ -15,7 +16,7 @@ async function getBusinessProfile(placeID) {
     placeReturned.placeID = place.placeID
     placeReturned.placeName = place.placeName
     placeReturned.placePrice = place.placePrice
-    placeReturned.placeCatagory = place.placeCatagory
+    placeReturned.placeCategory = place.placeCategory
     placeReturned.placeOpenDays = place.placeOpenDays
     placeReturned.placeOpenHours = place.placeOpenHours
     placeReturned.placeType = place.placeType

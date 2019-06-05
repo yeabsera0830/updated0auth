@@ -35,8 +35,7 @@ async function saveCategoryOrder(id, categoryOrder) {
     } else {
         await User.updateOne({id: userID}, {catagoryOrder: categoryOrder})
         return {
-            status: 200,
-            message: "Categories Updated"
+            status: 200
         }
     }
 }

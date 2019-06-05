@@ -7,11 +7,11 @@ function calculateDistance(x1, y1, x2, y2) {
     return Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2)) * 111000
 }
 
-async function getAmount(latitude, longitude, catagory) {
+async function getAmount(latitude, longitude, category) {
     var radius = 3000
     var distance = null
     var count = 0
-    return await Place.find({ placeType: catagory })
+    return await Place.find({ placeType: category })
             .then(allPlaces => {
                 for (let i = 0; i < allPlaces.length; ++i) {
                     distance = calculateDistance(latitude, longitude, allPlaces[i].placeLocation.latitude, allPlaces[i].placeLocation.longitude)
@@ -44,12 +44,12 @@ function sortPlaces(places) {
     }
     return places
 }
-async function getPlaces(latitude, longitude, catagory) {
+async function getPlaces(latitude, longitude, category) {
     var radius = 3000
     var distance = null
     var places = []
     var place = null
-    const allPlaces = await Place.find({ placeType: catagory })
+    const allPlaces = await Place.find({ placeType: category })
     for (let i = 0; i < allPlaces.length; ++i) {
         place = {}
         distance = calculateDistance(latitude, longitude, allPlaces[i].placeLocation.latitude, allPlaces[i].placeLocation.longitude)
@@ -91,7 +91,7 @@ function sortPlaces(venues) {
     return venues
 }
 
-async function getPlacesByCatagory(accessToken, latitude, longitude, catagory) {
+async function getPlacesByCatagory(accessToken, latitude, longitude, category) {
     const check = await checkZeilaToken(accessToken)
     if (check) {
         return {
@@ -105,16 +105,16 @@ async function getPlacesByCatagory(accessToken, latitude, longitude, catagory) {
             message: "Unable to get places"
         }
     }
-    const sentBack = catagory
-    catagory = catagory.toLowerCase()
+    const sentBack = category
+    category = category.toLowerCase()
 
-    const index = catagory.length
-    if (catagory[index-1] == 's') {
-        catagory = catagory.slice(0, index-1)
+    const index = category.length
+    if (category[index-1] == 's') {
+        category = category.slice(0, index-1)
     }
 
-    if (catagory === 'pharmacie') {
-        catagory = 'pharmacy'
+    if (category === 'pharmacie') {
+        category = 'pharmacy'
     }
 
     const catagories = [
@@ -123,8 +123,8 @@ async function getPlacesByCatagory(accessToken, latitude, longitude, catagory) {
 
     const checkCatagory = catagories.find(item => item.toLocaleLowerCase() === catagory)
 
-    console.log(catagory)
-    if (checkCatagory == undefined || checkCatagory == null) {
+    console.log(category)
+    if (checkCategory == undefined || checkCategory == null) {
         return {
             status: 400,
             message: "Could Not Find The Catagory."
@@ -132,7 +132,7 @@ async function getPlacesByCatagory(accessToken, latitude, longitude, catagory) {
     }
 
     
-    const places = await getPlaces(latitude, longitude, catagory)
+    const places = await getPlaces(latitude, longitude, category)
     if (places.length < 1) {
         return {
             status: 400,

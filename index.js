@@ -40,6 +40,14 @@ app.delete('/removeAllReviews', async (req, res) => {
 
 const signUpUsingPhone = require('./Sign_Up/signUpUsingPhone')
 app.post('/signup/phone', async (req, res) => {
+    const checkSecret = checkAppSecret(req.body.appSecret)
+    if (checkSecret) {
+        res.status(400).send({
+            status: 400,
+            message: 'Invalid Request'
+        })
+        return
+    }
     const phoneNumber = req.body.phoneNumber
     const password = req.body.password
     const response = await signUpUsingPhone(phoneNumber, password)
@@ -48,6 +56,14 @@ app.post('/signup/phone', async (req, res) => {
 
 const signUpUsingFacebook = require('./Sign_Up/signUpUsingFacebook')
 app.post('/signup/facebook', async (req, res) => {
+    const checkSecret = checkAppSecret(req.body.appSecret)
+    if (checkSecret) {
+        res.status(400).send({
+            status: 400,
+            message: 'Invalid Request'
+        })
+        return
+    }
     const facebookToken = req.body.facebookToken
     const response = await signUpUsingFacebook(facebookToken)
     res.status(response.status).send(response)
@@ -55,6 +71,14 @@ app.post('/signup/facebook', async (req, res) => {
 
 const loginPhone = require('./Login/loginUsingPhone')
 app.post('/login/phone', async (req, res) => {
+    const checkSecret = checkAppSecret(req.body.appSecret)
+    if (checkSecret) {
+        res.status(400).send({
+            status: 400,
+            message: 'Invalid Request'
+        })
+        return
+    }
     const phoneNumber = req.body.phoneNumber
     const password = req.body.password
     const response = await loginPhone(phoneNumber, password)
@@ -64,6 +88,14 @@ app.post('/login/phone', async (req, res) => {
 
 const loginFacebook = require('./Login/loginUsingFacebook')
 app.post('/login/facebook', async (req, res) => {
+    const checkSecret = checkAppSecret(req.body.appSecret)
+    if (checkSecret) {
+        res.status(400).send({
+            status: 400,
+            message: 'Invalid Request'
+        })
+        return
+    }
     const facebookToken = req.body.facebookToken
     const response = await loginFacebook(facebookToken)
     res.status(response.status).send(response)
@@ -273,5 +305,30 @@ app.post('/categories/saveOrder', async (req, res) => {
     const userID = check.id
     const categories = req.body.categories
     const response = await saveCategoryOrder(userID, categories)
+    res.status(response.status).send(response)
+})
+
+const searchPlaces = require('./Places/searchPlaces')
+app.post('/search/places', async (req, res) => {
+    const checkSecret = checkAppSecret(req.body.appSecret)
+    if (checkSecret) {
+        res.status(400).send({
+            status: 400,
+            message: 'Invalid Request'
+        })
+        return
+    }
+    const check = await checkAccessToken(req.body.accessToken)
+    if (check == null) {
+        res.status(400).send({
+            status: 400,
+            message: "Unable to get place"
+        })
+        return
+    }
+    const latitude = req.body.location.latitude
+    const longitude = req.body.location.longitude
+    const filter = req.body.filter
+    const response = await searchPlaces(latitude, longitude, filter)
     res.status(response.status).send(response)
 })

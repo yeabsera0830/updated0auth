@@ -10,7 +10,6 @@ async function getCatagoryOrder(id) {
     }
     await connect()
     await connect()
-
     var userID = id + ""
     const user = await User.findOne({ id: userID })
     if (user == null) {

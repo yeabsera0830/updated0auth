@@ -5,12 +5,12 @@ function calculateDistance(x1, y1, x2, y2) {
     return Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2)) * 111000
 }
 
-async function getAmount(latitude, longitude, catagory) {
-    catagory = parseInt(catagory)
+async function getAmount(latitude, longitude, category) {
+    category = parseInt(category)
     var radius = 3000
     var distance = null
     var count = 0
-    const allPlaces = await Place.find({ placeCatagory: catagory })
+    const allPlaces = await Place.find({ placeCategory: category })
     allPlaces.forEach(place => {
         distance = calculateDistance(latitude, longitude, place.placeLocation.latitude, place.placeLocation.longitude)
         if (distance < radius) {

@@ -11,14 +11,14 @@ async function addPlaces(Places) {
         newPlace.placeID = Places[i].placeID
         newPlace.placeName = Places[i].placeName
         newPlace.placePrice = Places[i].placePrice
-        newPlace.placeCatagory = Places[i].placeCatagory
+        newPlace.placeCategory = Places[i].placeCategory
         newPlace.placeOpenDays = Places[i].placeOpenDays
         newPlace.placeOpenHours = Places[i].placeOpenHours
         newPlace.placeViews = Places[i].placeViews
         newPlace.placeType = Places[i].placeType
         newPlace.placeOverview = Places[i].placeOverview
         newPlace.placeLocation = Places[i].placeLocation   
-        newPlace.placeRating = Places[i].placeRating
+        newPlace.placeRatings = Places[i].placeRatings
         newPlace.placeNumberOfRatings = Places[i].placeNumberOfRatings
         newPlace.placeProfilePicture = Places[i].placeProfilePicture
         newPlace.placeReviews = Places[i].placeReviews

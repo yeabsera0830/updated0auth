@@ -4,7 +4,7 @@ const placeSchema = new mongoose.Schema({
     placeID: {type: Number, unique: true},
     placeName: {type: String, unique: false},
     placePrice: {type: Number, unique: false},
-    placeCatagory: {type: Number, unique: false},
+    placeCategory: {type: Number, unique: false},
     placeOpenDays: [
         {type: Number, unique: false}
     ],
@@ -24,7 +24,12 @@ const placeSchema = new mongoose.Schema({
         latitude: {type: Number, unique: false},
         longitude: {type: Number, unique: false}
     },
-    placeRating: {type: Number, unique: false},
+    placeRatings: [
+        {
+            userID: {type: Number, unique: false},
+            numberOfRatings: {type: Number, unique: false}
+        }
+    ],
     placeNumberOfRatings: {type: Number, unique: false},
     placeProfilePicture: {type: String, unique: false},
     placeReviews: [

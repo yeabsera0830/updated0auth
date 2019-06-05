@@ -85,7 +85,7 @@ for (let i = 0; i < Businesses.length; ++i) {
         placeID: null,
         placeName: null,
         placePrice: null,
-        placeCatagory: null,
+        placeCategory: null,
         placeOpenDays: [],
         placeOpenHours: [],
         placeViews: [],
@@ -95,7 +95,7 @@ for (let i = 0; i < Businesses.length; ++i) {
             latitude: null,
             longitude: null
         },
-        placeRating: null,
+        placeRatings: null,
         placeNumberOfRatings: null,
         placeProfilePicture: null,
         placeReviews: [],
@@ -107,7 +107,7 @@ for (let i = 0; i < Businesses.length; ++i) {
     tempBusiness.placeID = businesses.length + 1
     tempBusiness.placeName = Businesses[i].placeName
     tempBusiness.placePrice = rand(9, 1)
-    tempBusiness.placeCatagory = catagoryValue[Businesses[i].placeType]
+    tempBusiness.placeCategory = catagoryValue[Businesses[i].placeType]
     tempBusiness.placeOpenDays = defaultOpenDays
     tempBusiness.placeOpenHours = {
         openingTime: "2: 30",
@@ -121,8 +121,8 @@ for (let i = 0; i < Businesses.length; ++i) {
     }
     tempBusiness.placeOverview = overviews[catagories.indexOf(tempBusiness.placeType)]
     tempBusiness.placeLocation = Businesses[i].placeLocation
-    tempBusiness.placeRating = 0
-    tempBusiness.placeNumberOfRatings = 0
+    tempBusiness.placeRatings = []
+    tempBusiness.placeNumberOfRatings = tempBusiness.placeRatings.length
     tempBusiness.placeProfilePicture = profilePictures[tempBusiness.placeType][rand(4, 0)]
     tempBusiness.placeReviews = Reviews(tempBusiness.placeID)
     j = 0
