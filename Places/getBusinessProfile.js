@@ -26,6 +26,7 @@ async function getBusinessProfile(placeID) {
     } else {
         placeReturned.price = 0
     }
+    
     placeReturned.category = place.placeCategory
     placeReturned.openDays = place.placeOpenDays
     placeReturned.openHours = place.placeOpenHours
