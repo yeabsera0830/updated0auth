@@ -16,33 +16,21 @@ async function getBusinessProfile(placeID) {
             message: "Could not find place"
         }
     }
+    
     var placeReturned = {}
     placeReturned.id = place.placeID
     placeReturned.name = place.placeName
-<<<<<<< HEAD
     if (place.placePrice >= 1 && place.placePrice <= 3) {
         placeReturned.price = 1
     } else if (place.placePrice >= 4 && place.placePrice <= 6) {
-=======
-    if (place.placePrice <= 3 && place.placePrice >= 1)
-        placeReturned.price = 1
-    else if (place.placePrice >= 4 && place.placePrice <= 6) {
->>>>>>> d77e8a929ee23f45d7a603afeb6b5029fbf9b38d
         placeReturned.price = 2
     } else {
         placeReturned.price = 0
     }
-<<<<<<< HEAD
     
     placeReturned.category = place.placeCategory
     placeReturned.openDays = place.placeOpenDays
     placeReturned.openHours = place.placeOpenHours
-=======
-    placeReturned.category = place.placeCategory
-    placeReturned.openDays = place.placeOpenDays
-    placeReturned.openHours = place.placeOpenHours
-    placeReturned.placeType = place.placeType
->>>>>>> d77e8a929ee23f45d7a603afeb6b5029fbf9b38d
     placeReturned.overview = place.placeOverview
     placeReturned.location = place.placeLocation
     placeReturned.rating = place.placeRatings
