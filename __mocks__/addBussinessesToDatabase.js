@@ -3,7 +3,7 @@ const connect = require('../config/auth').connect
 const Places = require('./Businesses')
 
 async function addPlaces(Places) {
-    connect()
+    await connect()
     var newPlace = null
     var success = null
     for (let i = 0; i < Places.length; ++i) {

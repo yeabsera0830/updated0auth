@@ -8,13 +8,10 @@ const placeSchema = new mongoose.Schema({
     placeOpenDays: [
         {type: Number, unique: false}
     ],
-    placeOpenHours: [
-        {
-            day: {type: Number, unique: false},
-            openingTime: {type: String, unique: false},
-            closingTime: {type: String, unique: false}
-        }
-    ],
+    placeOpenHours: {
+        openingTime: {type: String, unique: false},
+        closingTime: {type: String, unique: false}
+    },
     placeViews: [
         {type: String}
     ],

@@ -46,9 +46,6 @@ async function getNearbyPlaces(latitude, longitude) {
     }
 
     var places = {}
-    const labels = [
-        'Restaurants', 'Events', 'Garages', 'Hospitals', 'Bars', 'Parks', 'Gyms', 'Pharmacies'
-    ]
     var amount = 0
     for (let i = 0; i < catagories.length; ++i) {
         amount = await getAmount(latitude, longitude, catagoryValue[catagories[i]])

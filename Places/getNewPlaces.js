@@ -27,7 +27,6 @@ function sortBusinesses(venues) {
 }
 
 async function fetchNewPlaces(latitude, longitude, start, finish) {
-    await connect()
     const Businesses = await Place.find({})
     var date = null
     var diff = 0

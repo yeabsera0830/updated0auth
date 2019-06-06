@@ -6,7 +6,6 @@ const catagories = ['restaurant', 'event', 'garage', 'hospital', 'bar', 'park', 
 const overviews = ['delicate', 'amazing', 'astonishing', 'pleasant', 'relaxing', 'nice', 'too much', 'expensive', 'deluxe', 'cold', 'elegant', 'comfertable', 'yummy']
 const limits = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 defaultOpenDays = [0, 1, 2, 3, 4, 5]
-var defaultOpenHours = []
 
 const catagoryValue = {
     restaurant: 1,
@@ -24,14 +23,9 @@ const catagoryValue = {
     pastry: 13,
 }
 
-var temp = {}
-for (let i = 0; i < 6; ++i) {
-    temp = {
-        day: defaultOpenDays[i],
-        openingTime: "02:30",
-        closingTime: "12:00"
-    }
-    defaultOpenHours.push(temp)
+var defaultOpenHours = {
+    openingTime: "2: 30",
+    closingTime: "12: 00"
 }
 
 function rand(max, min) {
@@ -87,7 +81,7 @@ for (let i = 0; i < Businesses.length; ++i) {
         placePrice: null,
         placeCategory: null,
         placeOpenDays: [],
-        placeOpenHours: [],
+        placeOpenHours: null,
         placeViews: [],
         placeType: null,
         placeOverview: null,
