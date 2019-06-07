@@ -1,10 +1,8 @@
 const rate = require('../Places/rate')
 const connect = require('../config/auth').connect
-jest.setTimeout(20000)
+jest.setTimeout(40000)
 
 it('"Passing" test for /rate', async () => {
-    await connect()
-    await connect()
     await connect()
     const response = await rate(1, 2, 0)
     expect(response.status).toBe(200)

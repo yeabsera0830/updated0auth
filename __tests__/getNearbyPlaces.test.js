@@ -1,8 +1,9 @@
 const getNearbyPlaces = require('../Places/getNearbyPlaces')
-
-jest.setTimeout(30000)
+const connect = require('../config/auth').connect
+jest.setTimeout(40000)
 
 it('"Passing" test for /places/nearby', async () => {
+    await connect()
     const response = await getNearbyPlaces(8.990569, 38.801838)
     expect(response.places).not.toBeNull()
 })

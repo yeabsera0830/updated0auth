@@ -1,7 +1,9 @@
 const saveCategoryOrder = require('../Profile/saveCategoryOrder')
-jest.setTimeout(10000)
+const connect = require('../config/auth').connect
+jest.setTimeout(40000)
 
 it('"Passing" test for /categories/saveOrder', async () => {
+    await connect()
     const response = await saveCategoryOrder(5, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13])
     expect(response.status).toBe(200)
 });

@@ -1,4 +1,6 @@
 const getCoordinates = require('../Places/getCoordinates')
+jest.setTimeout(40000)
+
 it('"Test for coordinates for length 1', () => {
     const response = getCoordinates("Bole")
     expect(response.coordinates.latitude).not.toBeNull()

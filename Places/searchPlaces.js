@@ -35,6 +35,8 @@ function checkErrors(latitude, longitude, filter) {
     if (latitude == null || typeof latitude != 'number') return false
     if (longitude == null || typeof longitude != 'number') return false
 
+    if (filter == null) return false
+
     if (filter['1'] != undefined) {
         if (filter['1'] > 13 || filter['1'] < 0 || typeof filter['1'] != 'number') return false
     }

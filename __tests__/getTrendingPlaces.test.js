@@ -1,7 +1,9 @@
 const getTrendingPlaces = require('../Places/getTrendingPlaces')
-jest.setTimeout(20000)
+const connect = require('../config/auth').connect
+jest.setTimeout(40000)
 
 it('"Passing" test for /places/trending', async () => {
+    await connect()
     const response = await getTrendingPlaces(0, 3)
     expect(response.status).toBe(200)
 })

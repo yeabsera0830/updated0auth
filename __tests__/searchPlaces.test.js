@@ -1,10 +1,8 @@
 const searchPlaces = require('../Places/searchPlaces')
 const connect = require('../config/auth').connect
-jest.setTimeout(20000)
+jest.setTimeout(40000)
 
 it('"Passing" test for /search/places', async () => {
-    await connect()
-    await connect()
     await connect()
     const filter = {
         '1': 2,
@@ -17,12 +15,7 @@ it('"Passing" test for /search/places', async () => {
 });
 
 it('"Failing" test for /search/places', async () => {
-    const filter = {
-        '1': 5,
-        '2': 0,
-        '8': 'office'
-    }
-    const response = await searchPlaces(8.990569, 38.801838, filter)
+    const response = await searchPlaces(8.990569, 38.801838)
     expect(response.status).toBe(400)
     
 });
