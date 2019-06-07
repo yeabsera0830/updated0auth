@@ -68,9 +68,6 @@ async function getTrendingPlaces (start, finish) {
         }
     }
 
-    await connect()
-    await connect()
-    
     const placesCount = await Place.countDocuments()
     if (finish >= placesCount) {
         return {

@@ -395,7 +395,7 @@ app.post('/places/trending', async (req, res) => {
         return
     }
 
-    if (req.body.startIndex == null || req.body.startIndex == undefined || req.body.finishIndex || req.body.finishIndex == undefined) {
+    if (req.body.startIndex == null || req.body.startIndex == undefined || req.body.finishIndex == null || req.body.finishIndex == undefined) {
         res.status(400).send({
             status: 400,
             message: "Unable to get places"

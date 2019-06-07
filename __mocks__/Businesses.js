@@ -100,7 +100,7 @@ for (let i = 0; i < Businesses.length; ++i) {
     }
     tempBusiness.placeID = businesses.length + 1
     tempBusiness.placeName = Businesses[i].placeName
-    tempBusiness.placePrice = rand(9, 1)
+    tempBusiness.placePrice = rand(-1, 3)
     tempBusiness.placeCategory = catagoryValue[Businesses[i].placeType]
     tempBusiness.placeOpenDays = defaultOpenDays
     tempBusiness.placeOpenHours = {

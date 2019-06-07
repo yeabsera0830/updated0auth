@@ -124,15 +124,17 @@ async function searchPlaces (latitude, longitude, filter) {
     var fetchedByPrice = []
     fetchedByLocation.forEach(place => {
         if (filter['3'] === 1) {
-            if (place.placePrice <= 3) {
+            if (place.placePrice == 1) {
                 fetchedByPrice.push(place)
             }
         } else if (filter['3'] === 2) {
-            if (place.placePrice <= 6) {
+            if (place.placePrice == 2) {
                 fetchedByPrice.push(place)
             }
         } else if (filter['3'] === 0) {
-            fetchedByPrice.push(place)
+            if (place.placePrice == 0) {
+                fetchedByPrice.push(place)
+            }
         }
     })
     var fetchedByName = []
