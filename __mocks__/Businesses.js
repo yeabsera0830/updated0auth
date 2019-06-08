@@ -145,6 +145,5 @@ for (let i = 0; i < Businesses.length; ++i) {
     businesses.push(tempBusiness)
 }
 
-//console.log(businesses[4])
 
 module.exports = businesses

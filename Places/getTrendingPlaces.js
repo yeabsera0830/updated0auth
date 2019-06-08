@@ -1,5 +1,4 @@
 const Place = require('../model/Place')
-const connect = require('../config/auth').connect
 
 function swap(i, j, venues) {
     var temp = venues[i]

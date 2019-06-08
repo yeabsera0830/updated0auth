@@ -1,5 +1,4 @@
 const Place = require('../model/Place')
-const connect = require('../config/auth').connect
 
 function calculateDistance(x1, y1, x2, y2) {
     return Math.round(Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2)) * 111000)
@@ -56,7 +55,6 @@ async function fetchNewPlaces(latitude, longitude, start, finish) {
 
 
 async function getNewPlaces(latitude, longitude, start, finish) {
-    await connect()
     if (typeof latitude == 'string' || typeof longitude == 'string' || latitude == null || longitude == null ) {
         return {
             status: 400,

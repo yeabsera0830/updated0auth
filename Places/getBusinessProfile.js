@@ -1,5 +1,4 @@
 const Place = require('../model/Place')
-const connect = require('../config/auth').connect
 
 async function getBusinessProfile(placeID) {
     if (placeID == null) {
