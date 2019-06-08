@@ -23,6 +23,18 @@ async function saveCategoryOrder(id, categoryOrder) {
     }
     var userID = id + ""
 
+    // Check to see if every category order is unique
+    for (let i =  0; i < categoryOrder.length; ++i) {
+        for (let j = 0; j < categoryOrder.length; ++j) {
+            if (categoryOrder[j] == categoryOrder[i] && i != j) {
+                return {
+                    status: 400,
+                    message: "Don't send duplicate categories"
+                }
+            }
+        }
+    }
+
     const user = await User.findOne({ id: userID })
     if (user == null) {
         return {
