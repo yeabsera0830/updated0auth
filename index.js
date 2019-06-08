@@ -2,6 +2,16 @@ const express = require('express')
 const app = express()
 
 const connect = require('./config/auth').connect
+var connectionFlag = true
+async function connectToDB() {
+    if (connectionFlag) {
+        await connect()
+        connectionFlag = false
+    } else {
+        return
+    }
+}
+
 
 const User = require('./model/User')
 const Place = require('./model/Place')
@@ -20,25 +30,27 @@ app.get('/', (req, res) => {
 })
 
 app.delete('/removeAll', async (req, res) => {
-    await connect()
+    await connectToDB()
+    await connectToDB()
     await User.deleteMany()
     res.status(200).send("Users Deleted Succuessfully")
 })
 
 app.delete('/removeAllPlaces', async (req, res) => {
-    await connect()
+    await connectToDB()
     await Place.deleteMany()
     res.status(200).send("Places Deleted Successfully")
 })
 
 app.delete('/removeAllReviews', async (req, res) => {
-    await connect()
+    await connectToDB()
     await Review.deleteMany()
     res.status(200).send("Reviews Deleted Successfully")
 })
 
 const signUpUsingPhone = require('./Sign_Up/signUpUsingPhone')
 app.post('/signup/phone', async (req, res) => {
+    await connectToDB()
     const checkSecret = checkAppSecret(req.body.appSecret)
     if (checkSecret) {
         res.status(400).send({
@@ -82,6 +94,7 @@ app.post('/signup/phone', async (req, res) => {
 
 const signUpUsingFacebook = require('./Sign_Up/signUpUsingFacebook')
 app.post('/signup/facebook', async (req, res) => {
+    await connectToDB()
     const checkSecret = checkAppSecret(req.body.appSecret)
     if (checkSecret) {
         res.status(400).send({
@@ -106,6 +119,7 @@ app.post('/signup/facebook', async (req, res) => {
 
 const loginPhone = require('./Login/loginUsingPhone')
 app.post('/login/phone', async (req, res) => {
+    await connectToDB()
     const checkSecret = checkAppSecret(req.body.appSecret)
     if (checkSecret) {
         res.status(400).send({
@@ -132,6 +146,7 @@ app.post('/login/phone', async (req, res) => {
 
 const loginFacebook = require('./Login/loginUsingFacebook')
 app.post('/login/facebook', async (req, res) => {
+    await connectToDB()
     const checkSecret = checkAppSecret(req.body.appSecret)
     if (checkSecret) {
         res.status(400).send({
@@ -154,6 +169,7 @@ app.post('/login/facebook', async (req, res) => {
 
 const getReadableAddress = require('./Places/getReadableAddress')
 app.post('/address/readable', async (req, res) => {
+    await connectToDB()
     if (req.body.appSecret == null || req.body.appSecret == undefined || req.body.accessToken == null || req.body.accessToken == undefined) {
         res.status(400).send({
             status: 400,
@@ -200,7 +216,8 @@ app.post('/address/readable', async (req, res) => {
 })
 
 const getCoordinatesFromAddress = require('./Places/getCoordinates')
-app.post('/address/coordinates', async (req, res) => { 
+app.post('/address/coordinates', async (req, res) => {
+    await connectToDB() 
     if (req.body.appSecret == null || req.body.appSecret == undefined || req.body.accessToken == null || req.body.accessToken == undefined) {
         res.status(400).send({
             status: 400,
@@ -271,6 +288,7 @@ app.post('/address/suggestions', (req, res) => {
 
 const getNearbyPlaces = require('./Places/getNearbyPlaces')
 app.post('/places/nearby', async (req, res) => {
+    await connectToDB()
     if (req.body.appSecret == null || req.body.appSecret == undefined || req.body.accessToken == null || req.body.accessToken == undefined) {
         res.status(400).send({
             status: 400,
@@ -320,6 +338,7 @@ app.post('/places/nearby', async (req, res) => {
 
 const getNewPlaces = require('./Places/getNewPlaces')
 app.post('/places/new', async (req, res) => {
+    await connectToDB()
     if (req.body.appSecret == null || req.body.appSecret == undefined || req.body.accessToken == null || req.body.accessToken == undefined) {
         res.status(400).send({
             status: 400,
@@ -370,6 +389,7 @@ app.post('/places/new', async (req, res) => {
 
 const getTrendingPlaces = require('./Places/getTrendingPlaces')
 app.post('/places/trending', async (req, res) => {
+    await connectToDB()
     if (req.body.appSecret == null || req.body.appSecret == undefined || req.body.accessToken == null || req.body.accessToken == undefined) {
         res.status(400).send({
             status: 400,
@@ -411,6 +431,7 @@ app.post('/places/trending', async (req, res) => {
 
 const getBusinessProfile = require('./Places/getBusinessProfile')
 app.post('/search/place', async (req, res) => {
+    await connectToDB()
     if (req.body.appSecret == null || req.body.appSecret == undefined || req.body.accessToken == null || req.body.accessToken == undefined) {
         res.status(400).send({
             status: 400,
@@ -451,6 +472,7 @@ app.post('/search/place', async (req, res) => {
 
 const getCatagoryOrder = require('./Profile/getCategoryOrder')
 app.post('/categories/order', async (req, res) => {
+    await connectToDB()
     if (req.body.appSecret == null || req.body.appSecret == undefined || req.body.accessToken == null || req.body.accessToken == undefined) {
         res.status(400).send({
             status: 400,
@@ -482,6 +504,7 @@ app.post('/categories/order', async (req, res) => {
 
 const saveCategoryOrder = require('./Profile/saveCategoryOrder')
 app.post('/categories/saveOrder', async (req, res) => {
+    await connectToDB()
     if (req.body.appSecret == null || req.body.appSecret == undefined || req.body.accessToken == null || req.body.accessToken == undefined) {
         res.status(400).send({
             status: 400,
@@ -523,6 +546,7 @@ app.post('/categories/saveOrder', async (req, res) => {
 
 const searchPlaces = require('./Places/searchPlaces')
 app.post('/search/places', async (req, res) => {
+    await connectToDB()
     if (req.body.appSecret == null || req.body.appSecret == undefined || req.body.accessToken == null || req.body.accessToken == undefined) {
         res.status(400).send({
             status: 400,
@@ -580,6 +604,7 @@ app.post('/search/places', async (req, res) => {
 
 const searchSuggestions = require('./Places/searchSuggestions')
 app.post('/search/suggestions', async (req, res) => {
+    await connectToDB()
     if (req.body.appSecret == null || req.body.appSecret == undefined || req.body.accessToken == null || req.body.accessToken == undefined) {
         res.status(400).send({
             status: 400,
@@ -620,6 +645,7 @@ app.post('/search/suggestions', async (req, res) => {
 
 const addBookmark = require('./Places/addBookmark')
 app.post('/bookmarks/add', async (req, res) => {
+    await connectToDB()
     if (req.body.appSecret == null || req.body.appSecret == undefined || req.body.accessToken == null || req.body.accessToken == undefined) {
         res.status(400).send({
             status: 400,
@@ -660,6 +686,7 @@ app.post('/bookmarks/add', async (req, res) => {
 
 const removeBookmark = require('./Places/removeBookmark')
 app.post('/bookmarks/remove', async (req, res) => {
+    await connectToDB()
     if (req.body.appSecret == null || req.body.appSecret == undefined || req.body.accessToken == null || req.body.accessToken == undefined) {
         res.status(400).send({
             status: 400,
@@ -700,6 +727,7 @@ app.post('/bookmarks/remove', async (req, res) => {
 
 const rate = require('./Places/rate')
 app.post('/rate', async (req, res) => {
+    await connectToDB()
     if (req.body.appSecret == null || req.body.appSecret == undefined || req.body.accessToken == null || req.body.accessToken == undefined) {
         res.status(400).send({
             status: 400,
@@ -750,6 +778,7 @@ app.post('/rate', async (req, res) => {
 
 const like = require('./Reviews/like')
 app.post('/like', async (req, res) => {
+    await connectToDB()
     if (req.body.appSecret == null || req.body.appSecret == undefined || req.body.accessToken == null || req.body.accessToken == undefined) {
         res.status(400).send({
             status: 400,

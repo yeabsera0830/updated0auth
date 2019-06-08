@@ -1,5 +1,4 @@
 const User = require('../model/User')
-const connect = require('../config/auth').connect
 
 async function saveCategoryOrder(id, categoryOrder) {
     if (id == null) {
@@ -22,8 +21,6 @@ async function saveCategoryOrder(id, categoryOrder) {
             message: "Please send me exactly 13 catagories"
         }
     }
-    await connect()
-    await connect()
     var userID = id + ""
 
     const user = await User.findOne({ id: userID })

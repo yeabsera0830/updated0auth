@@ -1,5 +1,4 @@
 const User = require('../model/User')
-const connect = require('../config/auth').connect
 
 async function getCatagoryOrder(id) {
     if (id == null) {
@@ -8,8 +7,6 @@ async function getCatagoryOrder(id) {
             message: "Please insert an ID"
         }
     }
-    await connect()
-    await connect()
     var userID = id + ""
     const user = await User.findOne({ id: userID })
     if (user == null) {
