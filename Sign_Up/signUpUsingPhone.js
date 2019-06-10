@@ -67,7 +67,7 @@ async function signUpUsingPhoneNumber(phoneNumber, password) {
                 console.log(err)
                 return {
                     status: 400,
-                    message: "Could Not Sign Up User"
+                    message: "Could Not Add User"
                 }
             })
 }

@@ -1,6 +1,6 @@
 const PlaceSave = require('../model/Place')
 const connect = require('../config/auth').connect
-const Places = require('./Businesses')
+const Places = require('./Businesses').businesses
 
 async function addPlaces(Places) {
     await connect()
@@ -18,6 +18,7 @@ async function addPlaces(Places) {
         newPlace.placeType = Places[i].placeType
         newPlace.placeOverview = Places[i].placeOverview
         newPlace.placeLocation = Places[i].placeLocation   
+        newPlace.placeRating = Places[i].placeRating
         newPlace.placeRatings = Places[i].placeRatings
         newPlace.placeNumberOfRatings = Places[i].placeNumberOfRatings
         newPlace.placeProfilePicture = Places[i].placeProfilePicture

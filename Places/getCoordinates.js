@@ -3,12 +3,6 @@ const arrayObject = require('../__mocks__/Places')
 function getCoordinates(fetchedString) {
     fetchedString = fetchedString.trim()
     fetchedString = fetchedString.toLowerCase()
-    if (fetchedString == "") {
-        return {
-            status: 400,
-            message: "No location found with this address"
-        }
-    }
     var match = null
     var coordinates = {}
     var commaPartials = fetchedString.split(",")

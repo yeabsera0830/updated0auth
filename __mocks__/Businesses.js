@@ -32,44 +32,40 @@ function rand(max, min) {
     return Math.floor(Math.random() * (max - min + 1) ) + min
 }
 
-var startDate = new Date("2019-01-01 00:00:00")
-
-const datePicker = () => {
-    var yy = startDate.getFullYear()
-    var dd = startDate.getDate()
-    var mm = startDate.getMonth()
-    if (dd >= 27) {
-        dd = 1
-        mm += 1
-    } else {
-        dd += 2
+function addedOn() {
+    var count = rand(89, 0)
+    var day = 86400000
+    var days = 0
+    for (let i = 0; i < count; ++i) {
+        days += day
     }
-    startDate.setDate(dd)
-    startDate.setMonth(mm)
-    startDate.setFullYear(yy)
-    startDate.setHours(rand(23, 0))
-    startDate.setMinutes(rand(59, 0))
-    startDate.setSeconds(rand(59, 0))
-    return startDate
+    var today = new Date()
+    var epoch = today.getTime()
+    return (epoch - days)
 }
 
-function viewDatePicker(addedDate) {
+function getViews(addedOnDate) {
+    var count = rand(89, 0)
+    var day = 86400000
+    var days = 0
+    for (let i = 0; i < count; ++i) {
+        days += day
+    }
+    return (addedOnDate - days)
+}
+
+function viewDatePicker(addedOnDate) {
     const count = rand(13, 1)
-    var viewDates = []
+    var views = []
     var date = null
     for (let i = 0; i < count; ++i) {
-        date = new Date(addedDate)
-        date.setMonth(rand(1, 12))
-        date.setDate(rand(1, 30))
-        date.setHours(rand(0, 23))
-        date.setMinutes(rand(0, 59))
-        date.setSeconds(rand(0, 59))
-        viewDates.push(date)
+        viewTime = getViews(addedOnDate)
+        if (views.indexOf(viewTime) < 0) {
+            views.push(viewTime)
+        }
     }
-
-    return viewDates
+    return views
 }
-
 
 var businesses = []
 var j = null
@@ -89,8 +85,9 @@ for (let i = 0; i < Businesses.length; ++i) {
             latitude: null,
             longitude: null
         },
-        placeRatings: null,
-        placeNumberOfRatings: null,
+        placeRating: 0,
+        placeRatings: {},
+        placeNumberOfRatings: 0,
         placeProfilePicture: null,
         placeReviews: [],
         placePhotos: [],
@@ -115,8 +112,9 @@ for (let i = 0; i < Businesses.length; ++i) {
     }
     tempBusiness.placeOverview = overviews[catagories.indexOf(tempBusiness.placeType)]
     tempBusiness.placeLocation = Businesses[i].placeLocation
+    tempBusiness.placeRating = 0
     tempBusiness.placeRatings = []
-    tempBusiness.placeNumberOfRatings = tempBusiness.placeRatings.length
+    tempBusiness.placeNumberOfRatings = 0
     tempBusiness.placeProfilePicture = profilePictures[tempBusiness.placeType][rand(4, 0)]
     tempBusiness.placeReviews = Reviews(tempBusiness.placeID)
     j = 0
@@ -132,7 +130,7 @@ for (let i = 0; i < Businesses.length; ++i) {
         } else continue
     }
     tempBusiness.placeOwner = rand(Users.length, 1)
-    tempBusiness.placeAddedOn = "" + datePicker()
+    tempBusiness.placeAddedOn = addedOn()
     tempBusiness.placeViews = viewDatePicker(tempBusiness.placeAddedOn)
     while(true) {
         addedBy = rand(Users.length, 1)
@@ -145,5 +143,4 @@ for (let i = 0; i < Businesses.length; ++i) {
     businesses.push(tempBusiness)
 }
 
-
-module.exports = businesses
+module.exports = { businesses, getViews, viewDatePicker, addedOn }

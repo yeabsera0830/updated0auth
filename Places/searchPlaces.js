@@ -1,4 +1,6 @@
+//const Places = require('../__mocks__/Businesses')
 const Places = require('../model/Place')
+const connect = require('../config/auth').connect
 function calculateDistance(x1, y1, x2, y2) {
     return Math.round(Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2)) * 111000)
 }
@@ -32,8 +34,6 @@ function calculateDistance(x1, y1, x2, y2) {
 function checkErrors(latitude, longitude, filter) {
     if (latitude == null || typeof latitude != 'number') return false
     if (longitude == null || typeof longitude != 'number') return false
-
-    if (filter == null) return false
 
     if (filter['1'] != undefined) {
         if (filter['1'] > 13 || filter['1'] < 0 || typeof filter['1'] != 'number') return false
@@ -122,17 +122,15 @@ async function searchPlaces (latitude, longitude, filter) {
     var fetchedByPrice = []
     fetchedByLocation.forEach(place => {
         if (filter['3'] === 1) {
-            if (place.placePrice == 1) {
+            if (place.placePrice <= 3) {
                 fetchedByPrice.push(place)
             }
         } else if (filter['3'] === 2) {
-            if (place.placePrice == 2) {
+            if (place.placePrice <= 6) {
                 fetchedByPrice.push(place)
             }
         } else if (filter['3'] === 0) {
-            if (place.placePrice == 0) {
-                fetchedByPrice.push(place)
-            }
+            fetchedByPrice.push(place)
         }
     })
     var fetchedByName = []

@@ -1,4 +1,6 @@
 const Place = require('../model/Place')
+const User = require('../model/User')
+const connect = require('../config/auth').connect
 
 function calculateDistance(x1, y1, x2, y2) {
     return Math.round(Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2)) * 111000)
@@ -25,19 +27,28 @@ function sortBusinesses(venues) {
     return venues
 }
 
-async function fetchNewPlaces(latitude, longitude, start, finish) {
+async function fetchNewPlaces(userID, latitude, longitude, start, finish) {
     const Businesses = await Place.find({})
+    const user = await User.find({ id: userID })
+    const bookmarks = user[0].bookmarks
+    console.log(bookmarks)
+    var bookmarkedFlag = false
     var date = null
     var diff = 0
     const currDate = new Date()
     var placeAdded = {}
     var fetched = []
     Businesses.forEach(place => {
+        bookmarkedFlag = false
         placeAdded = {}
         date = new Date(place.placeAddedOn)
         diff = currDate.getMonth() - date.getMonth()
         if (diff <= 3) {
             placeAdded.id = place.placeID
+            if (bookmarks.indexOf(place.placeID) >= 0) {
+                bookmarkedFlag = true
+            }
+            placeAdded.bookmarked = bookmarkedFlag
             placeAdded.name = place.placeName
             placeAdded.overview = place.placeOverview
             placeAdded.profilePicture = place.placeProfilePicture
@@ -48,13 +59,15 @@ async function fetchNewPlaces(latitude, longitude, start, finish) {
             fetched.push(placeAdded)
         }
     })
+
     var sorted = sortBusinesses(fetched.reverse())
     var businessesReturned = sorted.slice(start, finish)
     return businessesReturned
 }
 
 
-async function getNewPlaces(latitude, longitude, start, finish) {
+async function getNewPlaces(userID, latitude, longitude, start, finish) {
+    await connect()
     if (typeof latitude == 'string' || typeof longitude == 'string' || latitude == null || longitude == null ) {
         return {
             status: 400,
@@ -95,7 +108,7 @@ async function getNewPlaces(latitude, longitude, start, finish) {
     var places = null
     var currDate = new Date()
     while(true) {
-        places = await fetchNewPlaces(latitude, longitude, start, finish, defaultMonth)
+        places = await fetchNewPlaces(userID, latitude, longitude, start, finish, defaultMonth)
         if (places.length >= (finish - start)) {
             return {
                 status: 200,

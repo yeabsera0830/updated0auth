@@ -12,15 +12,14 @@ const placeSchema = new mongoose.Schema({
         openingTime: {type: String, unique: false},
         closingTime: {type: String, unique: false}
     },
-    placeViews: [
-        {type: String}
-    ],
+    placeViews: [{type: Number, unique: false}],
     placeType: {type: String, unique: false},
     placeOverview: {type: String, unique: false},
     placeLocation: {
         latitude: {type: Number, unique: false},
         longitude: {type: Number, unique: false}
     },
+    placeRating: {type: Number, unique: false},
     placeRatings: [
         {
             userID: {type: Number, unique: false},
@@ -36,7 +35,7 @@ const placeSchema = new mongoose.Schema({
         {type: String, unique: false}
     ],
     placeOwner: {type: Number, unique: false},
-    placeAddedOn: {type: String, unique: false},
+    placeAddedOn: {type: Number, unique: false},
     placeAddedBy: {type: Number, unique: false}
 })
 

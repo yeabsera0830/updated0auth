@@ -1,5 +1,5 @@
 const getReadableAddress = require('../Places/getReadableAddress')
-jest.setTimeout(40000);
+jest.setTimeout(10000);
 
 it('"Passing" test for /address/readable', () => {
     const response = getReadableAddress(8.990436, 38.781865)

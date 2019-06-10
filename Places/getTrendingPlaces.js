@@ -1,4 +1,5 @@
 const Place = require('../model/Place')
+const connect = require('../config/auth').connect
 
 function swap(i, j, venues) {
     var temp = venues[i]
@@ -67,6 +68,9 @@ async function getTrendingPlaces (start, finish) {
         }
     }
 
+    await connect()
+    await connect()
+    
     const placesCount = await Place.countDocuments()
     if (finish >= placesCount) {
         return {

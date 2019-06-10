@@ -1,4 +1,5 @@
 const Place = require('../model/Place')
+const connect = require('../config/auth').connect
 
 async function getBusinessProfile(placeID) {
     if (placeID == null) {
@@ -19,7 +20,14 @@ async function getBusinessProfile(placeID) {
     var placeReturned = {}
     placeReturned.id = place.placeID
     placeReturned.name = place.placeName
-    placeReturned.price = place.placePrice
+    if (place.placePrice >= 1 && place.placePrice <= 3) {
+        placeReturned.price = 1
+    } else if (place.placePrice >= 4 && place.placePrice <= 6) {
+        placeReturned.price = 2
+    } else {
+        placeReturned.price = 0
+    }
+    
     placeReturned.category = place.placeCategory
     placeReturned.openDays = place.placeOpenDays
     placeReturned.openHours = place.placeOpenHours
