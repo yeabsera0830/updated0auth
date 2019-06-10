@@ -215,7 +215,7 @@ app.post('/places/new', async (req, res) => {
     const longitude = req.body.location.longitude
     const startIndex = req.body.startIndex
     const finishIndex = req.body.finishIndex
-    const response = await getNewPlaces(latitude, longitude, startIndex, finishIndex)
+    const response = await getNewPlaces(check.id, latitude, longitude, startIndex, finishIndex)
     res.status(response.status).send(response)
 })
 

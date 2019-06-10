@@ -31,7 +31,6 @@ async function fetchNewPlaces(userID, latitude, longitude, start, finish) {
     const Businesses = await Place.find({})
     const user = await User.find({ id: userID })
     const bookmarks = user[0].bookmarks
-    console.log(bookmarks)
     var bookmarkedFlag = false
     var date = null
     var diff = 0
