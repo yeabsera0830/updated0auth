@@ -44,6 +44,35 @@ function sortPlacesByScore(venues) {
 }
 
 async function getTrendingPlaces(startIndex, finishIndex) {
+    if (typeof startIndex != "number" || typeof finishIndex != "number") {
+        return {
+            status: 400,
+            message: "Unable to get places"
+        }
+    }
+
+    if (startIndex == null || finishIndex == null || startIndex < 0 || finishIndex < 1) {
+        return {
+            status: 400,
+            message: "Unable to get places"
+        }
+    }
+
+    if (startIndex >= finishIndex) {
+        return {
+            status: 400,
+            message: "Unable to get places"
+        }
+    }
+
+    const placesCount = await Place.countDocuments()
+    if (finishIndex >= placesCount) {
+        return {
+            status: 400,
+            message: "Request limit is up to " + placesCount + " places"
+        }
+    }
+
     var scores = []
     var Places = await Place.find({})
     Places.forEach(place => {
@@ -59,7 +88,10 @@ async function getTrendingPlaces(startIndex, finishIndex) {
         found = Places.find(venue => venue.placeID === place.id)
         sortedPlacesByScores.push(found)
     })
-    return sortedPlacesByScores.slice(startIndex, finishIndex)
+    return {
+        status: 200,
+        places: sortedPlacesByScores.slice(startIndex, finishIndex)
+    }
 }
 
 module.exports = getTrendingPlaces
