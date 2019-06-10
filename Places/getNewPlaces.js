@@ -54,7 +54,6 @@ async function fetchNewPlaces(userID, latitude, longitude, start, finish) {
             placeAdded.proximity = calculateDistance(latitude, longitude, place.placeLocation.latitude, place.placeLocation.longitude)
             placeAdded.rating = place.placeRating
             placeAdded.location = place.placeLocation
-            placeAdded.numberOfRatings = place.placeNumberOfRatings
             fetched.push(placeAdded)
         }
     })
