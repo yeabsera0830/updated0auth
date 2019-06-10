@@ -59,7 +59,6 @@ async function getTrendingPlaces(startIndex, finishIndex) {
         found = Places.find(venue => venue.placeID === place.id)
         sortedPlacesByScores.push(found)
     })
-    console.log(sortedScores.slice(startIndex, finishIndex))
     return sortedPlacesByScores.slice(startIndex, finishIndex)
 }
 

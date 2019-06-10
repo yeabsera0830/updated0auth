@@ -219,7 +219,7 @@ app.post('/places/new', async (req, res) => {
     res.status(response.status).send(response)
 })
 
-const getTrendingPlaces = require('./Places/getTrendingPlaces')
+const getTrendingPlaces = require('./Places/TrendingPlaces')
 app.post('/places/trending', async (req, res) => {
     const checkSecret = checkAppSecret(req.body.appSecret)
     if (checkSecret) {
