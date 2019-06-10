@@ -1,4 +1,6 @@
 const Place = require('../model/Place')
+const User = require('../model/User')
+const getRatingFormat = require('./getRatingFormat')
 
 function calculateTrendingScore(place) {
     const MILLIS_IN_WEEK = 1000*60*60*24*7
@@ -43,7 +45,7 @@ function sortPlacesByScore(venues) {
     return venues
 }
 
-async function getTrendingPlaces(startIndex, finishIndex) {
+async function getTrendingPlaces(userID, startIndex, finishIndex) {
     if (typeof startIndex != "number" || typeof finishIndex != "number") {
         return {
             status: 400,
@@ -75,6 +77,9 @@ async function getTrendingPlaces(startIndex, finishIndex) {
 
     var scores = []
     var Places = await Place.find({})
+    const user = await User.find({ id: userID })
+    const bookmarks = user[0].bookmarks
+    var bookmarkedFlag = false
     Places.forEach(place => {
         score = calculateTrendingScore(place)
         scores.push({
@@ -88,9 +93,26 @@ async function getTrendingPlaces(startIndex, finishIndex) {
         found = Places.find(venue => venue.placeID === place.id)
         sortedPlacesByScores.push(found)
     })
+    var fetched = []
+    for (let i = 0; i < sortedPlacesByScores.length; ++i) {
+        bookmarkedFlag = false
+        placeAdded = {}
+        placeAdded.id = sortedPlacesByScores[i].placeID
+        if (bookmarks.indexOf(sortedPlacesByScores[i].placeID) >= 0) {
+            bookmarkedFlag = true
+        }
+        placeAdded.bookmarked = bookmarkedFlag
+        placeAdded.name = sortedPlacesByScores[i].placeName
+        placeAdded.overview = sortedPlacesByScores[i].placeOverview
+        placeAdded.profilePicture = sortedPlacesByScores[i].placeProfilePicture
+        placeAdded.rating = getRatingFormat(sortedPlacesByScores[i].placeRatings)
+        placeAdded.location = sortedPlacesByScores[i].placeLocation
+        fetched.push(placeAdded)
+    }
+
     return {
         status: 200,
-        places: sortedPlacesByScores.slice(startIndex, finishIndex)
+        places: fetched.slice(startIndex, finishIndex)
     }
 }
 

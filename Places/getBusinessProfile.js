@@ -1,7 +1,7 @@
 const Place = require('../model/Place')
 const connect = require('../config/auth').connect
 
-async function getBusinessProfile(placeID) {
+async function getBusinessProfile(numberOfPhotos, numberOfReviews, placeID) {
     if (placeID == null) {
         return {
             status: 400,

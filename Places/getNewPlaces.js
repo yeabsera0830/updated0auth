@@ -1,6 +1,6 @@
 const Place = require('../model/Place')
 const User = require('../model/User')
-const connect = require('../config/auth').connect
+const getRatingFormat = require('./getRatingFormat')
 
 function calculateDistance(x1, y1, x2, y2) {
     return Math.round(Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2)) * 111000)
@@ -52,7 +52,7 @@ async function fetchNewPlaces(userID, latitude, longitude, start, finish) {
             placeAdded.overview = place.placeOverview
             placeAdded.profilePicture = place.placeProfilePicture
             placeAdded.proximity = calculateDistance(latitude, longitude, place.placeLocation.latitude, place.placeLocation.longitude)
-            placeAdded.rating = place.placeRating
+            placeAdded.rating = getRatingFormat(place.placeRatings)
             placeAdded.location = place.placeLocation
             fetched.push(placeAdded)
         }
@@ -65,7 +65,6 @@ async function fetchNewPlaces(userID, latitude, longitude, start, finish) {
 
 
 async function getNewPlaces(userID, latitude, longitude, start, finish) {
-    await connect()
     if (typeof latitude == 'string' || typeof longitude == 'string' || latitude == null || longitude == null ) {
         return {
             status: 400,
@@ -105,23 +104,12 @@ async function getNewPlaces(userID, latitude, longitude, start, finish) {
     var defaultMonth = 3
     var places = null
     var currDate = new Date()
-    while(true) {
-        places = await fetchNewPlaces(userID, latitude, longitude, start, finish, defaultMonth)
-        if (places.length >= (finish - start)) {
-            return {
-                status: 200,
-                places: places
-            }
+    places = await fetchNewPlaces(userID, latitude, longitude, start, finish)
+    if (places.length >= (finish - start)) {
+        return {
+            status: 200,
+            places: places
         }
-
-        if (defaultMonth >= currDate.getMonth() && currDate.getFullYear() <= 2019) {
-            return {
-                status: 400,
-                message: "Please try to widen your search index"
-            }
-        }
-
-        defaultMonth++
     }
 }
 

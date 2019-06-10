@@ -239,7 +239,7 @@ app.post('/places/trending', async (req, res) => {
     }
     const startIndex = req.body.startIndex
     const finishIndex = req.body.finishIndex
-    const response = await getTrendingPlaces(startIndex, finishIndex)
+    const response = await getTrendingPlaces(check.id, startIndex, finishIndex)
     res.status(response.status).send(response)
 })
 
