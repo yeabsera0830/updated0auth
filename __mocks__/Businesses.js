@@ -61,7 +61,10 @@ function viewDatePicker(addedOnDate) {
     for (let i = 0; i < count; ++i) {
         viewTime = getViews(addedOnDate)
         if (views.indexOf(viewTime) < 0) {
-            views.push(viewTime)
+            views.push({
+                viewer: rand(13, 0),
+                timestamp: viewTime
+            })
         }
     }
     return views

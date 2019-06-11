@@ -261,8 +261,27 @@ app.post('/search/place', async (req, res) => {
         })
         return
     }
+
+    if (req.body.numberOfPhotos == undefined || req.body.numberOfPhotos == null) {
+        res.status(400).send({
+            status: 400,
+            message: "Unable to get place"
+        })
+        return
+    }
+
+    if (req.body.numberOfReviews == undefined || req.body.numberOfReviews == null) {
+        res.status(400).send({
+            status: 400,
+            message: "Unable to get place"
+        })
+        return
+    }
+
     const placeID = req.body.id
-    const response = await getBusinessProfile(placeID)
+    const numberOfPhotos = req.body.numberOfPhotos
+    const numberOfReviews = req.body.numberOfReviews
+    const response = await getBusinessProfile(check.id, numberOfPhotos, numberOfReviews, placeID)
     res.status(response.status).send(response)
 })
 

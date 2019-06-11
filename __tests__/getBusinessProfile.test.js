@@ -1,10 +1,15 @@
 const getBusinessProfile = require('../Places/getBusinessProfile')
-jest.setTimeout(10000)
+const connect = require('../config/auth').connect
+jest.setTimeout(50000)
 
 it('"Passing" test for /search/place', async () => {
-    const response = await getBusinessProfile(12)
+    await connect()
+    const response = await getBusinessProfile(16, 3, 3, 3)
+    console.log(response)
     expect(response.status).toBe(200)
 })
+
+/*
 
 it('"Failing" test for /search/place', async () => {
     const response = await getBusinessProfile(1230)
@@ -21,3 +26,4 @@ it('"Failing" test for /search/place', async () => {
     const response = await getBusinessProfile()
     expect(response.status).toBe(400)
 })
+*/

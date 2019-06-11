@@ -12,7 +12,12 @@ const placeSchema = new mongoose.Schema({
         openingTime: {type: String, unique: false},
         closingTime: {type: String, unique: false}
     },
-    placeViews: [{type: Number, unique: false}],
+    placeViews: [
+        {
+            viewer: {type: Number, unique: false},
+            timestamp: {type: Number, unique: false}
+        }
+    ],
     placeType: {type: String, unique: false},
     placeOverview: {type: String, unique: false},
     placeLocation: {
