@@ -54,21 +54,6 @@ function getViews(addedOnDate) {
     return (addedOnDate - days)
 }
 
-function viewDatePicker(addedOnDate) {
-    const count = rand(13, 1)
-    var views = []
-    var date = null
-    for (let i = 0; i < count; ++i) {
-        viewTime = getViews(addedOnDate)
-        if (views.indexOf(viewTime) < 0) {
-            views.push({
-                viewer: rand(13, 0),
-                timestamp: viewTime
-            })
-        }
-    }
-    return views
-}
 
 var businesses = []
 var j = null
@@ -134,7 +119,7 @@ for (let i = 0; i < Businesses.length; ++i) {
     }
     tempBusiness.placeOwner = rand(Users.length, 1)
     tempBusiness.placeAddedOn = addedOn()
-    tempBusiness.placeViews = viewDatePicker(tempBusiness.placeAddedOn)
+    tempBusiness.placeViews = []
     while(true) {
         addedBy = rand(Users.length, 1)
         if (addedBy != tempBusiness.placeOwner) {
@@ -146,4 +131,4 @@ for (let i = 0; i < Businesses.length; ++i) {
     businesses.push(tempBusiness)
 }
 
-module.exports = { businesses, getViews, viewDatePicker, addedOn }
+module.exports = { businesses, getViews, addedOn }

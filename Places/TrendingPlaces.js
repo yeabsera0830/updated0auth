@@ -14,10 +14,10 @@ function calculateTrendingScore(place) {
     if (recentViews.length === 0) {
         return 0
     }
-    const MILLIS_IN_THIS_WEEK = new Date().getTime() - MILLIS_IN_WEEK
+    const MILLIS_IN_THIS_WEEK = NOW - MILLIS_IN_WEEK
     var numOfViews = 0
     recentViews.forEach(view => {
-        if (view < MILLIS_IN_THIS_WEEK) {
+        if (view.timestamp > MILLIS_IN_THIS_WEEK) {
             numOfViews++
         }
     })
@@ -109,7 +109,6 @@ async function getTrendingPlaces(userID, startIndex, finishIndex) {
         placeAdded.location = sortedPlacesByScores[i].placeLocation
         fetched.push(placeAdded)
     }
-
     return {
         status: 200,
         places: fetched.slice(startIndex, finishIndex)
