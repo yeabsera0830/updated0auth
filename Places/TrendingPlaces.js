@@ -105,7 +105,7 @@ async function getTrendingPlaces(userID, startIndex, finishIndex) {
         placeAdded.name = sortedPlacesByScores[i].placeName
         placeAdded.overview = sortedPlacesByScores[i].placeOverview
         placeAdded.profilePicture = sortedPlacesByScores[i].placeProfilePicture
-        placeAdded.rating = getRatingFormat(sortedPlacesByScores[i].placeRatings)
+        placeAdded.rating = sortedPlacesByScores[i].placeRating
         placeAdded.location = sortedPlacesByScores[i].placeLocation
         fetched.push(placeAdded)
     }

@@ -1,5 +1,6 @@
 const Place = require('../model/Place')
 const getRatingFormat = require('./getRatingFormat')
+const getReadableAddress = require('./getReadableAddress')
 
 async function getBusinessProfile(userID, numberOfPhotos, numberOfReviews, placeID) {
     if (placeID == null) {
@@ -16,19 +17,30 @@ async function getBusinessProfile(userID, numberOfPhotos, numberOfReviews, place
             message: "Could not find place"
         }
     }
-    
+    var addressFetched = getReadableAddress(placeReturned.location.latitude, placeReturned.location.longitude)
+    const user = await User.find({ id: userID })
+    const bookmarks = user[0].bookmarks
+    var bookmarkedFlag = false
     var placeReturned = {}
-    placeReturned.id = place.placeID 
-    placeReturned.name = place.placeName //
-    placeReturned.price = place.placePrice //
+    placeReturned.id = place.placeID
+    if (bookmarks.indexOf(place.placeID) >= 0) {
+        bookmarkedFlag = true
+    }
+    placeReturned.bookmarked = bookmarkedFlag
+    placeReturned.name = place.placeName
+    placeReturned.price = place.placePrice
     placeReturned.category = place.placeCategory
-    placeReturned.openDays = place.placeOpenDays //
-    placeReturned.openHours = place.placeOpenHours //
-    placeReturned.overview = place.placeOverview //
-    placeReturned.location = place.placeLocation //
-    placeReturned.rating = place.placeRating //
-    placeReturned.numberOfRatings = place.placeNumberOfRatings //
-    placeReturned.profilePicture = place.placeProfilePicture //
+    placeReturned.openDays = place.placeOpenDays
+    placeReturned.openHours = place.placeOpenHours
+    placeReturned.overview = place.placeOverview
+    placeReturned.location = place.placeLocation
+    placeReturned.rating = place.placeRating
+    placeReturned.numberOfRatings = place.placeNumberOfRatings
+    placeReturned.profilePicture = place.placeProfilePicture
+    placeReturned.address = {
+        major: addressFetched.address.major,
+        minor: addressFetched.address.minor
+    }
 
     views = place.placeViews
     var found = views.find(view => view.viewer === userID)
