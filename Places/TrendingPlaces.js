@@ -114,6 +114,7 @@ async function getTrendingPlaces(userID, startIndex, finishIndex) {
         status: 200,
         places: fetched.slice(startIndex, finishIndex)
     }
+    
 }
 
 module.exports = getTrendingPlaces
