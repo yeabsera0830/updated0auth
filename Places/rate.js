@@ -24,9 +24,17 @@ async function rate(placeID, userID, rating) {
     
     var ratings = foundPlace.placeRatings
     var numberOfRatings = foundPlace.placeNumberOfRatings
-    const userRatings = ratings.find(ratings => ratings.userID === userID)
+    var userRatings = ratings.find(rated => rated.userID === userID)
+    for (let i = 0; i < ratings.length; ++i) {
+        if (ratings[i].userID == userID) {
+            userRatings = ratings[i]
+            break
+        }
+    }
     var average
-    if (userRatings == null) {
+    if (userRatings == null && ratings[userID] == null) {
+        console.log("Here: " + ratings)
+        console.log("ID: " + userID)
         if (rating === 0) {
             return {
                 status: 200,
@@ -46,15 +54,21 @@ async function rate(placeID, userID, rating) {
         await Places.updateOne({ placeID: placeID }, { placeRatings: ratings, placeRating: average, placeNumberOfRatings: ratings.length})
     } else {
         for (let i = 0; i < ratings.length; ++i) {
-            if (ratings[i].userID === userID) {
-                if (rating === 0) {
+            if (ratings[i].userID == userID) {
+                if (rating == 0) {
+                    console.log("Trying")
                     ratings.splice(i, 1)
                     numberOfRatings--
                     let sum = 0
-                    for(let j = 0; j < ratings.length; ++j) {
-                        sum += ratings[j].numberOfRatings
+                    if (ratings.length == 0) {
+                        average = 0
+                    } else {
+                        for(let j = 0; j < ratings.length; ++j) {
+                            sum += ratings[j].numberOfRatings
+                        }
+                        average = sum / ratings.length
                     }
-                    average = sum / ratings.length
+                    console.log("Unrate: " + ratings)
                     await Places.updateOne({ placeID: placeID }, { placeRatings: ratings, placeRating: average, placeNumberOfRatings: ratings.length})
                     break
                 } else {
