@@ -19,12 +19,26 @@ async function getRating(userID, placeID) {
     return returned
 }
 
+async function getReviews(checkReview, placeID) {
+    var returned = []
+    if (checkReview != null) {
+        returned.push(checkReview)
+    }
+    const reviews = await Review.find({ reviewedPlace: placeID })
+    reviews.forEach(review => {
+        if (returned.indexOf(review.reviewID) == -1) {
+            returned.push(review.reviewID)
+        }
+    })
+    return returned
+}
+
 async function checkIfReviewed(userID, placeID) {
     var returned = false
     const found = await Review.findOne({ reviewedPlace: placeID })
     if (found != null) {
         if (found.reviewer === userID) {
-            returned = true
+            returned = found.reviewID
         }
     }
     return returned
@@ -66,7 +80,8 @@ async function getBusinessProfile(userID, numberOfPhotos, numberOfReviews, place
     placeReturned.numberOfRatings = place.placeNumberOfRatings
     placeReturned.profilePicture = place.placeProfilePicture
     placeReturned.myRating = await getRating(userID, placeID)
-    placeReturned.reviewedByMe = await checkIfReviewed(userID, placeID)
+    var checkReviewer = await checkIfReviewed(userID, placeID)
+    placeReturned.reviewedByMe = (checkReviewer != false)? true : false
     placeReturned.address = {
         major: addressFetched.address.major,
         minor: addressFetched.address.minor
@@ -119,4 +134,4 @@ async function getBusinessProfile(userID, numberOfPhotos, numberOfReviews, place
     }
 }
 
-module.exports = getBusinessProfile
+module.exports = { getBusinessProfile, getReviews }
