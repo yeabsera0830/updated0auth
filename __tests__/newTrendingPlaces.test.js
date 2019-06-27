@@ -4,6 +4,8 @@ jest.setTimeout(50000)
 
 it('should ', async () => {
     await connect()
+    await connect()
+    await connect()
     const response = await getTrendingPlaces(16, 0, 3)
     console.log(response)
 });

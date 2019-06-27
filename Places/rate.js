@@ -56,7 +56,6 @@ async function rate(placeID, userID, rating) {
         for (let i = 0; i < ratings.length; ++i) {
             if (ratings[i].userID == userID) {
                 if (rating == 0) {
-                    console.log("Trying")
                     ratings.splice(i, 1)
                     numberOfRatings--
                     let sum = 0

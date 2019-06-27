@@ -205,7 +205,6 @@ function getSuggestions(fetchedString) {
         }
     }
 
-
     return {
         status: 200,
         suggestions: places

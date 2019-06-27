@@ -11,7 +11,7 @@ const checkAccessToken = require('./permissions/checkAccessToken')
 
 app.use(express.json())
 
-const port = process.env.PORT || 8082
+const port = process.env.PORT || 8090
 
 app.listen(port, () => console.log("Server Running on *:" + port))
 
