@@ -1,12 +1,16 @@
 const getBusinessProfile = require('../Places/getBusinessProfile')
 const connect = require('../config/auth').connect
+const Place = require('../model/Place')
+
 jest.setTimeout(50000)
 
 it('"Passing" test for /search/place', async () => {
     await connect()
-    const response = await getBusinessProfile(16, 3, 3, 3)
+    await connect()
+    await connect()
+    const response = await getBusinessProfile(16, 3, 3, 1)
     console.log(response)
-    expect(response.status).toBe(200)
+    expect(response.profile.myRating).toBe(3)
 })
 
 /*

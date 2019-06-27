@@ -1,6 +1,35 @@
 const Place = require('../model/Place')
+const User = require('../model/User')
+const Review = require('../model/Review')
 const getRatingFormat = require('./getRatingFormat')
 const getReadableAddress = require('./getReadableAddress')
+/*
+    add reviewedByMe
+*/
+
+async function getRating(userID, placeID) {
+    const found = await Place.findOne({ placeID: placeID })
+    const ratings = found.placeRatings
+    var returned = 0
+    ratings.forEach(rating => {
+        if (rating.userID === userID) {
+            returned = rating.numberOfRatings
+        }
+    })
+    return returned
+}
+
+async function checkIfReviewed(userID, placeID) {
+    var returned = false
+    const found = await Review.findOne({ reviewedPlace: placeID })
+    if (found != null) {
+        if (found.reviewer === userID) {
+            returned = true
+        }
+    }
+    return returned
+}
+
 
 async function getBusinessProfile(userID, numberOfPhotos, numberOfReviews, placeID) {
     if (placeID == null) {
@@ -17,12 +46,11 @@ async function getBusinessProfile(userID, numberOfPhotos, numberOfReviews, place
             message: "Could not find place"
         }
     }
-    var addressFetched = getReadableAddress(placeReturned.location.latitude, placeReturned.location.longitude)
+    var addressFetched = getReadableAddress(place.placeLocation.latitude, place.placeLocation.longitude)
     const user = await User.find({ id: userID })
     const bookmarks = user[0].bookmarks
     var bookmarkedFlag = false
     var placeReturned = {}
-    placeReturned.id = place.placeID
     if (bookmarks.indexOf(place.placeID) >= 0) {
         bookmarkedFlag = true
     }
@@ -37,6 +65,8 @@ async function getBusinessProfile(userID, numberOfPhotos, numberOfReviews, place
     placeReturned.rating = place.placeRating
     placeReturned.numberOfRatings = place.placeNumberOfRatings
     placeReturned.profilePicture = place.placeProfilePicture
+    placeReturned.myRating = await getRating(userID, placeID)
+    placeReturned.reviewedByMe = await checkIfReviewed(userID, placeID)
     placeReturned.address = {
         major: addressFetched.address.major,
         minor: addressFetched.address.minor
