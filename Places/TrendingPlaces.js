@@ -71,7 +71,7 @@ async function getTrendingPlaces(userID, startIndex, finishIndex) {
     if (finishIndex >= placesCount) {
         return {
             status: 400,
-            message: "Request limit is up to " + placesCount + " places"
+            places: []
         }
     }
 
