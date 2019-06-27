@@ -527,3 +527,34 @@ app.post('/review', async (req, res) => {
     const response = await getReview(id, check.id)
     res.status(response.status).send(response)
 })
+
+const addReview = require('./Reviews/addReview')
+app.post('/review/add', async (req, res) => {
+    const checkSecret = checkAppSecret(req.body.appSecret)
+    if (checkSecret) {
+        res.status(400).send({
+            status: 400,
+            message: 'Invalid Request'
+        })
+        return
+    }
+    const check = await checkAccessToken(req.body.accessToken)
+    if (check == null) {
+        res.status(400).send({
+            status: 400,
+            message: "Unable to get place"
+        })
+        return
+    }
+    if (req.body.id == undefined || req.body.text == undefined) {
+        res.status(400).send({
+            status: 400,
+            message: "Please specify id and text"
+        })
+    }
+    const id = req.body.id
+    const text = req.body.text
+    
+    const response = await addReview(check.id, id, text)
+    res.status(response.status).send(response)
+})
