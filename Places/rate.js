@@ -1,5 +1,18 @@
 const Places = require('../model/Place')
 
+function calculate(ratings) {
+    var freq = ratings.length
+    var sum = 0
+    ratings.forEach(rating => {
+        sum += rating.numberOfRatings
+    })
+    return {
+        value: ( sum / freq ),
+        numberOfRatings: freq
+    }
+}
+
+
 async function rate(placeID, userID, rating) {
     if (placeID === null || typeof placeID != 'number') {
         return {
@@ -23,70 +36,30 @@ async function rate(placeID, userID, rating) {
     }
     
     var ratings = foundPlace.placeRatings
-    var numberOfRatings = foundPlace.placeNumberOfRatings
-    var userRatings = ratings.find(rated => rated.userID === userID)
-    for (let i = 0; i < ratings.length; ++i) {
-        if (ratings[i].userID == userID) {
-            userRatings = ratings[i]
-            break
+    var ratedBefore = false
+    var i = 0
+    var index
+    ratings.forEach(item => {
+        if (item.userID == userID) {
+            ratedBefore = true
+            index = i
         }
-    }
-    var average
-    if (userRatings == null && ratings[userID] == null) {
-        console.log("Here: " + ratings)
-        console.log("ID: " + userID)
-        if (rating === 0) {
-            return {
-                status: 200,
-                newRating: rating
-            }
-        }
-        ratings[ratings.length] = {
+        ++i
+    })
+
+    if (ratedBefore) {
+        ratings[index].numberOfRatings = rating
+    } else {
+        ratings.push({
             userID: userID,
             numberOfRatings: rating
-        }
-        numberOfRatings++
-        let sum = 0
-        for(let j = 0; j < ratings.length; ++j) {
-            sum += ratings[j].numberOfRatings
-        }
-        average = sum / ratings.length
-        await Places.updateOne({ placeID: placeID }, { placeRatings: ratings, placeRating: average, placeNumberOfRatings: ratings.length})
-    } else {
-        for (let i = 0; i < ratings.length; ++i) {
-            if (ratings[i].userID == userID) {
-                if (rating == 0) {
-                    ratings.splice(i, 1)
-                    numberOfRatings--
-                    let sum = 0
-                    if (ratings.length == 0) {
-                        average = 0
-                    } else {
-                        for(let j = 0; j < ratings.length; ++j) {
-                            sum += ratings[j].numberOfRatings
-                        }
-                        average = sum / ratings.length
-                    }
-                    console.log("Unrate: " + ratings)
-                    await Places.updateOne({ placeID: placeID }, { placeRatings: ratings, placeRating: average, placeNumberOfRatings: ratings.length})
-                    break
-                } else {
-                    ratings[i].numberOfRatings = rating
-                    let sum = 0
-                    for(let j = 0; j < ratings.length; ++j) {
-                        sum += ratings[j].numberOfRatings
-                    }
-                    average = sum / ratings.length
-                    await Places.updateOne({ placeID: placeID }, { placeRatings: ratings, placeRating: average, placeNumberOfRatings: ratings.length})
-                    break
-                }
-            }
-        }
+        })
     }
 
+    await Places.updateOne({ placeID: placeID }, { placeRatings: ratings, placeRating: calculate(ratings).value })
     return {
         status: 200,
-        newRating: average
+        newRating: calculate(ratings)
     }
 }
 
