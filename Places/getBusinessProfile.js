@@ -21,7 +21,7 @@ async function getRating(userID, placeID) {
 
 async function getReviews(checkReview, placeID) {
     var returned = []
-    if (checkReview != null) {
+    if (checkReview) {
         returned.push(checkReview)
     }
     const reviews = await Review.find({ reviewedPlace: placeID })
@@ -82,6 +82,7 @@ async function getBusinessProfile(userID, numberOfPhotos, numberOfReviews, place
     placeReturned.myRating = await getRating(userID, placeID)
     var checkReviewer = await checkIfReviewed(userID, placeID)
     placeReturned.reviewedByMe = (checkReviewer != false)? true : false
+    placeReturned.reviews = await getReviews(checkReviewer, placeID)
     placeReturned.address = {
         major: addressFetched.address.major,
         minor: addressFetched.address.minor
@@ -103,15 +104,6 @@ async function getBusinessProfile(userID, numberOfPhotos, numberOfReviews, place
     }
 
     await Place.updateOne({ placeID: placeID }, { placeViews: views })
-
-    if (place.placeReviews.length > numberOfReviews) {
-        placeReturned.reviews = place.placeReviews.slice(0, numberOfReviews)
-    } else if (numberOfReviews < 0) {
-        placeReturned.reviews = place.placeReviews
-    }
-    else {
-        placeReturned.reviews = place.placeReviews
-    }
     
     if (place.placePhotos.length > numberOfPhotos) {
         placeReturned.photos = place.placePhotos.slice(0, numberOfPhotos)
@@ -134,4 +126,4 @@ async function getBusinessProfile(userID, numberOfPhotos, numberOfReviews, place
     }
 }
 
-module.exports = { getBusinessProfile, getReviews }
+module.exports = getBusinessProfile
