@@ -504,3 +504,26 @@ app.post('/search/person', async (req, res) => {
     const response = await searchPerson(id)
     res.status(response.status).send(response)
 })
+
+const getReview = require('./Reviews/getReview')
+app.post('/review', async (req, res) => {
+    const checkSecret = checkAppSecret(req.body.appSecret)
+    if (checkSecret) {
+        res.status(400).send({
+            status: 400,
+            message: 'Invalid Request'
+        })
+        return
+    }
+    const check = await checkAccessToken(req.body.accessToken)
+    if (check == null) {
+        res.status(400).send({
+            status: 400,
+            message: "Unable to get place"
+        })
+        return
+    }
+    const id = req.body.id
+    const response = await getReview(id, check.id)
+    res.status(response.status).send(response)
+})
