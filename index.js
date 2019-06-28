@@ -459,7 +459,7 @@ app.post('/rate', async (req, res) => {
 })
 
 const like = require('./Reviews/like')
-app.post('/like', async (req, res) => {
+app.post('/review/like', async (req, res) => {
     const checkSecret = checkAppSecret(req.body.appSecret)
     if (checkSecret) {
         res.status(400).send({
