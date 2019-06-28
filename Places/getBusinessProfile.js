@@ -115,6 +115,8 @@ async function getBusinessProfile(userID, numberOfPhotos, numberOfReviews, place
 
     if (numberOfPhotos > 0 && numberOfPhotos <=  place.placePhotos.length) {
         placeReturned.photos = place.placePhotos.slice(0, numberOfPhotos)
+    } else if (numberOfPhotos === 0) {
+        placeReturned.photos = []
     } else if (numberOfPhotos < 0) {
         placeReturned.photos = place.placePhotos
     } else {

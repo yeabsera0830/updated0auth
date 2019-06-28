@@ -18,7 +18,7 @@ it('"Passing" test for /search/place', async () => {
     await connect()
     await connect()
     await connect()
-    const response = await getBusinessProfile(1, -3, 1, 25)
+    const response = await getBusinessProfile(1, 0, 1, 25)
     console.log(response)
     expect(response.profile.photos.length).toBe(3)
 })
