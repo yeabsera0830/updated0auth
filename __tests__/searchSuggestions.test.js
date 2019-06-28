@@ -6,5 +6,6 @@ it('"Passing" test for /search/suggestions', async () => {
     await connect()
     await connect()
     const response = await searchSuggestions('ka')
+    console.log(response)
     expect(response.status).toBe(200)
 });

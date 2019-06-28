@@ -62,15 +62,15 @@ async function getTrendingPlaces(userID, startIndex, finishIndex) {
 
     if (startIndex >= finishIndex) {
         return {
-            status: 400,
-            message: "Unable to get places"
+            status: 200,
+            places: []
         }
     }
 
     const placesCount = await Place.countDocuments()
     if (finishIndex >= placesCount) {
         return {
-            status: 400,
+            status: 200,
             places: []
         }
     }
