@@ -42,11 +42,13 @@ async function getReviews(checkReview, placeID, numberOfReviews) {
 
 async function checkIfReviewed(userID, placeID) {
     var returned = false
-    const found = await Review.findOne({ reviewedPlace: placeID })
+    const found = await Review.find({ reviewedPlace: placeID })
     if (found != null) {
-        if (found.reviewer === userID) {
-            returned = found.reviewID
-        }
+        found.forEach(review => {
+            if (review.reviewer === userID) {
+                returned = review.reviewID
+            }
+        })
     }
     return returned
 }
