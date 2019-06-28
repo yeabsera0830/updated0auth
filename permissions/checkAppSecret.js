@@ -1,5 +1,5 @@
 function checkAppSecret(appSecret) {
-    if (appSecret == "12345") {
+    if (appSecret == "JjkJB88fFtD9UmHjfazAkfvFsaf3pxkR") {
         return false
     } else {
         return true
