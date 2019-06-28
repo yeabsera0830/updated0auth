@@ -101,7 +101,7 @@ async function searchPlaces (latitude, longitude, filter, userID) {
         }
     }
     var fetchedByCategory = []
-    if (typeof filter['1'] == 'undefined' || filter['1'] != 1) {
+    if (typeof filter['1'] == 'undefined') {
         fetchedByCategory = fetchedPlaces
     } else {
         fetchedPlaces.forEach(place => {
@@ -112,7 +112,7 @@ async function searchPlaces (latitude, longitude, filter, userID) {
     }
     
     var fetchedByLocation = []
-    if (typeof filter['2'] == 'undefined') {
+    if (typeof filter['2'] == 'undefined' || filter['2'] < 1 || filter['2'] > 2) {
         fetchedByLocation = fetchedByCategory
     } else {
         fetchedByCategory.forEach(place => {
@@ -132,7 +132,7 @@ async function searchPlaces (latitude, longitude, filter, userID) {
     }
 
     var fetchedByPrice = []
-    if (typeof filter['3'] == 'undefined') {
+    if (typeof filter['3'] == 'undefined' || filter['3'] > 2 || filter['3'] < 1) {
         fetchedByPrice = fetchedByLocation
     } else {
         fetchedByLocation.forEach(place => {
