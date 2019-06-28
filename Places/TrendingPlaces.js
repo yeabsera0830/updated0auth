@@ -68,7 +68,7 @@ async function getTrendingPlaces(userID, startIndex, finishIndex) {
 
     const placesCount = await Place.countDocuments()
     if (finishIndex >= placesCount) {
-        finishIndex = placesCount - 1
+        finishIndex = placesCount
     }
 
     var scores = []
