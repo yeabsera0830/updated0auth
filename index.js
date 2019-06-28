@@ -345,7 +345,7 @@ app.post('/search/places', async (req, res) => {
     const check = await checkAccessToken(req.body.accessToken)
     if (check == null) {
         res.status(400).send({
-            status: 400,
+            status: 400, 
             message: "Unable to get place"
         })
         return
