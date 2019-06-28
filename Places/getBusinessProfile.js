@@ -23,15 +23,20 @@ async function getReviews(checkReview, placeID, numberOfReviews) {
     }
     const reviews = await Review.find({ reviewedPlace: placeID })
     reviews.forEach(review => {
-        if (returned.indexOf(review.reviewID) == -1) {
+        if (returned.indexOf(review.reviewID) === -1) {
             returned.push(review.reviewID)
         }
     })
 
     if (numberOfReviews < 0) {
         return returned
+    } else if (numberOfReviews === 0) {
+        return []
+    } else if (reviews.length >= numberOfReviews) {
+        returned = returned.splice(0, numberOfReviews)
+        return returned
     } else {
-        return returned.slice(0, numberOfReviews)
+        return returned
     }
 }
 
@@ -66,7 +71,10 @@ async function getBusinessProfile(userID, numberOfPhotos, numberOfReviews, place
     const user = await User.find({ id: userID })
     const bookmarks = user[0].bookmarks
     var bookmarkedFlag = false
-    var placeReturned = {}
+    var placeReturned = {
+        photos: [],
+        reviews: []
+    }
     if (bookmarks.indexOf(place.placeID) >= 0) {
         bookmarkedFlag = true
     }
@@ -105,7 +113,7 @@ async function getBusinessProfile(userID, numberOfPhotos, numberOfReviews, place
         }
     }
 
-    if (numberOfPhotos > 0 && numberOfPhotos <=  place.placePhotos) {
+    if (numberOfPhotos > 0 && numberOfPhotos <=  place.placePhotos.length) {
         placeReturned.photos = place.placePhotos.slice(0, numberOfPhotos)
     } else if (numberOfPhotos < 0) {
         placeReturned.photos = place.placePhotos
