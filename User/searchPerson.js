@@ -14,7 +14,7 @@ async function searchPerson(id) {
             status: 200,
             person: {
                 name: "No Name",
-                profilePicture: found.profilePicture
+                profilePicture: "https://images.unsplash.com/photo-1515191107209-c28698631303?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=80"
             }
         }
     }
