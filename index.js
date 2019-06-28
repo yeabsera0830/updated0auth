@@ -165,7 +165,14 @@ app.post('/address/suggestions', (req, res) => {
         return
     }
     const partialAddress = req.body.partialAddress
-    const response = getSuggestions(partialAddress)
+    if (req.body.numberOfSuggestions == undefined) {
+        res.status(400).send({
+            status: 400,
+            message: "Please enter amount"
+        })
+    }
+    const numberOfSuggestions = req.body.numberOfSuggestions
+    const response = getSuggestions(partialAddress, numberOfSuggestions)
     res.status(response.status).send(response)
 })
 

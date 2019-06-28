@@ -24,7 +24,7 @@ function checkPlace(arr, place) {
     }
 }
 
-function getSuggestions(fetchedString) {
+function getSuggestions(fetchedString, numberOfSuggestions) {
     if (fetchedString.trim() == "") {
         return {
             status: 200,
@@ -205,9 +205,16 @@ function getSuggestions(fetchedString) {
         }
     }
 
-    return {
-        status: 200,
-        suggestions: places
+    if (places.length > numberOfSuggestions) {
+        return {
+            status: 200,
+            suggestions: places.splice(0, numberOfSuggestions)
+        }
+    } else {
+        return {
+            status: 200,
+            suggestions: places
+        }
     }
 }
 
