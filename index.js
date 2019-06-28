@@ -600,7 +600,6 @@ app.post('/review/add', async (req, res) => {
     }
     const id = req.body.id
     const text = req.body.text
-    
     const response = await addReview(check.id, id, text)
     res.status(response.status).send(response)
 })
