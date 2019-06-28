@@ -364,10 +364,16 @@ app.post('/search/places', async (req, res) => {
         })
         return
     }
+
+    var filters = null
+    if (typeof req.body.filters == 'undefined') {
+        filters = null
+    } else {
+        filters = req.body.filters
+    }
     const latitude = req.body.location.latitude
     const longitude = req.body.location.longitude
-    const filters = req.body.filters
-    const response = await searchPlaces(latitude, longitude, filters)
+    const response = await searchPlaces(latitude, longitude, filters, check.id)
     res.status(response.status).send(response)
 })
 

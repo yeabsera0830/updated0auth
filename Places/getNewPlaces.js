@@ -52,7 +52,7 @@ async function fetchNewPlaces(userID, latitude, longitude, start, finish) {
             placeAdded.overview = place.placeOverview
             placeAdded.profilePicture = place.placeProfilePicture
             placeAdded.proximity = calculateDistance(latitude, longitude, place.placeLocation.latitude, place.placeLocation.longitude)
-            placeAdded.rating = getRatingFormat(place.placeRatings)
+            placeAdded.rating = place.placeRating
             placeAdded.location = place.placeLocation
             fetched.push(placeAdded)
         }
