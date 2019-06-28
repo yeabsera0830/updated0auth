@@ -1,6 +1,6 @@
 const Places = require('../model/Place')
 
-async function searchSuggestions(partialName) {
+async function searchSuggestions(partialName, numberOfSuggestions) {
     if (partialName == null) {
         return {
             status: 400,
@@ -29,9 +29,19 @@ async function searchSuggestions(partialName) {
             })
         }
     })
-    return {
-        status: 200,
-        suggestions: placesMatched
+
+    if (placesMatched.length >= numberOfSuggestions) {
+        console.log("!")
+        return {
+            status: 200,
+            suggestions: placesMatched.splice(0, numberOfSuggestions)
+        }
+    } else {
+        console.log("@")
+        return {
+            status: 200,
+            suggestions: placesMatched
+        }
     }
 }
 

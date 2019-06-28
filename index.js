@@ -385,12 +385,21 @@ app.post('/search/suggestions', async (req, res) => {
     if (check == null) {
         res.status(400).send({
             status: 400,
-            message: "Unable to get place"
+            message: "Unable to get places"
         })
         return
     }
+
+    if (req.body.numberOfSuggestions == undefined) {
+        res.status(400).send({
+            status: 400,
+            message: "Unable to get places"
+        })
+    }
+
     const partialName = req.body.partialName
-    const response = await searchSuggestions(partialName)
+    const numberOfSuggestions = req.body.numberOfSuggestions
+    const response = await searchSuggestions(partialName, numberOfSuggestions)
     res.status(response.status).send(response)
 })
 

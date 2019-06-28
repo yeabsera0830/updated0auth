@@ -5,7 +5,7 @@ jest.setTimeout(20000)
 it('"Passing" test for /search/suggestions', async () => {
     await connect()
     await connect()
-    const response = await searchSuggestions('ka')
+    const response = await searchSuggestions('k', 2)
     console.log(response)
-    expect(response.status).toBe(200)
+    expect(response.suggestions.length).toBe(2)
 });
