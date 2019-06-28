@@ -24,8 +24,8 @@ const catagoryValue = {
 }
 
 var defaultOpenHours = {
-    openingTime: "2: 30",
-    closingTime: "12: 00"
+    openingTime: "2:30",
+    closingTime: "12:00"
 }
 
 function rand(max, min) {
@@ -89,8 +89,8 @@ for (let i = 0; i < Businesses.length; ++i) {
     tempBusiness.placeCategory = catagoryValue[Businesses[i].placeType]
     tempBusiness.placeOpenDays = defaultOpenDays
     tempBusiness.placeOpenHours = {
-        openingTime: "2: 30",
-        closingTime: "12: 00"
+        openingTime: "2:30",
+        closingTime: "12:00"
     }
     k = rand(Users.length, 1);
     j = 0

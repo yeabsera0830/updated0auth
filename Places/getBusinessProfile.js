@@ -19,7 +19,7 @@ async function getRating(userID, placeID) {
     return returned
 }
 
-async function getReviews(checkReview, placeID) {
+async function getReviews(checkReview, placeID, numberOfReviews) {
     var returned = []
     if (checkReview) {
         returned.push(checkReview)
@@ -30,7 +30,12 @@ async function getReviews(checkReview, placeID) {
             returned.push(review.reviewID)
         }
     })
-    return returned
+
+    if (numberOfReviews < 0) {
+        return returned
+    } else {
+        return returned.slice(0, numberOfReviews)
+    }
 }
 
 async function checkIfReviewed(userID, placeID) {
@@ -82,7 +87,7 @@ async function getBusinessProfile(userID, numberOfPhotos, numberOfReviews, place
     placeReturned.myRating = await getRating(userID, placeID)
     var checkReviewer = await checkIfReviewed(userID, placeID)
     placeReturned.reviewedByMe = (checkReviewer != false)? true : false
-    placeReturned.reviews = await getReviews(checkReviewer, placeID)
+    placeReturned.reviews = await getReviews(checkReviewer, placeID, numberOfReviews)
     placeReturned.address = {
         major: addressFetched.address.major,
         minor: addressFetched.address.minor
@@ -103,15 +108,15 @@ async function getBusinessProfile(userID, numberOfPhotos, numberOfReviews, place
         }
     }
 
-    await Place.updateOne({ placeID: placeID }, { placeViews: views })
-    
-    if (place.placePhotos.length > numberOfPhotos) {
+    if (numberOfPhotos > 0 && numberOfPhotos <=  place.placePhotos) {
         placeReturned.photos = place.placePhotos.slice(0, numberOfPhotos)
     } else if (numberOfPhotos < 0) {
         placeReturned.photos = place.placePhotos
     } else {
         placeReturned.photos = place.placePhotos
     } 
+
+    await Place.updateOne({ placeID: placeID }, { placeViews: views })
 
     if (place != null) {
         return {
