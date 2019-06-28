@@ -7,9 +7,10 @@ it('"Passing" test for /rate', async () => {
     await connect()
     await connect()
     await connect()
-    const response = await rate(1, 16, 3)
+    const response = await rate(15, 14, 0)
+    console.log(response)
     const compare = await Place.findOne({ placeID: 1 })
-    expect(response.value).toBe(compare.placeRating)
+    expect(response.newRating.numberOfRatings).toBe(0)
 })
 
 it('"Passing" test for /rate', async () => {

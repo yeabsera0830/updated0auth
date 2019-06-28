@@ -6,15 +6,21 @@ function calculate(ratings) {
     ratings.forEach(rating => {
         sum += rating.numberOfRatings
     })
+    var average
+    if (freq === 0) {
+        average = 0
+    } else {
+        average = sum / freq
+    }
     return {
-        value: ( sum / freq ),
+        value: average,
         numberOfRatings: freq
     }
 }
 
 
 async function rate(placeID, userID, rating) {
-    if (placeID === null || typeof placeID != 'number') {
+    if (placeID == null) {
         return {
             status: 400,
             message: "Could not rate place"
@@ -34,7 +40,7 @@ async function rate(placeID, userID, rating) {
             message: "Could not rate place"
         }
     }
-    
+
     var ratings = foundPlace.placeRatings
     var ratedBefore = false
     var i = 0
@@ -48,15 +54,22 @@ async function rate(placeID, userID, rating) {
     })
 
     if (ratedBefore) {
-        ratings[index].numberOfRatings = rating
+        if (rating == 0) {
+            ratings.splice(index, 1)
+        } else {
+            ratings[index].numberOfRatings = rating
+        }
     } else {
-        ratings.push({
-            userID: userID,
-            numberOfRatings: rating
-        })
+        if (rating != 0) {
+            ratings.push({
+                userID: userID,
+                numberOfRatings: rating
+            })
+        }
     }
+    console.log("HERE")
 
-    await Places.updateOne({ placeID: placeID }, { placeRatings: ratings, placeRating: calculate(ratings).value })
+    await Places.updateOne({ placeID: placeID }, { placeRatings: ratings, placeRating: calculate(ratings).value }).then(res => res).catch(err => console.log(err))
     return {
         status: 200,
         newRating: calculate(ratings)
