@@ -504,6 +504,30 @@ app.post('/review/like', async (req, res) => {
     res.status(response.status).send(response)
 })
 
+const unlike = require('./Reviews/unlike')
+app.post('/review/unlike', async (req, res) => {
+    const checkSecret = checkAppSecret(req.body.appSecret)
+    if (checkSecret) {
+        res.status(400).send({
+            status: 400,
+            message: 'Invalid Request'
+        })
+        return
+    }
+    const check = await checkAccessToken(req.body.accessToken)
+    if (check == null) {
+        res.status(400).send({
+            status: 400,
+            message: "Unable to get place"
+        })
+        return
+    }
+    const reviewID = req.body.id
+    const userID = check.id
+    const response = await unlike(reviewID, parseInt(userID))
+    res.status(response.status).send(response)
+})
+
 const searchPerson = require('./User/searchPerson')
 app.post('/search/person', async (req, res) => {
     const checkSecret = checkAppSecret(req.body.appSecret)
