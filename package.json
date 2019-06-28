@@ -19,7 +19,7 @@
     "mocha": "^6.1.4"
   },
   "dependencies": {
-    "axios": "^0.18.0",
+    "axios": "^0.19.0",
     "bcryptjs": "^2.4.3",
     "express": "^4.16.4",
     "fb-test-users": "^0.2.1",
