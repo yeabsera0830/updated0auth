@@ -101,7 +101,7 @@ async function searchPlaces (latitude, longitude, filter, userID) {
         }
     }
     var fetchedByCategory = []
-    if (typeof filter['1'] == 'undefined') {
+    if (typeof filter['1'] == 'undefined' || filter['1'] != 1) {
         fetchedByCategory = fetchedPlaces
     } else {
         fetchedPlaces.forEach(place => {
@@ -125,7 +125,7 @@ async function searchPlaces (latitude, longitude, filter, userID) {
                 if (distance < NOT_SO_FAR) {
                     fetchedByLocation.push(place)
                 }
-            } else if (filter['2'] === 0) {
+            } else {
                 fetchedByLocation.push(place)
             }
         })
@@ -144,7 +144,7 @@ async function searchPlaces (latitude, longitude, filter, userID) {
                 if (place.placePrice === 2) {
                     fetchedByPrice.push(place)
                 }
-            } else if (filter['3'] === 0) {
+            } else {
                 fetchedByPrice.push(place)
             }
         })
