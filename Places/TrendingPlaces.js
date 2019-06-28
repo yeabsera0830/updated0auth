@@ -1,6 +1,5 @@
 const Place = require('../model/Place')
 const User = require('../model/User')
-const getRatingFormat = require('./getRatingFormat')
 
 function calculateTrendingScore(place) {
     const MILLIS_IN_WEEK = 1000*60*60*24*7
@@ -69,10 +68,7 @@ async function getTrendingPlaces(userID, startIndex, finishIndex) {
 
     const placesCount = await Place.countDocuments()
     if (finishIndex >= placesCount) {
-        return {
-            status: 200,
-            places: []
-        }
+        finishIndex = placesCount - 1
     }
 
     var scores = []
@@ -109,7 +105,6 @@ async function getTrendingPlaces(userID, startIndex, finishIndex) {
         placeAdded.location = sortedPlacesByScores[i].placeLocation
         fetched.push(placeAdded)
     }
-    
     return {
         status: 200,
         places: fetched.slice(startIndex, finishIndex)
