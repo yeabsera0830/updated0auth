@@ -28,7 +28,7 @@ async function unlike(reviewID, userID) {
     await Reviews.updateOne({ reviewID: reviewID }, { likedBy: likes })
     return {
         status: 200,
-        likes: likeAmount
+        newLikes: likeAmount
     }
 }
 
