@@ -3,9 +3,6 @@ const User = require('../model/User')
 const Review = require('../model/Review')
 const getRatingFormat = require('./getRatingFormat')
 const getReadableAddress = require('./getReadableAddress')
-/*
-    add reviewedByMe
-*/
 
 async function getRating(userID, placeID) {
     const found = await Place.findOne({ placeID: placeID })
@@ -82,7 +79,7 @@ async function getBusinessProfile(userID, numberOfPhotos, numberOfReviews, place
     placeReturned.overview = place.placeOverview
     placeReturned.location = place.placeLocation
     placeReturned.rating = place.placeRating
-    placeReturned.numberOfRatings = place.placeNumberOfRatings
+    placeReturned.numberOfRatings = place.placeRatings.length
     placeReturned.profilePicture = place.placeProfilePicture
     placeReturned.myRating = await getRating(userID, placeID)
     var checkReviewer = await checkIfReviewed(userID, placeID)
