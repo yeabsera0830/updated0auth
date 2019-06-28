@@ -8,6 +8,17 @@ async function searchPerson(id) {
             message: "User could not be found"
         }
     }
+
+    if (found.firstName == null || found.middleName == null || found.lastName == null) {
+        return {
+            status: 200,
+            person: {
+                name: "No Name",
+                profilePicture: found.profilePicture
+            }
+        }
+    }
+
     return {
         status: 200,
         person: {

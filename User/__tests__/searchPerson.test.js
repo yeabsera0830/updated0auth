@@ -15,3 +15,8 @@ it('"Failing" test for /search/person', async () => {
     const response = await searchPerson(45)
     expect(response.status).toBe(400)
 })
+
+it('"Passing" test for /search/person', async () => {
+    const response = await searchPerson(14)
+    expect(response.person.name).toEqual("No Name")
+})
