@@ -17,15 +17,33 @@ async function searchPerson(id) {
                 profilePicture: "https://images.unsplash.com/photo-1515191107209-c28698631303?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=80"
             }
         }
-    }
-
-    return {
-        status: 200,
-        person: {
-            name: found.firstName + ' ' + found.middleName + ' ' + found.lastName,
-            profilePicture: found.profilePicture
+    } else if (found.middleName != null && found.lastName != null) {
+        return {
+            status: 200,
+            person: {
+                name: found.firstName + ' ' + found.middleName + ' ' + found.lastName,
+                profilePicture: found.profilePicture
+            }
+        }
+    } else if (found.lastName != null) {
+        return {
+            status: 200,
+            person: {
+                name: found.firstName + ' ' + found.lastName,
+                profilePicture: found.profilePicture
+            }
+        }
+    } else {
+        return {
+            status: 200,
+            person: {
+                name: found.firstName,
+                profilePicture: found.profilePicture
+            }
         }
     }
+
+    
 }
 
 module.exports = searchPerson
