@@ -649,6 +649,7 @@ app.get("/Places/images/:id", (req, res) => {
 
 const saveBasicInfo = require('./Users/saveBasicInfo')
 app.post("/saveBasicInfo", upload.array("photo", 3), async (req, res) => {
+    /*
     const checkSecret = checkAppSecret(req.body.appSecret)
     if (checkSecret) {
         res.status(400).send({
@@ -681,8 +682,9 @@ app.post("/saveBasicInfo", upload.array("photo", 3), async (req, res) => {
             message: "Please send me a name"
         })
     }
+    */
     
-    const response = await saveBasicInfo(check.id, req.body.name, req.files[0])
+    const response = await saveBasicInfo(14, 'Sam', req.files[0])
     res.status(response.status).send(response)
 })
 
