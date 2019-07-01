@@ -32,7 +32,7 @@ async function uploadPhoto(id, file) {
     fs.rename(tempPath, targetPath, async err => {
         if (err) return err
         else {
-            await updateDatabase(id, __dirname + "/images/" + fileName, found.placePhotos)
+            await updateDatabase(id, 'https://safe-escarpment-33199.herokuapp.com/Places' + "/images/" + fileName, found.placePhotos)
         }
     })
     return {
