@@ -617,25 +617,21 @@ app.post("/upload/photo", upload.array("photo", 3), async (req, res) => {
             message: "Please insert place id"
         })
     }
-    var flag = true
+
     var response = null
-    req.files.forEach(async element => {
-        response = await uploadFile(req.body.id, element)
+    for (let i = 0; i < req.files.length; ++i) {
+        response = await uploadFile(req.body.id, req.files[0])
         if (response.status === 400) {
-            flag = false
+            return res.status(400).send({
+                status: 400,
+                message: response.message
+            })
         }
-    })
-    if (flag) {
-        res.status(response.status).send(response)
-    } else {
-        res.status(400).send({
-            status: 400,
-            message: "Incorrect file type"
-        })
     }
+    res.status(response.status).send(response)
 })
 
 app.get("/images/:id", (req, res) => {
     const id = req.params.id
-    res.sendFile(__dirname + "/Places/images/" + id)
+    return res.sendFile(__dirname + "/Places/images/" + id)
 })
