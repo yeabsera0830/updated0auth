@@ -5,9 +5,10 @@ jest.setTimeout(40000)
 it('"Passing" test for /search/places', async () => {
     await connect()
     await connect()
-    await connect()
     const filter = {
-        '1': 2
+        '1': 2,
+        '2': 0,
+        '5': [0, 3, 5]
     }
     const response = await searchPlaces(8.990569, 38.801838, filter, 14)
     console.log(response)

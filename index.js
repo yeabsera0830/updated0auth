@@ -164,14 +164,7 @@ app.post('/address/suggestions', (req, res) => {
         return
     }
     const partialAddress = req.body.partialAddress
-    if (req.body.numberOfSuggestions == undefined) {
-        res.status(400).send({
-            status: 400,
-            message: "Please enter amount"
-        })
-    }
-    const numberOfSuggestions = req.body.numberOfSuggestions
-    const response = getSuggestions(partialAddress, numberOfSuggestions)
+    const response = getSuggestions(partialAddress)
     res.status(response.status).send(response)
 })
 
@@ -647,7 +640,7 @@ app.get("/Places/images/:id", (req, res) => {
 })
 
 
-const setProfilePicture = require('./Users/setProfilePicture')
+
 app.post("/user/profilePicture", upload.array("photo", 3), async (req, res) => {
     const checkSecret = checkAppSecret(req.body.appSecret)
     if (checkSecret) {
@@ -669,7 +662,7 @@ app.post("/user/profilePicture", upload.array("photo", 3), async (req, res) => {
 
     var response = null
     for (let i = 0; i < req.files.length; ++i) {
-        response = await setProfilePicture(check.id, req.files[i])
+        response = await setProfilePicture(check.id, req.files[0])
         if (response.status === 400) {
             return res.status(400).send({
                 status: 400,
@@ -683,4 +676,27 @@ app.post("/user/profilePicture", upload.array("photo", 3), async (req, res) => {
 app.get("/Users/images/:id", (req, res) => {
     const id = req.params.id
     return res.sendFile(__dirname + "/Users/images/" + id)
+})
+
+app.post("/saveUserInfo", (req, res) => {
+    const checkSecret = checkAppSecret(req.body.appSecret)
+    if (checkSecret) {
+        res.status(400).send({
+            status: 400,
+            message: 'Invalid Request'
+        })
+        return
+    }
+
+    const check = await checkAccessToken(req.body.accessToken)
+    if (check == null) {
+        res.status(400).send({
+            status: 400,
+            message: "Unable to get place"
+        })
+        return
+    }
+
+
+
 })

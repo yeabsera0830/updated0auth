@@ -58,6 +58,27 @@ function checkErrors(latitude, longitude, filter) {
     return true
 }
 
+function swap(i, j, venues) {
+    var temp = venues[i]
+    venues[i] = venues[j]
+    venues[j] = temp
+    return venues
+}
+
+function sortByProximity(venues) {
+    var min = null
+    for (let i = 0; i < venues.length; ++i) {
+        min = i
+        for (let j = i+1; j < venues.length; ++j) {
+            if (venues[min].proximity > venues[j].proximity) {
+                min = j
+            }
+        }
+        venues = swap(min, i, venues)
+    }
+    return venues
+}
+
 function formatter(places, bookmarks, latitude, longitude) {
     var place = {
         id: null,
@@ -86,13 +107,13 @@ function formatter(places, bookmarks, latitude, longitude) {
         place.location = venue.placeLocation
         returned.push(place)
     })
-    return returned
+    return sortByProximity(returned)
 }
 
 async function searchPlaces (latitude, longitude, filter, userID) {
-    const CLOSE_BY = 1000
-    const NOT_SO_FAR = 2000
-    const fetchedPlaces = await Places.find({})
+    const CLOSE_BY = 1500
+    const NOT_SO_FAR = 4000
+    const fetchedPlaces = await Places.find({ })
     const found = await User.findOne({ id: userID })
     if (filter == "" || filter == null) {
         return {
@@ -112,7 +133,7 @@ async function searchPlaces (latitude, longitude, filter, userID) {
     }
     
     var fetchedByLocation = []
-    if (typeof filter['2'] == 'undefined' || filter['2'] < 1 || filter['2'] > 2) {
+    if (typeof filter['2'] == 'undefined' || filter['2'] < 0 || filter['2'] > 2) {
         fetchedByLocation = fetchedByCategory
     } else {
         fetchedByCategory.forEach(place => {
@@ -150,13 +171,27 @@ async function searchPlaces (latitude, longitude, filter, userID) {
         })
     }
 
+    var fetchedByOpenDays = []
+    if (typeof filter['5'] == 'undefined') {
+        fetchedByOpenDays = fetchedByPrice
+    } else {
+        fetchedByPrice.forEach(place => {
+            place.placeOpenDays.forEach(day => {
+                if (filter['5'].indexOf(day) >= 0 && fetchedByOpenDays.indexOf(place) === -1) {
+                    fetchedByOpenDays.push(place)
+                }
+            })
+        })
+    }
+
+
     var fetchedByName = []
     if (typeof filter['8'] == 'undefined') {
-        fetchedByName = fetchedByPrice
+        fetchedByName = fetchedByOpenDays
     } else {
         var fetchedName = filter['8']
         var placeExp = new RegExp('^' + fetchedName, 'gi')
-        fetchedByPrice.forEach(place => {
+        fetchedByOpenDays.forEach(place => {
             match = null
             match = place.placeName.match(placeExp)
             if (match != null) {
