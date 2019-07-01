@@ -662,7 +662,7 @@ app.post("/saveBasicInfo", upload.array("photo", 3), async (req, res) => {
     if (check == null) {
         res.status(400).send({
             status: 400,
-            message: "Unable to get place"
+            message: "Could not set profile picture"
         })
         return
     }
