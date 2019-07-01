@@ -1,6 +1,5 @@
 const express = require('express')
 const app = express()
-
 const connect = require('./config/auth').connect
 
 const User = require('./model/User')
@@ -601,5 +600,21 @@ app.post('/review/add', async (req, res) => {
     const id = req.body.id
     const text = req.body.text
     const response = await addReview(check.id, id, text)
+    res.status(response.status).send(response)
+})
+
+const multer = require("multer")
+const upload = multer({
+    dest: __dirname + "/images"
+})
+const uploadFile = require('./Places/uploadPhoto')
+app.post("/upload/photo", upload.array("photo", 3), async (req, res) => {
+    if (typeof(req.body.id) == 'undefined') {
+        return res.status(400).send({
+            status: 400,
+            message: "Please insert place id"
+        })
+    }
+    const response = await uploadFile(req.body.id, req.files[0])
     res.status(response.status).send(response)
 })
