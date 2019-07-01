@@ -172,7 +172,7 @@ async function searchPlaces (latitude, longitude, filter, userID, start, finish)
     }
 
     var fetchedByOpenDays = []
-    if (typeof filter['5'] == 'undefined') {
+    if (typeof filter['5'] == 'undefined' || filter['5'].length === 0) {
         fetchedByOpenDays = fetchedByPrice
     } else {
         fetchedByPrice.forEach(place => {
