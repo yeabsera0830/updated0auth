@@ -110,7 +110,7 @@ function formatter(places, bookmarks, latitude, longitude) {
     return sortByProximity(returned)
 }
 
-async function searchPlaces (latitude, longitude, filter, userID) {
+async function searchPlaces (latitude, longitude, filter, userID, start, finish) {
     const CLOSE_BY = 1500
     const NOT_SO_FAR = 4000
     const fetchedPlaces = await Places.find({ })
@@ -200,9 +200,10 @@ async function searchPlaces (latitude, longitude, filter, userID) {
         })
     }
 
+    var formatted = formatter(fetchedByName, found.bookmarks, latitude, longitude)
     return {
         status: 200,
-        places: formatter(fetchedByName, found.bookmarks, latitude, longitude)
+        places: formatted.slice(start, finish)
     }
 }
 

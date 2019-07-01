@@ -357,6 +357,13 @@ app.post('/search/places', async (req, res) => {
         return
     }
 
+    if (req.body.startIndex == undefined || req.body.finishIndex == undefined) {
+        res.status(400).send({
+            status: 400,
+            message: "Please send me start and finish indexes"
+        })
+    }
+
     var filters = null
     if (typeof req.body.filters == 'undefined') {
         filters = null
@@ -365,7 +372,8 @@ app.post('/search/places', async (req, res) => {
     }
     const latitude = req.body.location.latitude
     const longitude = req.body.location.longitude
-    const response = await searchPlaces(latitude, longitude, filters, check.id)
+
+    const response = await searchPlaces(latitude, longitude, filters, check.id, req.body.startIndex, req.body.finishIndex)
     res.status(response.status).send(response)
 })
 
