@@ -610,12 +610,22 @@ const upload = multer({
 })
 const uploadFile = require('./Places/uploadPhoto')
 app.post("/upload/photo", upload.array("photo", 3), async (req, res) => {
-    req.body.id = 2
-    if (typeof(req.body.id) == 'undefined') {
-        return res.status(400).send({
+    const checkSecret = checkAppSecret(req.body.appSecret)
+    if (checkSecret) {
+        res.status(400).send({
             status: 400,
-            message: "Please insert place id"
+            message: 'Invalid Request'
         })
+        return
+    }
+
+    const check = await checkAccessToken(req.body.accessToken)
+    if (check == null) {
+        res.status(400).send({
+            status: 400,
+            message: "Unable to get place"
+        })
+        return
     }
 
     var response = null
@@ -639,17 +649,27 @@ app.get("/Places/images/:id", (req, res) => {
 
 const setProfilePicture = require('./Users/setProfilePicture')
 app.post("/user/profilePicture", upload.array("photo", 3), async (req, res) => {
-    req.body.id = 14
-    if (typeof(req.body.id) == 'undefined') {
-        return res.status(400).send({
+    const checkSecret = checkAppSecret(req.body.appSecret)
+    if (checkSecret) {
+        res.status(400).send({
             status: 400,
-            message: "Please insert place id"
+            message: 'Invalid Request'
         })
+        return
+    }
+
+    const check = await checkAccessToken(req.body.accessToken)
+    if (check == null) {
+        res.status(400).send({
+            status: 400,
+            message: "Unable to get place"
+        })
+        return
     }
 
     var response = null
     for (let i = 0; i < req.files.length; ++i) {
-        response = await setProfilePicture(req.body.id, req.files[i])
+        response = await setProfilePicture(check.id, req.files[i])
         if (response.status === 400) {
             return res.status(400).send({
                 status: 400,
