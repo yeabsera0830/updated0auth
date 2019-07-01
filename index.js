@@ -610,7 +610,7 @@ const upload = multer({
 })
 const uploadFile = require('./Places/uploadPhoto')
 app.post("/upload/photo", upload.array("photo", 3), async (req, res) => {
-    req.body.id = 1
+    req.body.id = 2
     if (typeof(req.body.id) == 'undefined') {
         return res.status(400).send({
             status: 400,
@@ -619,4 +619,9 @@ app.post("/upload/photo", upload.array("photo", 3), async (req, res) => {
     }
     const response = await uploadFile(req.body.id, req.files[0])
     res.status(response.status).send(response)
+})
+
+app.get("/images/:id", (req, res) => {
+    const id = req.params.id
+    res.sendFile(__dirname + "/Places/images/" + id)
 })
