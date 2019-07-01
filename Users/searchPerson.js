@@ -9,7 +9,7 @@ async function searchPerson(id) {
         }
     }
 
-    if (found.firstName == null || found.middleName == null || found.lastName == null) {
+    if (found.firstName == null) {
         return {
             status: 200,
             person: {
