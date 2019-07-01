@@ -618,7 +618,7 @@ app.post("/upload/photo", upload.array("photo", 3), async (req, res) => {
         })
     }
     var flag = true
-    req.files.forEach(element => {
+    req.files.forEach(async element => {
         var response = await uploadFile(req.body.id, element)
         if (response.status === 400) {
             flag = false
