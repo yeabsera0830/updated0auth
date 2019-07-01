@@ -4,18 +4,23 @@ const User = require('../model/User')
 const setName = require('./setName')
 
 async function updateDatabase(id, name, photo) {
-    if (name.middleName != undefined) {
+    if (name.middleName != undefined && name.lastName != undefined) {
         await User.updateOne({ id: id }, {
             profilePicture: photo,
             firstName: name.firstName,
             middleName: name.middleName,
             lastName: name.lastName
         })
-    } else {
+    } else if (name.lastName != undefined) {
         await User.updateOne({ id: id }, {
             profilePicture: photo,
             firstName: name.firstName,
             lastName: name.lastName
+        })
+    } else {
+        await User.updateOne({ id: id }, {
+            profilePicture: photo,
+            firstName: name.firstName
         })
     }
 }

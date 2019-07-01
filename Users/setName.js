@@ -3,7 +3,7 @@ function setName(name) {
     name = name.trim()
     names = name.split(" ")
     var nameObject = {}
-    if (names.length > 3 || names.length < 2) {
+    if (names.length > 3 || names.length < 1) {
         return {
             status: 200,
             message: "Incorrect name format"
@@ -11,11 +11,10 @@ function setName(name) {
     }
 
     nameObject.firstName = names[0]
-
     if (names.length === 3) {
         nameObject.middleName = names[1]
         nameObject.lastName = names[2]
-    } else {
+    } else if (names.length === 2) {
         nameObject.lastName = names[1]
     }
     
