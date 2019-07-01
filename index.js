@@ -527,7 +527,7 @@ app.post('/review/unlike', async (req, res) => {
     res.status(response.status).send(response)
 })
 
-const searchPerson = require('./User/searchPerson')
+const searchPerson = require('./Users/searchPerson')
 app.post('/search/person', async (req, res) => {
     const checkSecret = checkAppSecret(req.body.appSecret)
     if (checkSecret) {
@@ -620,7 +620,7 @@ app.post("/upload/photo", upload.array("photo", 3), async (req, res) => {
 
     var response = null
     for (let i = 0; i < req.files.length; ++i) {
-        response = await uploadFile(req.body.id, req.files[0])
+        response = await uploadFile(req.body.id, req.files[i])
         if (response.status === 400) {
             return res.status(400).send({
                 status: 400,
@@ -631,7 +631,36 @@ app.post("/upload/photo", upload.array("photo", 3), async (req, res) => {
     res.status(response.status).send(response)
 })
 
-app.get("/images/:id", (req, res) => {
+app.get("/Places/images/:id", (req, res) => {
     const id = req.params.id
     return res.sendFile(__dirname + "/Places/images/" + id)
+})
+
+
+const setProfilePicture = require('./Users/setProfilePicture')
+app.post("/user/profilePicture", upload.array("photo", 3), async (req, res) => {
+    req.body.id = 14
+    if (typeof(req.body.id) == 'undefined') {
+        return res.status(400).send({
+            status: 400,
+            message: "Please insert place id"
+        })
+    }
+
+    var response = null
+    for (let i = 0; i < req.files.length; ++i) {
+        response = await setProfilePicture(req.body.id, req.files[i])
+        if (response.status === 400) {
+            return res.status(400).send({
+                status: 400,
+                message: response.message
+            })
+        }
+    }
+    res.status(response.status).send(response)
+})
+
+app.get("/Users/images/:id", (req, res) => {
+    const id = req.params.id
+    return res.sendFile(__dirname + "/Users/images/" + id)
 })

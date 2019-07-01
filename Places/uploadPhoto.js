@@ -29,7 +29,7 @@ async function uploadPhoto(id, file) {
     const tempPath = file.path
     const fileName = Date.now() + ext
     const targetPath = path.join(__dirname, "/images/" + fileName)
-    const url = "https://safe-escarpment-33199.herokuapp.com/images/"
+    const url = "https://safe-escarpment-33199.herokuapp.com/Places/images/"
     fs.rename(tempPath, targetPath, async err => {
         if (err) return err
         else {
