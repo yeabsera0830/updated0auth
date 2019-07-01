@@ -1,16 +1,30 @@
 const path = require('path')
 const fs = require('fs')
 const User = require('../model/User')
+const setName = require('./setName')
 
 async function updateDatabase(id, name, photo) {
-    await User.updateOne({ id: id }, {  profilePicture: photo })
+    if (name.middleName != undefined) {
+        await User.updateOne({ id: id }, {
+            profilePicture: photo,
+            firstName: name.firstName,
+            middleName: name.middleName,
+            lastName: name.lastName
+        })
+    } else {
+        await User.updateOne({ id: id }, {
+            profilePicture: photo,
+            firstName: name.firstName,
+            lastName: name.lastName
+        })
+    }
 }
 
-async function saveUserInfo(id, name, file) {
+async function saveBasicInfo(id, name, file) {
     const ext = path.extname(file.originalname).toLowerCase()
     const acceptedTypes = ['.png', '.gif', '.jpeg', '.jpg']
-
-    if (acceptedTypes.indexOf(ext) == -1) {
+    const nameObj = setName(name)
+    if (acceptedTypes.indexOf(ext) === -1) {
         return {
             status: 400,
             message: "File type not accepted"
@@ -25,7 +39,7 @@ async function saveUserInfo(id, name, file) {
     fs.rename(tempPath, targetPath, async err => {
         if (err) return err
         else {
-            await updateDatabase(id, name, url + fileName)
+            await updateDatabase(id, nameObj, url + fileName)
         }
     })
     return {
@@ -33,4 +47,4 @@ async function saveUserInfo(id, name, file) {
     }
 }
 
-module.exports = saveUserInfo
+module.exports = saveBasicInfo

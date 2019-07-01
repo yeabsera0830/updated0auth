@@ -6,7 +6,7 @@ async function updateDatabase(id, photo) {
     await User.updateOne({ id: id }, { profilePicture: photo })
 }
 
-async function uploadPhoto(id, file) {
+async function uploadPhoto(id, file, name) {
     const ext = path.extname(file.originalname).toLowerCase()
     const acceptedTypes = ['.png', '.gif', '.jpeg', '.jpg']
 
