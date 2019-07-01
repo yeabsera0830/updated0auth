@@ -603,12 +603,12 @@ app.post('/review/add', async (req, res) => {
     res.status(response.status).send(response)
 })
 
+const path = require('path')
 const multer = require("multer")
 const upload = multer({
     dest: __dirname + "/images"
 })
 const uploadFile = require('./Places/uploadPhoto')
-app.get("/", express.static(path.join(__dirname, "./Places/images")))
 app.post("/upload/photo", upload.array("photo", 3), async (req, res) => {
     req.body.id = 1
     if (typeof(req.body.id) == 'undefined') {
