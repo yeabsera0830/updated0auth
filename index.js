@@ -16,7 +16,7 @@ app.listen(port, () => console.log("Server Running on *:" + port))
 
 app.get('/', (req, res) => {
     res.send("This server is working")
-})
+}) 
 
 app.delete('/removeAll', async (req, res) => {
     await connect()
