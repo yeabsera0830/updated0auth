@@ -7,7 +7,7 @@ function calculateDistance(x1, y1, x2, y2) {
 
 async function getAmount(latitude, longitude, category) {
     category = parseInt(category)
-    var radius = 3000
+    var radius = 4000
     var distance = null
     var count = 0
     const allPlaces = await Place.find({ placeCategory: category })
