@@ -611,7 +611,6 @@ const upload = multer({
 })
 const uploadFile = require('./Places/uploadPhoto')
 app.post("/upload/photo", upload.array("photo", 3), async (req, res) => {
-    /*
     const checkSecret = checkAppSecret(req.body.appSecret)
     if (checkSecret) {
         res.status(400).send({
@@ -629,9 +628,6 @@ app.post("/upload/photo", upload.array("photo", 3), async (req, res) => {
         })
         return
     }
-    */
-
-    req.body.id = 5
     var response = null
     for (let i = 0; i < req.files.length; ++i) {
         response = await uploadFile(req.body.id, req.files[i])
