@@ -67,9 +67,4 @@ module.exports = async function compressImage(input_path) {
         return {
             status: 200
         }
-<<<<<<< HEAD
 }
-=======
-}
-
->>>>>>> 84b5d4a389ffdfb01e8172bac72e2bf21a8f7920
