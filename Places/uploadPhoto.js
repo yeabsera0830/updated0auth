@@ -35,7 +35,7 @@ async function uploadPhoto(id, file) {
         if (err) return err
         else {
             const response =  await generateThumbnail(targetPath)
-            console.log(response)
+            console.log("Filename: " + fileName)
             //await updateDatabase(id, url + fileName, found.placePhotos)
         }
     })
