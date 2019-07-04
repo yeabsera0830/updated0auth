@@ -16,7 +16,7 @@ app.listen(port, () => console.log("Server Running on *:" + port))
 
 app.get('/', (req, res) => {
     res.send("This server is working")
-})
+}) 
 
 app.delete('/removeAll', async (req, res) => {
     await connect()
@@ -611,6 +611,7 @@ const upload = multer({
 })
 const uploadFile = require('./Places/uploadPhoto')
 app.post("/upload/photo", upload.array("photo", 3), async (req, res) => {
+    /*
     const checkSecret = checkAppSecret(req.body.appSecret)
     if (checkSecret) {
         res.status(400).send({
@@ -628,7 +629,9 @@ app.post("/upload/photo", upload.array("photo", 3), async (req, res) => {
         })
         return
     }
+    */
 
+    req.body.id = 5
     var response = null
     for (let i = 0; i < req.files.length; ++i) {
         response = await uploadFile(req.body.id, req.files[i])
@@ -640,6 +643,11 @@ app.post("/upload/photo", upload.array("photo", 3), async (req, res) => {
         }
     }
     res.status(response.status).send(response)
+})
+
+app.get("/Places/thumbnails/:id", (req, res) => {
+    const id = req.params.id
+    return res.sendFile(__dirname + "/Places/thumbnais/" + id)
 })
 
 app.get("/Places/images/:id", (req, res) => {

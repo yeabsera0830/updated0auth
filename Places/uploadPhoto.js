@@ -1,6 +1,7 @@
 const path = require('path')
 const fs = require('fs')
 const Place = require('../model/Place')
+const generateThumbnail = require('./generateThumbnail')
 
 async function updateDatabase(id, data, photos) {
     photos.push(data)
@@ -33,9 +34,14 @@ async function uploadPhoto(id, file) {
     fs.rename(tempPath, targetPath, async err => {
         if (err) return err
         else {
-            await updateDatabase(id, url + fileName, found.placePhotos)
+            const response =  await generateThumbnail(targetPath)
+            console.log(response)
+            //await updateDatabase(id, url + fileName, found.placePhotos)
         }
     })
+
+
+
     return {
         status: 200
     }

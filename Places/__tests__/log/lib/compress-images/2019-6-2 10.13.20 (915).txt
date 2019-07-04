@@ -1,0 +1,7 @@
+File from: [images/test.svg]
+
+File to: [thumbnails/test.svg]
+
+Compression algorithm: [-]
+
+Description: File does not exist!
