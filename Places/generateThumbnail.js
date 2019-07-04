@@ -1,7 +1,11 @@
 const compress = require('compress-images')
 const fs = require('fs')
 const path = require('path')
+<<<<<<< HEAD
 const output_path = __dirname + "/thumbnails/"
+=======
+const output_path = "thumbnails/"
+>>>>>>> 84b5d4a389ffdfb01e8172bac72e2bf21a8f7920
 
 module.exports = async function compressImage(input_path) {
     var check = false
@@ -67,4 +71,9 @@ module.exports = async function compressImage(input_path) {
         return {
             status: 200
         }
+<<<<<<< HEAD
 }
+=======
+}
+
+>>>>>>> 84b5d4a389ffdfb01e8172bac72e2bf21a8f7920
