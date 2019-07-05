@@ -27,14 +27,20 @@ async function signUpUsingFacebook(token) {
         .then(async info => {
             if (info.data.first_name != undefined) {
                 newUser.firstName = info.data.first_name
+            } else {
+                newUser.firstName = null
             }
 
             if (info.data.middle_name != undefined) {
                 newUser.middleName = info.data.middle_name
+            } else {
+                newUser.middleName = null
             }
 
             if (info.data.last_name != undefined) {
                 newUser.lastName = info.data.last_name
+            } else {
+                newUser.lastName = null
             }
 
             newUser.id = await User.countDocuments() + 1
@@ -74,4 +80,3 @@ async function signUpUsingFacebook(token) {
 }
 
 module.exports = signUpUsingFacebook
-
