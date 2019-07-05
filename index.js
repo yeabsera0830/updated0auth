@@ -643,8 +643,8 @@ app.post("/upload/photo", upload.array("photo", 3), async (req, res) => {
 
 app.get("/Places/thumbnails/:id", (req, res) => {
     const id = req.params.id
-    return res.sendFile(__dirname + "/Places/thumbnais/" + id)
-}) 
+    return res.sendFile(__dirname + "/Places/thumbnails/" + id)
+})
 
 app.get("/Places/images/:id", (req, res) => {
     const id = req.params.id
