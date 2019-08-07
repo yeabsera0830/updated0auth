@@ -88,7 +88,7 @@ router.post(Routes['verifyAndSignUpPhone'], async (req, res) => {
         })
     }
     const response = await signUpUsingPhoneNumber(phoneNumber, password)
-    return res.status(response.status).json(response)
+    return res.status(response.status).send(response)
 })
 
 const signUpUsingFacebook = require('./controllers/signupFacebook')
