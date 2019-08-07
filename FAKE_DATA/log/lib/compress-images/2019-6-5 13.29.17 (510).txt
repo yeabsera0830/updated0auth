@@ -1,0 +1,7 @@
+File from: [/home/slxm/Work/production/Places/images/1562322556611.jpg]
+
+File to: [/home/slxm/Work/production/Places/thumbnails1562322556611.jpg]
+
+Compression algorithm: [-]
+
+Description: File does not exist!

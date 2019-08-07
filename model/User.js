@@ -5,7 +5,7 @@ const userSchema = new mongoose.Schema({
     firstName: {type: String, unique: false},
     middleName: {type: String, unique: false},
     lastName: {type: String, unique: false},
-    profilePicture: {type: String, unique: false},
+    profilePicture: {type: String, unique: false, default: null},
     bookmarks: [
         {type: Number, unique: false}
     ],

@@ -1,0 +1,9 @@
+File from: [/home/slxm/Work/production/Places/images/1562323126918.png]
+
+File to: [/home/slxm/Work/production/Places/thumbnails1562323126918.png]
+
+Compression algorithm: [pngquant]
+
+Description: Error: Command failed: /home/slxm/Work/production/node_modules/pngquant-bin/vendor/pngquant --quality=20-50 -o /home/slxm/Work/production/Places/thumbnails1562323126918.png /home/slxm/Work/production/Places/images/1562323126918.png
+  error: Not a PNG file (libpng failed)
+  error: cannot decode image 1562323126918.png

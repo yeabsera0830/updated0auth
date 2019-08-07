@@ -1,5 +1,5 @@
 {
-  "name": "modules",
+  "name": "zeila-api",
   "version": "1.0.0",
   "description": "",
   "main": "facebook-signup.js",
@@ -7,7 +7,8 @@
     "node": "v10.15.3"
   },
   "scripts": {
-    "start": "node index.js",
+    "start": "node app.js",
+    "dev": "nodemon app.js",
     "test": "jest --env node --detectOpenHandles"
   },
   "keywords": [],
@@ -24,12 +25,14 @@
     "axios": "^0.19.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
+    "compress-images": "^1.5.8",
     "express": "^4.16.4",
     "fb-test-users": "^0.2.1",
+    "image-downloader": "^3.4.2",
     "mongoose": "^5.5.5",
     "multer": "^1.4.1",
     "nodemon": "^1.19.0",
     "promise": "^8.0.3",
-    "compress-images": "^1.5.8"
+    "twilio": "^3.33.3"
   }
 }

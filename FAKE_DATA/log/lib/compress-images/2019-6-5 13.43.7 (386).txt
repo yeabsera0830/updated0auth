@@ -1,0 +1,9 @@
+File from: [/home/slxm/Work/production/Places/images/1562323385340.jpg]
+
+File to: [/home/slxm/Work/production/Places/thumbnails/1562323385340.jpg]
+
+Compression algorithm: [jpegRecompress]
+
+Description: Error: Command failed: /home/slxm/Work/production/node_modules/jpeg-recompress-bin/vendor/jpeg-recompress --quality low --min 30 /home/slxm/Work/production/Places/images/1562323385340.jpg /home/slxm/Work/production/Places/thumbnails/1562323385340.jpg
+Premature end of JPEG file
+JPEG datastream contains no image

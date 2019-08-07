@@ -1,0 +1,9 @@
+File from: [/home/slxm/Work/production/Places/images/1562322798811.jpg]
+
+File to: [/home/slxm/Work/production/Places/thumbnails/1562322798811.jpg]
+
+Compression algorithm: [mozjpeg]
+
+Description: Error: Command failed: /home/slxm/Work/production/node_modules/mozjpeg/vendor/cjpeg -quality 60 -outfile /home/slxm/Work/production/Places/thumbnails/1562322798811.jpg /home/slxm/Work/production/Places/images/1562322798811.jpg
+Premature end of JPEG file
+JPEG datastream contains no image
