@@ -20,7 +20,7 @@ module.exports = {
         getCoordinatesFromAddress: '/coordinates',
         getSuggestions: '/suggestions',
     getUser: '/user/:id',
-    getReview: '/review/:id',
+    getReviewTemp: '/review/:id',
     getPlace: '/place/:id',
     deletePlace: '/place/:id',
     place: '/places',
