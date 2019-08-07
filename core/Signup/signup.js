@@ -65,7 +65,7 @@ router.post(Routes['verifyAndSignUpPhone'], async (req, res) => {
 router.post(Routes['verifyAndSignUpPhone'], async (req, res) => {
     const checkSecret = checkAppSecret(req.body.appSecret)
     if (!checkSecret) {
-        return res.status(400).sejsonnd({
+        return res.status(400).json({
             status: 400,
             message: 'Invalid Request'
         })
@@ -88,7 +88,7 @@ router.post(Routes['verifyAndSignUpPhone'], async (req, res) => {
         })
     }
     const response = await signUpUsingPhoneNumber(phoneNumber, password)
-    return res.status(response.status).send(response)
+    return res.status(response.status).json(response)
 })
 
 const signUpUsingFacebook = require('./controllers/signupFacebook')
