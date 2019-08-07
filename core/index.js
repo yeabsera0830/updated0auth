@@ -6,9 +6,6 @@ const Review = require('../model/Review')
 const addUsers = require('../FAKE_DATA/addUsersToDatabase')
 const addPlaces = require('../FAKE_DATA/addBussinessesToDatabase')
 const addReviews = require('../FAKE_DATA/addReviewsToDatabase')
-const updateUsers = require('../FAKE_DATA/updateForLocalUsage').updateUsers
-const updatePlaces = require('../FAKE_DATA/updateForLocalUsage').updatePlaces
-const { setLocalDB } = require('../config/env')
 
 const checkAppSecret = require('../permissions/checkAppSecret')
 const checkAccessToken = require('../permissions/checkAccessToken')
@@ -43,21 +40,15 @@ router.post(Routes['addEverything'], async (req, res) => {
     await addUsers()
     await addPlaces()
     await addReviews()
-    if (setLocalDB) {
-        await updateUsers()
-        await updatePlaces()
-    }
     res.status(200).send("Everything added successfully")
 })
 router.post(Routes['addUsers'], async (req, res) => {
     await addUsers()
-    await updateUsers()
     res.status(200).send("Users added successfully")
 })
 
 router.post(Routes['addPlaces'], async (req, res) => {
     await addPlaces()
-    await updatePlaces()
     res.status(200).send("Places added successfully")
 })
 
