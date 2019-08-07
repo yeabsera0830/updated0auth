@@ -208,7 +208,7 @@ router.delete(Routes['deletePlace'], async(req, res) => {
     }
 })
 
-router.get(Routes['getReview'], async (req, res) => {
+router.get(Routes['getReviewTemp'], async (req, res) => {
     const found = await Review.findOne({ reviewID: req.params.id })
     if (found) {
         res.send(found)
