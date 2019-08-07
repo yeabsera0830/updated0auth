@@ -9,7 +9,8 @@ app.use(express.json())
 
 var server = null
 exports.startServer = async () => {
-    server = app.listen(PORT, () => console.log("Server Running on *:" + PORT))
+    const listenPort = process.env.PORT || PORT
+    server = app.listen(listenPort, () => console.log("Server Running on *:" + PORT))
     if (!TESTING) {
         await connect()
     }
