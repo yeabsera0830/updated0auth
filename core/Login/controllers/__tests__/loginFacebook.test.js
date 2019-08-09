@@ -7,7 +7,6 @@ jest.mock('../../../../model/User')
 User.findOne.mockImplementation(obj => (obj['facebookID'] === 'exists')? true : false)
 var newUser = new User()
 newUser.save.mockResolvedValue(true)
-
 axios.get.mockResolvedValue(true)
 
 it('"Success" for loginFacebook', async () => {

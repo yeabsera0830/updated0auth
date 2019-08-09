@@ -1,7 +1,7 @@
 module.exports = {
   localUrl: 'http://localhost:18777',
   herokuUrl: 'https://safe-escarpment-33199.herokuapp.com',
-  setLocalDB: false,
+  setLocalDB: true,
   TESTING: false,
   PORT: 18777
 }

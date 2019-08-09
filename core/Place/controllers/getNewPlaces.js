@@ -72,9 +72,7 @@ async function getNewPlaces(userID, latitude, longitude, start, finish) {
         }
     }
 
-    var defaultMonth = 3
     var places = null
-    var currDate = new Date()
     places = await fetchNewPlaces(userID, latitude, longitude, start, finish)
     if (places.length >= (finish - start)) {
         return {

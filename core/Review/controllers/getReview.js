@@ -1,7 +1,7 @@
 const Review = require('../../../model/Review')
 
 async function getReview(reviewID, userID) {
-    const found = await Review.findOne({ reviewID: reviewID })
+    const found = await Review.findOne({ reviewID })
     if (found == null) {
         return {
             status: 400,

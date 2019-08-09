@@ -147,20 +147,18 @@ const saveBasicInfo = require('./controllers/saveBasicInfo')
 router.post(Routes['saveBasicInfo'], upload.any(), async (req, res) => {
     const checkSecret = checkAppSecret(req.body.appSecret)
     if (!checkSecret) {
-        res.status(400).send({
+        return res.status(400).send({
             status: 400,
             message: 'Invalid Request'
         })
-        return
     }
 
     const check = await checkAccessToken(req.body.accessToken)
     if (check == null) {
-        res.status(400).send({
+        return res.status(400).send({
             status: 400,
             message: "Could not set profile picture"
         })
-        return
     }
 
     if (req.files[0] == undefined) {

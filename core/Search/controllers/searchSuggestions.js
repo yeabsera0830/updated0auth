@@ -29,7 +29,6 @@ async function searchSuggestions(partialName, numberOfSuggestions) {
             suggestions: placesMatched.splice(0, numberOfSuggestions)
         }
     } else {
-        console.log("@")
         return {
             status: 200,
             suggestions: placesMatched

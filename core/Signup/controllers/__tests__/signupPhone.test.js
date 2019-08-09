@@ -1,4 +1,4 @@
-const signupPhone = require('../signupPhone')
+const signupPhone = require('../signupPhone').signUpUsingPhoneNumber
 const User = require('../../../../model/User')
 
 jest.mock('../../../../model/User')

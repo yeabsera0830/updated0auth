@@ -86,7 +86,6 @@ router.post(Routes['searchPlaces'], async (req, res) => {
     }
     const latitude = req.body.location.latitude
     const longitude = req.body.location.longitude
-    console.log(req.body.filters)
     const response = await searchPlaces(latitude, longitude, filters, check.id, req.body.startIndex, req.body.finishIndex)
     res.status(response.status).send(response)
 })

@@ -4,7 +4,7 @@ const Review = require('../../../model/Review')
 const getReadableAddress = require('../../Address/controllers/getReadableAddress')
 
 async function getRating(userID, placeID) {
-    const found = await Place.findOne({ placeID: placeID })
+    const found = await Place.findOne({ placeID })
     const ratings = found.placeRatings
     var returned = 0
     ratings.forEach(rating => {
@@ -60,8 +60,7 @@ async function getBusinessProfile(userID, numberOfPhotos, numberOfReviews, place
             message: "Please Insert an ID"
         }
     }
-    placeID = parseInt(placeID)
-    place = await Place.findOne({ placeID: placeID })
+    var place = await Place.findOne({ placeID })
     if (place == null) {
         return {
             status: 400,
@@ -123,18 +122,11 @@ async function getBusinessProfile(userID, numberOfPhotos, numberOfReviews, place
         placeReturned.photos = place.placePhotos
     } 
 
-    await Place.updateOne({ placeID: placeID }, { placeViews: views })
+    await Place.updateOne({ placeID }, { placeViews: views })
 
-    if (place != null) {
-        return {
-            status: 200,
-            profile: placeReturned
-        }
-    } else {
-        return {
-            status: 400,
-            message: "Could Not Find Place"
-        }
+    return {
+        status: 200,
+        profile: placeReturned
     }
 }
 

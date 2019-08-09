@@ -1,13 +1,6 @@
 const Places = require('../../../model/Place')
 const Users = require('../../../model/User')
 async function removeBookmark(userID, placeID) {
-    if (placeID == null) {
-        return {
-            status: 400,
-            message: 'Place not found'
-        }
-    }
-
     const place = await Places.findOne({ placeID: placeID })
     if (place == null) {
         return {

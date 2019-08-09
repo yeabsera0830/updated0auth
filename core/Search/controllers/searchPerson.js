@@ -6,7 +6,7 @@ else link = herokuUrl
 
 
 async function searchPerson(id) {
-    const found = await User.findOne({ id: id })
+    const found = await User.findOne({ id })
     if (found == null) {
         return {
             status: 400,

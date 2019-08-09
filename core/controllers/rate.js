@@ -67,7 +67,7 @@ async function rate(placeID, userID, rating) {
             })
         }
     }
-    await Places.updateOne({ placeID: placeID }, { placeRatings: ratings, placeRating: calculate(ratings).value }).then(res => res).catch(err => console.log(err))
+    await Places.updateOne({ placeID: placeID }, { placeRatings: ratings, placeRating: calculate(ratings).value })
     return {
         status: 200,
         newRating: calculate(ratings)

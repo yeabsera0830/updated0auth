@@ -105,11 +105,11 @@ async function getTrendingPlaces(userID, startIndex, finishIndex) {
         placeAdded.location = sortedPlacesByScores[i].placeLocation
         fetched.push(placeAdded)
     }
+
     return {
         status: 200,
         places: fetched.slice(startIndex, finishIndex)
     }
-    
 }
 
 module.exports = getTrendingPlaces

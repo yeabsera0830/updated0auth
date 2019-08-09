@@ -30,33 +30,6 @@ function calculateDistance(x1, y1, x2, y2) {
         SUNDAY: 6
  */
 
-function checkErrors(latitude, longitude, filter) {
-    if (latitude == null || typeof latitude != 'number') return false
-    if (longitude == null || typeof longitude != 'number') return false
-
-    if (filter['1'] != undefined) {
-        if (filter['1'] > 13 || filter['1'] < 0 || typeof filter['1'] != 'number') return false
-    }
-
-    if (filter['2'] != undefined) {
-        if (filter['2'] > 2 || filter['2'] < 0 || typeof filter['2'] != 'number') return false
-    }
-
-    if (filter['3'] != undefined) {
-        if (filter['3'] > 2 || filter['2'] < 0 || typeof filter['3'] != 'number') return false
-    }
-
-    if (filter['5'] != undefined) {
-        if (filter['5'] > 6 || filter['5'] < 0 || typeof filter['5'] != 'number') return false
-    }
-
-    if (filter['8'] != undefined) {
-        if (typeof filter['8'] != 'string') return false
-    }
-
-    return true
-}
-
 function swap(i, j, venues) {
     var temp = venues[i]
     venues[i] = venues[j]
