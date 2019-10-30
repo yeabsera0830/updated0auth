@@ -29,7 +29,7 @@
     "express": "^4.16.4",
     "fb-test-users": "^0.2.1",
     "image-downloader": "^3.4.2",
-    "mongoose": "^5.5.5",
+    "mongoose": "^5.7.5",
     "multer": "^1.4.1",
     "nodemon": "^1.19.0",
     "promise": "^8.0.3",
